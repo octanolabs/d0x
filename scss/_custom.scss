@@ -1,0 +1,30 @@
+w-100 {
+  width: 100% !important;
+}
+
+code, .v-application>code {
+  font-size: 11px !important;
+  background-color: $grey3 !important;
+  padding: 6px;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre !important;
+}
+
+.code-card {
+  background-color: $grey3 !important;
+}
+
+.v-card__text {
+  padding: 4px 16px;
+}
+
+.v-content__wrap {
+  overflow:auto;
+  max-height: calc(100vh - 100px);
+}
+
+html, body {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
