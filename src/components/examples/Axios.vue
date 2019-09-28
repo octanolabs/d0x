@@ -6,18 +6,16 @@
     <v-card-actions>
       <v-spacer />
       <v-tooltip
-        v-model="show"
         left
       >
         <template v-slot:activator="{ on }">
-          <v-btn icon color="primary" v-on="on">
+          <v-btn icon color="primary" v-on="on" @click="refreshParams()">
             <v-icon small>mdi-refresh</v-icon>
           </v-btn>
         </template>
-        <span>Refresh.</span>
+        <span>Refresh</span>
       </v-tooltip>
       <v-tooltip
-        v-model="show"
         left
       >
         <template v-slot:activator="{ on }">
@@ -25,7 +23,7 @@
             <v-icon small>mdi-content-copy</v-icon>
           </v-btn>
         </template>
-        <span>Copy to clipboard.</span>
+        <span>Copy to clipboard</span>
       </v-tooltip>
     </v-card-actions>
     <v-divider />
@@ -56,6 +54,12 @@ export default {
       }
     }
   },
+  watch: {
+    // watch for method prop change
+    method: function () {
+      this.refreshParams() // refresh example params with new schemas
+    },
+  },
   computed: {
     json () {
       return {
@@ -65,9 +69,17 @@ export default {
           id: 1,
           jsonrpc: '2.0',
           method: this.method,
-          params: this.exampleParams()
+          params: this.randParams
         }
       }
+    }
+  },
+  created () {
+    this.randParams = this.exampleParams()
+  },
+  data () {
+    return {
+      randParams: []
     }
   },
   methods: {
@@ -123,6 +135,9 @@ export default {
     },
     isEven (n) {
       return n % 2 == 0
+    },
+    refreshParams () {
+      this.randParams = this.exampleParams()
     }
   }
 }
