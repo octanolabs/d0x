@@ -23,7 +23,7 @@
               <v-expansion-panel-header ripple>
                 <div>
                   Params
-                  <v-chip x-small color="primary"><span class="white--text">{{ selected.params.length }}</span></v-chip>
+                  <v-chip v-if="selected.params" x-small color="primary"><span class="white--text">{{ selected.params.length }}</span></v-chip>
                 </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content style="overflow-x:auto;">

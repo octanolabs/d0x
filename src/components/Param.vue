@@ -8,7 +8,6 @@
       <v-spacer />
       <v-tooltip
         v-if="schema.oneOf"
-        v-model="show"
         left
       >
         <template v-slot:activator="{ on }">
@@ -20,7 +19,6 @@
       </v-tooltip>
       <v-tooltip
         v-if="item.required === true"
-        v-model="show"
         left
       >
         <template v-slot:activator="{ on }">
