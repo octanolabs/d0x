@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import App from './layouts/default.vue'
+import VueHighlightJS from 'vue-highlightjs'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import md from './plugins/markdown-it';
-import highlightjs from './plugins/vue-highlightjs';
+
 
 Vue.config.productionTip = false
+Vue.use(VueHighlightJS)
 
 // inject markdown-it globally as this.$md
 Vue.mixin({
@@ -22,7 +24,6 @@ Vue.mixin({
 new Vue({
   store,
   vuetify,
-  highlightjs,
   md,
   render: h => h(App)
 }).$mount('#app')
