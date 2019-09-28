@@ -5,10 +5,18 @@ w-100 {
 code, .v-application>code {
   font-size: 11px !important;
   background-color: $grey3 !important;
-  padding: 6px;
   border-radius: 4px;
   overflow-x: auto;
   white-space: pre !important;
+}
+
+pre {
+  padding: 6px 6px 0;
+}
+
+p>code {
+  display: inline !important;
+  padding: 0 3px !important;
 }
 
 .code-card {
