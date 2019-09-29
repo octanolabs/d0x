@@ -9,7 +9,7 @@
     floating
   >
     <v-flex>
-      <v-toolbar class="elevation-0" style="background-color: #555">
+      <v-toolbar class="elevation-0 drawer-toolbar">
         <v-btn
           icon
           @click.stop="closeRightDrawer"

@@ -46,8 +46,9 @@ p>code {
   width: 100% !important;
 }
 
-.theme--dark.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
-  background: #6fceb7;
+.theme--dark.v-data-table tbody tr:hover:not(.v-data-table__expanded__content),
+.theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
+  background: $primary;
 }
 
 .code-card {
@@ -63,8 +64,12 @@ p>code {
   max-height: calc(100vh - 100px);
 }
 
-.v-expansion-panel-header {
-  background-color: #555;
+.theme--dark.v-expansion-panels .v-expansion-panel .v-expansion-panel-header, .drawer-toolbar.theme--dark {
+  background-color: $grey5;
+}
+
+.theme--light.v-expansion-panels .v-expansion-panel .v-expansion-panel-header,.drawer-toolbar.theme--light {
+  background-color: $greyLight;
 }
 
 .v-expansion-panel-content__wrap {
