@@ -12,21 +12,27 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="openrpc.methods"
-      @click:row="rowSelected"
+      :items="data"
+      item-key="methodId"
       :search="search"
       disable-pagination
       hide-default-footer
+      class="highlight-row"
     >
-      <template v-slot:item.methodId="{ item }">
-        <v-flex v-if="item">
-          {{ item.methodId + 1 }}
-        </v-flex>
-      </template>
-      <template v-slot:item.params="{ item }">
-        <v-flex v-if="item">
-          {{ item.params.length }}
-        </v-flex>
+      <template v-slot:body="{ items }">
+        <tbody>
+          <tr
+            :class="key === selectedId ? 'custom-highlight-row' : ''"
+            @click.stop="rowSelected(key)" 
+            v-for="(item, key) in items"
+            :key="item.methodId"
+          >
+            <td class="text-left">{{ item.methodId + 1 }}</td>
+            <td class="text-left">{{ item.name }}</td>
+            <td class="text-left">{{ item.summary }}</td>
+            <td class="text-center">{{ item.params.length }}</td>
+          </tr>
+        </tbody>
       </template>
     </v-data-table>
   </v-card>
@@ -35,10 +41,14 @@
 <script>
 
 export default {
-  props: ['openrpc'],
+  props: ['data'],
+  computed: {
+    selectedId () {
+      return this.$store.state.method.methodId
+    }
+  },
   data () {
     return {
-      selected: [],
       search: '',
       showInfoDrawer: false,
       headers: [
@@ -51,7 +61,7 @@ export default {
   },
   methods: {
     rowSelected (item) {
-      this.$store.commit('setMethod', item)
+      this.$store.commit('setMethod', this.$store.state.methods[item])
       if (!this.$store.state.showRightDrawer) {
         this.$store.commit('showRightDrawer', true)
       }

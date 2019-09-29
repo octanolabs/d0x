@@ -4,7 +4,7 @@
       <v-card style="margin-bottom:15px;">
         <open-rpc-info :info="[ openrpc.info ]" />
       </v-card>
-      <open-rpc-methods :openrpc="openrpc" />
+      <open-rpc-methods :data="openrpc.methods" />
     </v-flex>
   </v-layout>
 </template>

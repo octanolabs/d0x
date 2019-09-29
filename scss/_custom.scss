@@ -44,9 +44,13 @@ p>code {
   width: 100% !important;
 }
 
-.theme--dark.v-data-table tbody tr:hover:not(.v-data-table__expanded__content),
-.theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
+.theme--dark.highlight-row tbody tr:hover:not(.v-data-table__expanded__content),
+.theme--light.highlight-row tbody tr:hover:not(.v-data-table__expanded__content) {
   background: $primary;
+}
+
+.custom-highlight-row{
+  background-color: $primary;
 }
 
 .code-card.theme--dark {
