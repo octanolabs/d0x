@@ -19,15 +19,13 @@ a {
 pre {
   max-width: 100%;
   overflow-x: auto;
-  background-color: transparent;
+  background-color: $transparent;
   padding: 6px 6px 0;
 }
 
-code, .v-application>code {
+.v-application code {
   font-size: 11px !important;
-  background-color: $grey3 !important;
-  border-radius: 4px;
-  overflow-x: auto;
+  background-color: $transparent !important;
   white-space: pre !important;
 }
 
@@ -51,8 +49,12 @@ p>code {
   background: $primary;
 }
 
-.code-card {
+.code-card.theme--dark {
   background-color: $grey3 !important;
+}
+
+.code-card.theme--light {
+  background-color: white;
 }
 
 .v-card__text {
