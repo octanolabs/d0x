@@ -3,6 +3,9 @@
     :headers="headers"
     :items="info"
     hide-default-footer
+    disable-sort
+    disable-pagination
+    disable-filtering
   >
     <template v-slot:item.url>
       <a href="#">{{ url }}</a>
