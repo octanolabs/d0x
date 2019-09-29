@@ -52,23 +52,7 @@
                 Returns
               </v-expansion-panel-header>
               <v-expansion-panel-content style="overflow-x:auto;" v-if="selected.result">
-                <v-list dense tile v-if="selected.result.schema.oneOf">
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="selected.result.name" />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-divider></v-divider>
-                  <v-list-item
-                    v-for="(item, i) in selected.result.schema.oneOf"
-                    :key="i"
-                  >
-                    <openrpc-schema :item="item" />
-                  </v-list-item>
-                </v-list>
-                <v-list-item v-if="selected.result.schema.type">
-                  <openrpc-schema :item="selected.result.schema" />
-                </v-list-item>
+                <openrpc-param-card :item="selected.result" />
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -87,14 +71,12 @@
 </template>
 
 <script>
-import OpenrpcSchema from './Schema'
 import OpenrpcParamCard from './Param'
 import AxiosExample from './examples/Axios'
 
 export default {
   props: ['selected'], // selected method
   components: {
-    OpenrpcSchema,
     OpenrpcParamCard,
     AxiosExample
   },
