@@ -60,7 +60,7 @@
                 Example
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-
+                <openrpc-response-example :result="selected.result" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -73,12 +73,14 @@
 <script>
 import OpenrpcParamCard from './Param'
 import AxiosExample from './examples/Axios'
+import OpenrpcResponseExample from './examples/Response'
 
 export default {
   props: ['selected'], // selected method
   components: {
     OpenrpcParamCard,
-    AxiosExample
+    AxiosExample,
+    OpenrpcResponseExample
   },
   computed: {
     url () {
