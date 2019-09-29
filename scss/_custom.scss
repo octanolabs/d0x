@@ -1,5 +1,26 @@
-w-100 {
-  width: 100% !important;
+
+// Required for modifying core defaults
+@import '~vuetify/src/styles/styles.sass';
+
+// Any component modifications must be imported
+@import '~vuetify/src/components/VBtn/_variables.scss';
+
+$btn-font-weight: 600;
+
+html, body {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  background-color: transparent;
+  padding: 6px 6px 0;
 }
 
 code, .v-application>code {
@@ -10,13 +31,23 @@ code, .v-application>code {
   white-space: pre !important;
 }
 
-pre {
-  padding: 6px 6px 0;
-}
-
 p>code {
   display: inline !important;
   padding: 0 3px !important;
+}
+
+.v-application {
+  font-family: Ubuntu Mono !important;
+  font-style: normal;
+  font-variant: normal;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.theme--dark.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
+  background: #6fceb7;
 }
 
 .code-card {
@@ -32,7 +63,10 @@ p>code {
   max-height: calc(100vh - 100px);
 }
 
-html, body {
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
+.v-expansion-panel-header {
+  background-color: #555;
+}
+
+.v-expansion-panel-content__wrap {
+  padding: 0px !important;
 }

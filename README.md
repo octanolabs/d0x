@@ -1,4 +1,4 @@
-# vue-openrpc-sandbox
+# vue-openrpc-d0x
 
 ## Project setup
 ```

@@ -59,9 +59,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .theme--dark.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
-    background: #6fceb7;
-  }
-</style>

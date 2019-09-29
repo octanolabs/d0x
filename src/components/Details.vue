@@ -37,7 +37,7 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-header ripple>
-                Axios
+                Example
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <axios-example :endpoint="url" :method="selected.name" :params="selected.params" />
@@ -95,17 +95,3 @@ export default {
   }
 }
 </script>
-<style>
-  pre {
-    max-width: 100%;
-    overflow-x: auto;
-    background-color: transparent;
-  }
-  .v-expansion-panel-header {
-    background-color: #555;
-  }
-
-  .v-expansion-panel-content__wrap {
-    padding: 0px !important;
-  }
-</style>

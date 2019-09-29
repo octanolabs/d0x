@@ -42,7 +42,8 @@
       <v-card
         v-for="(item, i) in schema.oneOf"
         :key="i"
-        flat
+        class="ma-2"
+        outlined
       >
         <v-card-text>
           <div v-if="item.description" v-html="$md.render(item.description)"></div>

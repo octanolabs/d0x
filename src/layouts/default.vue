@@ -3,50 +3,49 @@
     <v-navigation-drawer
       v-model="leftDrawer"
       :mini-variant="miniVariant"
-      :clipped="clipped"
+      :clipped="true"
       fixed
       app
       floating
     >
+      <v-spacer />
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      :clipped-right="clipped"
+      :clipped-left="true"
+      :clipped-right="false"
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="leftDrawer = !leftDrawer" />
       <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <v-btn
+        icon
+        color="primary"
+        @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
+      >
+        <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
+        <v-icon v-else>mdi-weather-sunny</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-content>
       <v-container>
         <home />
       </v-container>
     </v-content>
-    <right-drawer :clipped="clipped"/>
+    <right-drawer :clipped="false"/>
     <v-footer
       :fixed="fixed"
       app
     >
       <span>&copy; 2019</span>
+      <v-spacer />
     </v-footer>
   </v-app>
 </template>
@@ -61,12 +60,16 @@ export default {
     Home,
     RightDrawer,
   },
+  computed: {
+    darkMode () {
+      return this.$vuetify.theme.dark
+    }
+  },
   data: () => ({
-    clipped: false,
     leftDrawer: false,
     fixed: false,
-    miniVariant: false,
-    title: 'openrpc-sandbox'
+    miniVariant: true,
+    title: 'd0x.octano.dev'
   }),
 };
 </script>
