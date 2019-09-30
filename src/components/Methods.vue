@@ -22,9 +22,9 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr
-            :class="key === selectedId ? 'custom-highlight-row' : ''"
-            @click.stop="rowSelected(key)" 
-            v-for="(item, key) in items"
+            :class="item.methodId === selectedId ? 'custom-highlight-row' : ''"
+            @click.stop="rowSelected(item)"
+            v-for="(item) in items"
             :key="item.methodId"
           >
             <td class="text-left">{{ item.methodId + 1 }}</td>
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     rowSelected (item) {
-      this.$store.commit('setMethod', this.$store.state.methods[item])
+      this.$store.commit('setMethod', item)
       if (!this.$store.state.showRightDrawer) {
         this.$store.commit('showRightDrawer', true)
       }
