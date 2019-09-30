@@ -61,13 +61,14 @@
 
 <script>
 import stringifyObject from 'stringify-object'
+import jsf from 'json-schema-faker';
 
 export default {
   props: ['result'],
   watch: {
     // watch for method prop change
     result: function () {
-      this.res = '0x' // refresh example params with new schemas
+      this.res = jsf.generate(this.result.schema) // refresh example params with new schemas
     },
   },
   computed: {
