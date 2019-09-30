@@ -5,6 +5,7 @@ import VueClipboard from 'vue-clipboard2'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import md from './plugins/markdown-it';
+import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(VueHighlightJS)
@@ -28,5 +29,6 @@ new Vue({
   store,
   vuetify,
   md,
+  router,
   render: h => h(App)
 }).$mount('#app')

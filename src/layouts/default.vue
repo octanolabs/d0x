@@ -8,7 +8,45 @@
       app
       floating
     >
-      <v-spacer />
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-subheader
+          v-if="!miniVariant"
+        >
+          Ubiq
+        </v-subheader>
+
+        <v-list-item
+          v-for="(item, i) in ubiq"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-avatar :color="$vuetify.theme.dark ? '#666' : '#d6d6d6'" class="elevation-2">
+              <img :src="require('../assets/apis/' + item.icon)" height="24px" style="height:32px;"/>
+            </v-avatar>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="true"
@@ -51,7 +89,7 @@
 </template>
 
 <script>
-import Home from '../pages/home';
+import Home from '@/views/Home';
 import RightDrawer from '../components/RightDrawer';
 
 export default {
@@ -66,10 +104,18 @@ export default {
     }
   },
   data: () => ({
-    leftDrawer: false,
+    leftDrawer: true,
     fixed: false,
     miniVariant: true,
-    title: 'd0x.octano.dev'
+    title: 'd0x.octano.dev',
+    ubiq: [
+      {
+        icon: 'ubiq.svg',
+        title: 'Go-ubiq (gubiq)',
+        url: 'https://rpc.octano.dev'
+      }
+    ],
+    custom: []
   }),
 };
 </script>

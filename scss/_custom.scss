@@ -44,11 +44,6 @@ p>code {
   width: 100% !important;
 }
 
-.theme--dark.highlight-row tbody tr:hover:not(.v-data-table__expanded__content),
-.theme--light.highlight-row tbody tr:hover:not(.v-data-table__expanded__content) {
-  background: $primary;
-}
-
 .custom-highlight-row{
   background-color: $primary;
 }
