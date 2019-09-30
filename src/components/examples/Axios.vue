@@ -61,13 +61,13 @@
 
 <script>
 import stringifyObject from 'stringify-object'
-import RandExp from 'randexp'
+import jsf from 'json-schema-faker'
 
 export default {
   props: {
     endpoint: {
       type: String,
-      default: 'https://rpc.octano.dev'
+      default: ''
     },
     method: {
       type: String,
@@ -123,46 +123,9 @@ export default {
     exampleParams () {
       let eParams = []
       for (let i in this.params) {
-        if (this.params[i].schema.type === 'string' && this.params[i].schema.pattern) { // not oneOf
-          eParams.push(this.exampleStr(this.params[i].schema.pattern).toLowerCase())
-        }
-        if (this.params[i].schema.enum) {
-          if (this.params[i].schema.type === 'string' && this.params[i].schema.enum.length > 0) {
-            eParams.push(this.params[i].schema.enum[0])
-          }
-        }
-        if (this.params[i].schema.type === 'boolean') {
-          eParams.push(this.randBool())
-        }
-        if (this.params[i].schema.oneOf) {
-          const x = Math.floor(Math.random() * ((this.params[i].schema.oneOf.length - 1) + 1) + 1)
-          const chosenOne = this.params[i].schema.oneOf[x-1]
-          console.log(chosenOne)
-          if (chosenOne.type === 'string' && chosenOne.pattern) { // not oneOf
-            eParams.push(this.exampleStr(chosenOne.pattern).toLowerCase())
-          }
-          if (chosenOne.enum) {
-            if (chosenOne.type === 'string' && chosenOne.enum.length > 0) {
-              eParams.push(chosenOne.enum[0])
-            }
-          }
-          if (chosenOne.type === 'boolean') {
-            eParams.push(this.randBool())
-          }
-        }
+        eParams.push(jsf.generate(this.params[i].schema))
       }
       return eParams
-    },
-    // generate a random string from a regular expression pattern
-    exampleStr (pattern) {
-      return new RandExp(pattern).gen()
-    },
-    // really bad rand bool func
-    randBool () {
-      return this.isEven(Date.now())
-    },
-    isEven (n) {
-      return n % 2 == 0
     },
     refreshParams () {
       this.randParams = this.exampleParams()
