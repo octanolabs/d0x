@@ -9,26 +9,39 @@
       floating
     >
       <v-list>
-        <v-subheader
-          v-if="!miniVariant"
-        >
-          Ubiq
-        </v-subheader>
-
         <v-list-item
-          v-for="(item, i) in ubiq"
+          v-for="(item, i) in apis"
           :key="i"
           :to="item.to"
+          nav
           router
           exact
+          class="left-drawer-list-item"
         >
           <v-list-item-action>
-            <v-avatar :color="$vuetify.theme.dark ? '#666' : '#d6d6d6'" class="elevation-2">
+            <v-avatar :tile="miniVariant" :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'" class="elevation-2">
               <img :src="require('../assets/apis/' + item.icon)" height="24px" style="height:32px;"/>
             </v-avatar>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list style="position:fixed;bottom:0px;">
+        <v-list-item nav>
+          <v-list-item-action>
+            <v-avatar :color="$vuetify.theme.dark ? '#555' : '#d6d6d6'" class="elevation-2">
+              <v-btn
+                icon
+                @click.stop="miniVariant = !miniVariant"
+              >
+                <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+              </v-btn>
+            </v-avatar>
+          </v-list-item-action>
+          <v-list-item-content>
+            {{ miniVariant ? 'Expand' : 'Minify' }}
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -40,12 +53,6 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="leftDrawer = !leftDrawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn
@@ -59,7 +66,7 @@
     </v-app-bar>
     <v-content>
       <v-container>
-        <home />
+        <router-view></router-view>
       </v-container>
     </v-content>
     <right-drawer :clipped="false"/>
@@ -74,18 +81,20 @@
 </template>
 
 <script>
-import Home from '@/views/Home';
 import RightDrawer from '../components/RightDrawer';
 
 export default {
   name: 'App',
   components: {
-    Home,
     RightDrawer,
   },
   computed: {
     darkMode () {
       return this.$vuetify.theme.dark
+
+    },
+    apis () {
+      return this.$store.state.apis
     }
   },
   data: () => ({
@@ -93,13 +102,6 @@ export default {
     fixed: false,
     miniVariant: true,
     title: 'd0x.octano.dev',
-    ubiq: [
-      {
-        icon: 'ubiq.svg',
-        title: 'Go-ubiq (gubiq)',
-        url: 'https://rpc.octano.dev'
-      }
-    ],
     custom: []
   }),
 };

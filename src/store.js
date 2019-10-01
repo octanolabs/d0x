@@ -9,6 +9,22 @@ export default new Vuex.Store({
     methods: {},
     schemas: {},
     method: {},
+    apis: {
+      ubiq: {
+        to: '/ubiq',
+        icon: 'ubiq.svg',
+        json: 'https://raw.githubusercontent.com/ubiq/ubiq-json-rpc-specification/master/openrpc.json',
+        title: 'Ubiq',
+        url: 'https://rpc.octano.dev'
+      },
+      etc: {
+        to: '/etc',
+        icon: 'etc.svg',
+        json: 'https://raw.githubusercontent.com/etclabscore/ethereum-json-rpc-specification/master/openrpc.json',
+        title: 'Ethereum Classic',
+        url: ''
+      }
+    },
     endpoint: 'https://rpc.octano.dev',
     showRightDrawer: false
   },
@@ -27,7 +43,10 @@ export default new Vuex.Store({
     },
     showRightDrawer (state, show) {
       state.showRightDrawer = show
-    }
+    },
+    setApis (state, payload) {
+      state.apis = payload
+    },
   },
   actions: {
 
