@@ -9,7 +9,7 @@
         left
       >
         <template v-slot:activator="{ on }">
-          <v-btn icon color="primary" v-on="on" @click="refreshParams()">
+          <v-btn icon color="primary" v-on="on" @click="refreshResponse()">
             <v-icon small>mdi-refresh</v-icon>
           </v-btn>
         </template>
@@ -66,9 +66,9 @@ import jsf from 'json-schema-faker';
 export default {
   props: ['result'],
   watch: {
-    // watch for method prop change
+    // watch for result prop change
     result: function () {
-      this.res = jsf.generate(this.result.schema) // refresh example params with new schemas
+      this.refreshResponse()
     },
   },
   computed: {
@@ -81,7 +81,7 @@ export default {
     }
   },
   created () {
-    this.res = '0x'
+    this.res = jsf.generate(this.result.schema)
   },
   data () {
     return {
@@ -98,6 +98,9 @@ export default {
         singleQuotes: false,
         inlineCharacterLimit: 12
       })
+    },
+    refreshResponse () {
+      this.res = jsf.generate(this.result.schema)
     },
     copySuccess () {
       this.snackCopySuccess = true

@@ -121,6 +121,10 @@ export default {
     },
     // generate example params based on method.params // TODO clean this up - iquidus
     exampleParams () {
+      jsf.option({
+        requiredOnly: false,
+        alwaysFakeOptionals: true
+      })
       let eParams = []
       for (let i in this.params) {
         eParams.push(jsf.generate(this.params[i].schema))
