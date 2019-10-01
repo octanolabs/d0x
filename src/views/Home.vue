@@ -14,7 +14,7 @@
 import $RefParser from 'json-schema-ref-parser'
 import OpenRpcInfo from '@/components/Info'
 import OpenRpcMethods from '@/components/Methods'
-import OpenRpc from '@/assets/gubiq-openrpc.js'
+import OpenRpc from '@/assets/apis/ubiq.json'
 
 export default {
   components: {
