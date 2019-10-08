@@ -23,14 +23,11 @@ export default {
   },
   watch: {
     apiId: function () {
-      if (this.$store.state.apis[this.apiId]) {
-        this.jsonUrl = this.$store.state.apis[this.apiId].json
-        this.discover()
-      } else {
-        this.jsonUrl = this.$store.state.apis.ubiq.json
-        this.discover()
-      }
+      this.init()
     }
+  },
+  created () {
+    this.init()
   },
   data () {
     return {
@@ -40,6 +37,11 @@ export default {
     }
   },
   methods: {
+    init () {
+      // set jsonURL (fallback: ubiq)
+      this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].json : this.$store.state.apis.ubiq.json
+      this.discover()
+    },
     discover () {
       axios.get(this.jsonUrl)
         .then((r) => {
