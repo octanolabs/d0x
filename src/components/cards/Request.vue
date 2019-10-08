@@ -10,7 +10,7 @@
         left
       >
         <template v-slot:activator="{ on }">
-          <v-btn icon color="primary" v-on="on" @click="refreshParams()">
+          <v-btn :disabled="disableRefresh" icon color="primary" v-on="on" @click="refreshParams()">
             <v-icon small>mdi-refresh</v-icon>
           </v-btn>
         </template>
@@ -70,15 +70,15 @@ export default {
       type: String,
       default: 'curl'
     },
-    endpoint: {
+    endpoint: { // api url endpoint e.g 'https://rpc.octano.dev'
       type: String,
       default: ''
     },
-    method: {
+    method: { // rpc method e.g 'eth_blockNumber'
       type: String,
       default: ''
     },
-    params: {
+    params: { // request params
       type: Array,
       default () {
         return []
@@ -103,6 +103,9 @@ export default {
           params: this.randParams
         }
       }
+    },
+    disableRefresh () {
+      return !this.params.length > 0
     }
   },
   created () {
