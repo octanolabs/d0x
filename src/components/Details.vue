@@ -37,10 +37,11 @@
             </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-header ripple>
-                Example
+                Examples
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <axios-example :endpoint="url" :method="selected.name" :params="selected.params" />
+                <openrpc-curl-example :endpoint="url" :method="selected.name" :params="selected.params" />
+                <openrpc-axios-example :endpoint="url" :method="selected.name" :params="selected.params" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -72,14 +73,16 @@
 
 <script>
 import OpenrpcParamCard from './Param'
-import AxiosExample from './examples/Axios'
+import OpenrpcAxiosExample from './examples/Axios'
+import OpenrpcCurlExample from './examples/Curl'
 import OpenrpcResponseExample from './examples/Response'
 
 export default {
   props: ['selected'], // selected method
   components: {
     OpenrpcParamCard,
-    AxiosExample,
+    OpenrpcAxiosExample,
+    OpenrpcCurlExample,
     OpenrpcResponseExample
   },
   computed: {

@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-actions>
-      <v-subheader>Axios</v-subheader>
+      <v-subheader>Curl</v-subheader>
       <v-spacer />
       <v-tooltip
         left
@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import stringifyObject from 'stringify-object'
 import jsf from 'json-schema-faker'
 
 export default {
@@ -90,14 +89,10 @@ export default {
   computed: {
     json () {
       return {
-        method: 'post',
-        url: this.endpoint,
-        data: {
-          id: 1,
-          jsonrpc: '2.0',
-          method: this.method,
-          params: this.randParams
-        }
+        id: 1,
+        jsonrpc: '2.0',
+        method: this.method,
+        params: this.randParams
       }
     }
   },
@@ -114,11 +109,8 @@ export default {
   methods: {
     // format the code nicely
     format () {
-      return 'axios.request(' + stringifyObject(this.json, {
-        indent: '  ',
-        singleQuotes: false,
-        inlineCharacterLimit: 12
-      }) + ')'
+      return 'curl -H "Content-Type: application/json" -X POST --data \'' + JSON.stringify(this.json) + '\' "' + this.endpoint + '"'
+
     },
     // generate example params based on method.params // TODO clean this up - iquidus
     exampleParams () {
