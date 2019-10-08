@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     url () {
-      return this.$store.state.endpoint
+      return this.$store.state.apis[this.$store.state.api].url
     }
   },
   data () {

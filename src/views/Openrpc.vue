@@ -2,7 +2,7 @@
   <v-layout>
     <v-flex class="text-center">
       <v-card style="margin-bottom:15px;">
-        <open-rpc-info :info="[ openrpc.info ]" />
+        <open-rpc-info :info="[ openrpc.info ]" :endpoint="endpoint"/>
       </v-card>
       <open-rpc-methods :data="openrpc.methods" />
     </v-flex>
@@ -33,13 +33,15 @@ export default {
     return {
       errors: [],
       openrpc: {},
-      jsonUrl: ''
+      jsonUrl: '',
+      endpoint: ''
     }
   },
   methods: {
     init () {
       // set jsonURL (fallback: ubiq)
       this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].json : this.$store.state.apis.ubiq.json
+      this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].url : this.$store.state.apis.ubiq.url
       this.discover()
     },
     discover () {
@@ -54,8 +56,10 @@ export default {
                 this.openrpc = schema
                 const schemas = schema.components.schemas
                 const methods = schema.methods
+                schema.info.url = this.endpoint
                 this.$store.commit('setOpenRpc', schema)
                 this.$store.commit('setSchemas', schemas)
+                this.$store.commit('setApi', this.apiId)
                 let count = 0
                 for (const method of methods) {
                   method.methodId = count

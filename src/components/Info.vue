@@ -7,8 +7,10 @@
     disable-pagination
     disable-filtering
   >
-    <template v-slot:item.url>
-      <a href="#">{{ url }}</a>
+    <template v-slot:item.url="{ item }">
+      <v-flex v-if="item">
+        <a href="#">{{ item.url }}</a>
+      </v-flex>
     </template>
     <template v-slot:item.license="{ item }">
       <v-flex v-if="item">
@@ -21,11 +23,6 @@
 <script>
 export default {
   props: [ 'info' ],
-  computed: {
-    url () {
-      return this.$store.state.endpoint
-    }
-  },
   data () {
     return {
       headers: [
