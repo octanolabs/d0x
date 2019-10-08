@@ -31,7 +31,7 @@
                   v-for="(item, i) in selected.params"
                   :key="i"
                 >
-                  <openrpc-param-card :item="item" />
+                  <openrpc-param :item="item" />
                 </v-flex>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -40,8 +40,8 @@
                 Examples
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <openrpc-curl-example :endpoint="url" :method="selected.name" :params="selected.params" />
-                <openrpc-axios-example :endpoint="url" :method="selected.name" :params="selected.params" />
+                <openrpc-request mode='curl' :endpoint="url" :method="selected.name" :params="selected.params" />
+                <openrpc-request  mode='axios' :endpoint="url" :method="selected.name" :params="selected.params" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -53,7 +53,7 @@
                 Returns
               </v-expansion-panel-header>
               <v-expansion-panel-content style="overflow-x:auto;" v-if="selected.result">
-                <openrpc-param-card :item="selected.result" />
+                <openrpc-param :item="selected.result" />
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -61,7 +61,7 @@
                 Example
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <openrpc-response-example :result="selected.result" />
+                <openrpc-response :result="selected.result" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -72,18 +72,16 @@
 </template>
 
 <script>
-import OpenrpcParamCard from './Param'
-import OpenrpcAxiosExample from './examples/Axios'
-import OpenrpcCurlExample from './examples/Curl'
-import OpenrpcResponseExample from './examples/Response'
+import OpenrpcParam from './cards/Param'
+import OpenrpcRequest from './cards/Request'
+import OpenrpcResponse from './cards/Response'
 
 export default {
   props: ['selected'], // selected method
   components: {
-    OpenrpcParamCard,
-    OpenrpcAxiosExample,
-    OpenrpcCurlExample,
-    OpenrpcResponseExample
+    OpenrpcParam,
+    OpenrpcRequest,
+    OpenrpcResponse
   },
   computed: {
     url () {
