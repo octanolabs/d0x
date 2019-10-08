@@ -23,7 +23,7 @@
               <img :src="require('../assets/apis/' + item.icon)" height="24px" style="height:32px;"/>
             </v-avatar>
           </v-list-item-action>
-          <v-list-item-content>
+          <v-list-item-content :class="{'ld-item-content-expanded': !miniVariant}">
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
@@ -40,7 +40,7 @@
               </v-btn>
             </v-avatar>
           </v-list-item-action>
-          <v-list-item-content>
+          <v-list-item-content :class="{'ld-item-content-expanded': !miniVariant}">
             {{ miniVariant ? 'Expand' : 'Minify' }}
           </v-list-item-content>
         </v-list-item>

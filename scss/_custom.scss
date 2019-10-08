@@ -76,3 +76,11 @@ p>code {
 .v-expansion-panel-content__wrap {
   padding: 0px !important;
 }
+
+.v-application--is-ltr .v-list-item__action:first-child, .v-application--is-ltr .v-list-item__icon:first-child {
+  margin-right: 0px;
+}
+
+.ld-item-content-expanded {
+  margin-left: 15px;
+}
