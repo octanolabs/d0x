@@ -2,9 +2,9 @@
   <v-layout>
     <v-flex class="text-center">
       <v-card style="margin-bottom:15px;">
-        <open-rpc-info :info="[ openrpc.info ]" :endpoint="endpoint"/>
+        <openrpc-info :info="[ openrpc.info ]" :endpoint="endpoint"/>
       </v-card>
-      <open-rpc-methods :data="openrpc.methods" />
+      <openrpc-methods :data="openrpc.methods" :api="apiId"/>
     </v-flex>
   </v-layout>
 </template>
@@ -12,14 +12,14 @@
 <script>
 import axios from 'axios'
 import $RefParser from 'json-schema-ref-parser'
-import OpenRpcInfo from '@/components/Info'
-import OpenRpcMethods from '@/components/Methods'
+import OpenrpcInfo from '@/components/tables/Info'
+import OpenrpcMethods from '@/components/tables/Methods'
 
 export default {
   props: ['apiId'],
   components: {
-    OpenRpcInfo,
-    OpenRpcMethods
+    OpenrpcInfo,
+    OpenrpcMethods
   },
   watch: {
     apiId: function () {
@@ -56,16 +56,20 @@ export default {
                 this.openrpc = schema
                 const schemas = schema.components.schemas
                 const methods = schema.methods
+                // add api endpoint to openrpc.info
                 schema.info.url = this.endpoint
-                this.$store.commit('setOpenRpc', schema)
-                this.$store.commit('setSchemas', schemas)
-                this.$store.commit('setApi', this.apiId)
+
                 let count = 0
+                // add a numeric ID to each method
                 for (const method of methods) {
                   method.methodId = count
                   methods[count] = method
                   count++
                 }
+                // update state
+                this.$store.commit('setOpenRpc', schema)
+                this.$store.commit('setSchemas', schemas)
+                this.$store.commit('setApi', this.apiId)
                 this.$store.commit('setMethods', methods)
               }
             })
