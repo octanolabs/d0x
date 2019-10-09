@@ -16,6 +16,7 @@ export default new Vuex.Store({
         icon: 'ubiq.svg',
         json: 'https://raw.githubusercontent.com/ubiq/ubiq-json-rpc-specification/master/openrpc.json',
         title: 'Ubiq',
+        desc: 'Ubiq mainnet (gubiq)',
         url: 'https://rpc.octano.dev'
       },
       etc: {
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         icon: 'etc.svg',
         json: 'https://raw.githubusercontent.com/etclabscore/ethereum-json-rpc-specification/master/openrpc.json',
         title: 'Ethereum Classic',
+        desc: 'ETC mainnet',
         url: 'https://etc-geth.0xinfra.com'
       }
     },
