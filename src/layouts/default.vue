@@ -72,7 +72,7 @@
       :fixed="fixed"
       app
     >
-      <span>&copy; 2019</span>
+      <span>{{ jsonPath}}</span>
       <v-spacer />
     </v-footer>
   </v-app>
@@ -93,6 +93,9 @@ export default {
     },
     apis () {
       return this.$store.state.apis
+    },
+    jsonPath () {
+      return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].json : ''
     }
   },
   data: () => ({
