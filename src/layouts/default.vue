@@ -25,7 +25,6 @@
         <template v-slot:activator="{ on }">
           <v-btn
             icon
-            color="yellow"
             v-on="on"
           >
             <v-icon>mdi-dots-vertical</v-icon>
