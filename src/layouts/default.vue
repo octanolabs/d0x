@@ -69,11 +69,17 @@
     </v-content>
     <right-drawer :clipped="false"/>
     <v-footer
-      :fixed="fixed"
       app
     >
-      <span>{{ jsonPath}}</span>
-      <v-spacer />
+      <v-btn
+        text
+        tile
+        small
+        :href="jsonPath"
+        target="_blank"
+      >
+        {{ jsonPath }}
+      </v-btn>
     </v-footer>
   </v-app>
 </template>
@@ -96,6 +102,9 @@ export default {
     },
     jsonPath () {
       return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].json : ''
+    },
+    url () {
+      return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].url : false
     }
   },
   data: () => ({

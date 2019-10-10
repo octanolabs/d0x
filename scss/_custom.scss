@@ -62,7 +62,7 @@ p>code {
 
 .v-content__wrap {
   overflow:auto;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 94px);
 }
 
 .theme--dark.v-expansion-panels .v-expansion-panel .v-expansion-panel-header, .drawer-toolbar.theme--dark {
@@ -83,4 +83,13 @@ p>code {
 
 .api-item-content-expanded {
   margin-left: 15px;
+}
+
+.v-footer {
+  font-size: 14px;
+  padding: 1px 0;
+}
+
+.v-btn {
+  text-transform:none;
 }
