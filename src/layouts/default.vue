@@ -15,23 +15,38 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="leftDrawer = !leftDrawer" />
+      <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn
+        icon
+        @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
+      >
+        <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
+        <v-icon v-else>mdi-weather-sunny</v-icon>
+      </v-btn>
       <v-menu
-        bottom
         left
+        bottom
+        offset-y
       >
         <template v-slot:activator="{ on }">
           <v-btn
-            icon
             v-on="on"
+            rounded
+            class="ml-1"
+            width="250px"
+            :color="$vuetify.theme.dark ? '#333' : '#d6d6d6'"
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-avatar size="24px" left flat>
+              <img :src="require('../assets/apis/' + selectedApi.icon)" height="16px" style="height:16px;"/>
+            </v-avatar>
+            {{ selectedApi.title }}
+            <v-spacer />
+            <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
-
-        <v-list dense>
+        <v-list dense class="pa-0">
           <v-list-item
             v-for="(item, i) in apis"
             :key="i"
@@ -52,14 +67,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn
-        icon
-        color="primary"
-        @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
-      >
-        <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
-        <v-icon v-else>mdi-weather-sunny</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -104,13 +111,16 @@ export default {
     },
     url () {
       return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].url : false
+    },
+    selectedApi () {
+      return this.$store.state.api ? this.$store.state.apis[this.$store.state.api] : this.$store.state.apis['ubiq']
     }
   },
   data: () => ({
     leftDrawer: false,
     fixed: false,
     miniVariant: true,
-    title: 'd0x.octano.dev',
+    title: 'octano-d0x',
     custom: []
   }),
 };
