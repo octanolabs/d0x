@@ -74,6 +74,30 @@
       </v-container>
     </v-content>
     <right-drawer :clipped="false"/>
+    <v-snackbar
+      v-model="snackAPICopyError"
+      color="error"
+    >
+      Unable to copy to clipboard. Copy manually or change browser.
+      <v-btn
+        text
+        @click="snackAPICopyError = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackAPICopySuccess"
+      color="primary"
+    >
+      API endpoint has been copied to your clipboard.
+      <v-btn
+        text
+        @click="snackAPICopySuccess = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-footer
       app
     >
@@ -101,6 +125,9 @@
             tile
             small
             v-on="on"
+            v-clipboard:copy="url"
+            v-clipboard:success="copySuccess"
+            v-clipboard:error="copyError"
           >
             <v-icon class="mr-2">mdi-api</v-icon>
             {{ selectedApi.url }}
@@ -143,7 +170,17 @@ export default {
     fixed: false,
     miniVariant: true,
     title: 'octano-d0x',
+    snackAPICopySuccess: false,
+    snackAPICopyError: false,
     custom: []
   }),
-};
+  methods: {
+    copySuccess () {
+      this.snackAPICopySuccess = true
+    },
+    copyError () {
+      this.snackAPICopyError = true
+    }
+  }
+}
 </script>
