@@ -77,15 +77,37 @@
     <v-footer
       app
     >
-      <v-btn
-        text
-        tile
-        small
-        :href="jsonPath"
-        target="_blank"
-      >
-        {{ jsonPath }}
-      </v-btn>
+      <v-tooltip top>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            small
+            :href="jsonPath"
+            target="_blank"
+            v-on="on"
+          >
+            <img :src="require('../assets/openrpc.png')" height="20px" class="mr-2"/>
+            {{ jsonPath }}
+          </v-btn>
+        </template>
+        <span>Click to open raw openrpc.json in new tab.</span>
+      </v-tooltip>
+      <v-spacer />
+      <v-tooltip top>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            small
+            v-on="on"
+          >
+            <v-icon class="mr-2">mdi-api</v-icon>
+            {{ selectedApi.url }}
+          </v-btn>
+        </template>
+        <span>Click to copy API endpoint to clipboard.</span>
+      </v-tooltip>
     </v-footer>
   </v-app>
 </template>
