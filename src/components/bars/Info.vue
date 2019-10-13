@@ -8,7 +8,7 @@
           <v-btn
             text
             tile
-            small
+            x-small
             v-on="on"
             v-clipboard:copy="endpoint"
             v-clipboard:success="copySuccess"
@@ -21,14 +21,7 @@
       </v-tooltip>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            tile
-            small
-            v-on="on"
-          >
-            <v-icon :color="online ? 'success' : 'error'">mdi-wifi</v-icon>
-          </v-btn>
+            <v-icon v-on="on" :color="online ? 'success' : 'error'">mdi-wifi</v-icon>
         </template>
         <span>Status: {{ online ? 'online' : 'offline' }}</span>
       </v-tooltip>
