@@ -13,8 +13,9 @@
             v-clipboard:copy="endpoint"
             v-clipboard:success="copySuccess"
             v-clipboard:error="copyError"
+            class="pa-0"
           >
-            <v-icon>mdi-api</v-icon>
+            <v-icon class="ma-0">mdi-api</v-icon>
           </v-btn>
         </template>
         <span>Click to copy API endpoint to clipboard.</span>
