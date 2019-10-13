@@ -3,7 +3,6 @@
     <v-system-bar color="#222">
       <span>{{ info.title }} - {{ info.description }} </span>
       <div class="flex-grow-1"></div>
-      <v-icon>mdi-json</v-icon>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -20,7 +19,19 @@
         </template>
         <span>Click to copy API endpoint to clipboard.</span>
       </v-tooltip>
-      <v-icon>mdi-wifi</v-icon>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            small
+            v-on="on"
+          >
+            <v-icon :color="online ? 'success' : 'error'">mdi-wifi</v-icon>
+          </v-btn>
+        </template>
+        <span>Status: {{ online ? 'online' : 'offline' }}</span>
+      </v-tooltip>
     </v-system-bar>
     <v-snackbar
       v-model="vCopyError"
@@ -50,12 +61,23 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  props: ['info', 'endpoint', 'jsonUrl'],
+  props: ['info', 'endpoint'],
+  watch: {
+    endpoint: function () {
+      this.checkApi()
+    }
+  },
+  created () {
+    this.checkApi()
+  },
   data () {
     return {
       vCopySuccess: false,
-      vCopyError: false
+      vCopyError: false,
+      online: false
     }
   },
   methods: {
@@ -64,6 +86,37 @@ export default {
     },
     copyError () {
       this.vCopyError = true
+    },
+    checkApi () {
+      // TODO - add additional types of checks, default should be rpc.discover.
+      // for now however use web3_clientVersion, it applies to ubiq and etc (geth).
+      axios.request({
+        method: "post",
+        url: this.endpoint,
+        data: {
+          id: 1,
+          jsonrpc: "2.0",
+          method: "web3_clientVersion",
+          params: []
+        }
+      }).then(response => {
+        if (response.data) {
+          if (!response.data.error) {
+            this.$store.commit('setClientVer', response.data.result)
+            this.online = true
+          } else {
+            // web3_clientVersion likely unknown
+            this.$store.commit('setClientVer', false)
+            this.online = false
+          }
+        } else {
+          this.online = false
+        }
+      }).catch(e => {
+        this.$store.commit('setClientVer', false)
+        this.online = false
+        console.log(e)
+      })
     }
   }
 }

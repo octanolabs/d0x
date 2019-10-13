@@ -94,7 +94,22 @@
         <span>Click to open raw openrpc.json in new tab.</span>
       </v-tooltip>
       <v-spacer />
-
+      <v-tooltip
+        v-if="clientVer"
+        top
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            small
+            v-on="on"
+          >
+            {{ clientVer }}
+          </v-btn>
+        </template>
+        <span>Click to copy API endpoint to clipboard.</span>
+      </v-tooltip>
     </v-footer>
   </v-app>
 </template>
@@ -110,7 +125,6 @@ export default {
   computed: {
     darkMode () {
       return this.$vuetify.theme.dark
-
     },
     apis () {
       return this.$store.state.apis
@@ -123,6 +137,9 @@ export default {
     },
     selectedApi () {
       return this.$store.state.api ? this.$store.state.apis[this.$store.state.api] : this.$store.state.apis['ubiq']
+    },
+    clientVer () {
+      return this.$store.state.clientVer
     }
   },
   data: () => ({

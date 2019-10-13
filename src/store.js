@@ -10,12 +10,13 @@ export default new Vuex.Store({
     schemas: {},
     method: {},
     api: 'ubiq',
+    clientVer: false,
     apis: {
       ubiq: {
         to: '/ubiq',
         icon: 'ubiq.svg',
         json: 'https://raw.githubusercontent.com/ubiq/ubiq-json-rpc-specification/master/openrpc.json',
-        title: 'Ubiq',
+        title: 'Ubiq (gubiq)',
         desc: 'Ubiq mainnet (gubiq)',
         url: 'https://rpc.octano.dev'
       },
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     setApi (state, payload) {
       state.api = state.apis[payload] ? payload : 'ubiq'
+    },
+    setClientVer (state, payload) {
+      state.clientVer = payload
     },
   },
   actions: {
