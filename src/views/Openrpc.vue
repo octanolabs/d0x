@@ -1,10 +1,37 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <v-card style="margin-bottom:15px;">
-        <openrpc-info :info="[ openrpc.info ]" :endpoint="endpoint"/>
-      </v-card>
-      <openrpc-methods :data="openrpc.methods" :api="apiId"/>
+      <openrpc-info-bar :info="openrpc.info" :endpoint="endpoint"/>
+      <v-sheet style="width:100%; overflow: hidden;">
+        <v-tabs v-model="openrpcTab" grow>
+          <v-tab
+            v-for="tab in tabs"
+            :key="tab"
+            ripple
+          >
+            {{ tab }}
+          </v-tab>
+        </v-tabs>
+        <v-divider />
+        <v-tabs-items v-model="openrpcTab">
+          <v-tab-item key="Methods">
+            <openrpc-methods :data="openrpc.methods" :api="apiId"/>
+          </v-tab-item>
+          <v-tab-item key="Components">
+            <v-col class="d-flex" cols="12">
+              <v-card  v-if="openrpc.components" outlined>
+                <v-card-title class="align-end">Content Descriptors</v-card-title>
+                <v-flex
+                  v-for="(item, i) in openrpc.components.contentDescriptors"
+                  :key="i"
+                >
+                  <openrpc-param :item="item" />
+                </v-flex>
+              </v-card>
+            </v-col>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-sheet>
     </v-flex>
   </v-layout>
 </template>
@@ -12,14 +39,16 @@
 <script>
 import axios from 'axios'
 import $RefParser from 'json-schema-ref-parser'
-import OpenrpcInfo from '@/components/tables/Info'
+import OpenrpcParam from '@/components/cards/Param'
+import OpenrpcInfoBar from '@/components/bars/Info'
 import OpenrpcMethods from '@/components/tables/Methods'
 
 export default {
   props: ['apiId'],
   components: {
-    OpenrpcInfo,
-    OpenrpcMethods
+    OpenrpcInfoBar,
+    OpenrpcMethods,
+    OpenrpcParam
   },
   watch: {
     apiId: function () {
@@ -34,7 +63,11 @@ export default {
       errors: [],
       openrpc: {},
       jsonUrl: '',
-      endpoint: ''
+      endpoint: '',
+      openrpcTab: null,
+      tabs: ['Methods', 'Components'],
+      statusCopySuccess: false,
+      statusCopyError: false
     }
   },
   methods: {
