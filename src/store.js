@@ -29,7 +29,8 @@ export default new Vuex.Store({
         url: 'https://etc-geth.0xinfra.com'
       }
     },
-    showRightDrawer: false
+    showRightDrawer: false,
+    showLeftDrawer: false
   },
   mutations: {
     setOpenRpc (state, json) {
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     showRightDrawer (state, show) {
       state.showRightDrawer = show
+    },
+    showLeftDrawer (state, show) {
+      state.showLeftDrawer = show
     },
     setApi (state, payload) {
       state.api = state.apis[payload] ? payload : 'ubiq'

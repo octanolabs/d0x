@@ -1,14 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="leftDrawer"
-      :mini-variant="miniVariant"
-      :clipped="true"
-      fixed
-      app
-      floating
-    >
-    </v-navigation-drawer>
+    <left-drawer />
     <v-app-bar
       :clipped-left="true"
       :clipped-right="false"
@@ -116,11 +108,13 @@
 
 <script>
 import RightDrawer from '../components/RightDrawer';
+import LeftDrawer from '../components/LeftDrawer';
 
 export default {
   name: 'App',
   components: {
     RightDrawer,
+    LeftDrawer
   },
   computed: {
     darkMode () {
@@ -143,11 +137,7 @@ export default {
     }
   },
   data: () => ({
-    leftDrawer: false,
-    fixed: false,
-    miniVariant: true,
-    title: 'octano-d0x',
-    custom: []
+    title: 'octano-d0x'
   })
 }
 </script>
