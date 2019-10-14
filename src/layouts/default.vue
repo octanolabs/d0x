@@ -108,7 +108,7 @@
             {{ clientVer }}
           </v-btn>
         </template>
-        <span>Click to copy API endpoint to clipboard.</span>
+        <span>Client version.</span>
       </v-tooltip>
     </v-footer>
   </v-app>
