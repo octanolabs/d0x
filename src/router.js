@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 // views
 import About from '@/views/About.vue'
-import Openrpc from '@/views/Openrpc.vue'
+import Openrpc from '@/views/View.vue'
 
 Vue.use(Router)
 
