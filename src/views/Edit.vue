@@ -14,7 +14,9 @@
             </v-btn>
           </v-toolbar>
         </v-flex>
-        <MonacoEditor class="editor" v-model="code" language="javascript"/>
+        <v-flex>
+          <MonacoEditor :options="editorOptions" class="editor" v-model="code" :theme="darkMode ? 'vs-dark' : 'vs'" language="json"/>
+        </v-flex>
       </v-sheet>
     </v-flex>
   </v-layout>
@@ -46,6 +48,9 @@ export default {
         singleQuotes: false,
         inlineCharacterLimit: 12
       })
+    },
+    darkMode () {
+      return this.$vuetify.theme.dark
     }
   },
   data () {
@@ -55,7 +60,10 @@ export default {
       jsonUrl: '',
       endpoint: '',
       statusCopySuccess: false,
-      statusCopyError: false
+      statusCopyError: false,
+      editorOptions: {
+        automaticLayout: true
+      }
     }
   },
   methods: {
