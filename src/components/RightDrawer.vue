@@ -1,18 +1,17 @@
 <template>
   <v-navigation-drawer
+    ref="drawer"
     :value="show"
     right
-    :clipped="clipped"
-    fixed
+    :clipped="false"
     app
-    width="372px"
-    floating
+    :width="navigation.width"
   >
     <v-flex>
       <v-toolbar class="elevation-0 drawer-toolbar">
         <v-btn
           icon
-          @click.stop="closeRightDrawer"
+          @click.stop="closeDrawer"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -42,13 +41,24 @@
 import MethodDetails from './Details'
 
 export default {
-  props: [ 'clipped' ],
   components: {
     MethodDetails,
+  },
+  data: () => {
+    return {
+      navigation: {
+        shown: false,
+        width: 372,
+        borderSize: 3
+      }
+    }
   },
   computed: {
     methods () {
       return this.$store.state.methods
+    },
+    direction() {
+      return this.$store.state.showRightDrawer === false ? "Open" : "Closed";
     },
     selected () {
       return this.$store.state.method
@@ -61,11 +71,8 @@ export default {
     }
   },
   methods: {
-    closeRightDrawer () {
+    closeDrawer () {
       this.$store.commit('showRightDrawer', false)
-    },
-    openRightDrawer () {
-      this.$store.commit('showRightDrawer', true)
     },
     canSkipPrev () {
       return !this.selected.methodId > 0
@@ -78,7 +85,57 @@ export default {
     },
     nextOperation () {
       this.$store.commit('setMethod', this.methods[ this.selected.methodId + 1 ])
+    },
+    setBorderWidth() {
+      let i = this.$refs.drawer.$el.querySelector(
+        ".v-navigation-drawer__border"
+      );
+      i.style.width = this.navigation.borderSize + "px";
+      i.style.cursor = "ew-resize";
+    },
+    setEvents() {
+      const minSize = this.navigation.borderSize;
+      const el = this.$refs.drawer.$el;
+      const drawerBorder = el.querySelector(".v-navigation-drawer__border");
+      const vm = this;
+      const direction = el.classList.contains("v-navigation-drawer--right")
+        ? "right"
+        : "left";
+
+      function resize(e) {
+        document.body.style.cursor = "ew-resize";
+        let f = direction === "right"
+          ? document.body.scrollWidth - e.clientX
+          : e.clientX;
+        el.style.width = f + "px";
+      }
+
+      drawerBorder.addEventListener(
+        "mousedown",
+        function(e) {
+          if (e.offsetX < minSize) {
+            // m_pos = e.x;
+            el.style.transition ='initial'; document.addEventListener("mousemove", resize, false);
+          }
+        },
+        false
+      );
+
+      document.addEventListener(
+        "mouseup",
+        function() {
+          el.style.transition ='';
+          vm.navigation.width = el.style.width;
+          document.body.style.cursor = "";
+          document.removeEventListener("mousemove", resize, false);
+        },
+        false
+      );
     }
+  },
+  mounted() {
+    this.setBorderWidth();
+    this.setEvents();
   }
 }
 </script>
