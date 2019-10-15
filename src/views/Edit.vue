@@ -3,19 +3,43 @@
     <v-flex>
       <v-sheet style="width:100%; overflow: hidden;">
         <v-flex>
-          <v-toolbar class="elevation-0 drawer-toolbar">
-            <v-toolbar-title>Editor</v-toolbar-title>
+          <v-toolbar class="elevation-0">
+            <v-btn
+              icon
+              text
+              @click.stop="tab = 0"
+            >
+              <v-icon>mdi-json</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              text
+              @click.stop="tab = 1"
+            >
+              <v-icon>mdi-compare</v-icon>
+            </v-btn>
             <v-spacer />
             <v-btn
               icon
-              @click.stop="closeDrawer"
+              text
+              @click.stop="tab = 1"
             >
-              <v-icon>mdi-close</v-icon>
+              <v-icon>mdi-content-copy</v-icon>
             </v-btn>
           </v-toolbar>
-        </v-flex>
-        <v-flex>
-          <MonacoEditor :options="editorOptions" class="editor" v-model="code" :theme="darkMode ? 'vs-dark' : 'vs'" language="json"/>
+          <v-tabs-items v-model="tab">
+            <v-tab-item key="Editor">
+              <MonacoEditor
+                :options="editorOptions"
+                class="editor"
+                v-model="modified"
+                :theme="darkMode ? 'vs-dark' : 'vs'" language="json"
+              />
+            </v-tab-item>
+            <v-tab-item key="Diff">
+              <MonacoEditor :options="diffEditorOptions" :diffEditor="true" class="editor" v-model="modified" :original="original" :theme="darkMode ? 'vs-dark' : 'vs'" language="json"/>
+            </v-tab-item>
+          </v-tabs-items>
         </v-flex>
       </v-sheet>
     </v-flex>
@@ -25,7 +49,6 @@
 <script>
 import axios from 'axios'
 import MonacoEditor from 'vue-monaco'
-import stringifyObject from 'stringify-object'
 import $RefParser from 'json-schema-ref-parser'
 
 export default {
@@ -43,11 +66,7 @@ export default {
   },
   computed: {
     code () {
-      return stringifyObject(this.openrpc, {
-        indent: '  ',
-        singleQuotes: false,
-        inlineCharacterLimit: 12
-      })
+      return JSON.stringify(this.openrpc, null, 2)
     },
     darkMode () {
       return this.$vuetify.theme.dark
@@ -59,9 +78,17 @@ export default {
       openrpc: {},
       jsonUrl: '',
       endpoint: '',
-      statusCopySuccess: false,
-      statusCopyError: false,
+      original: '',
+      modified: '',
+      tab: 0,
       editorOptions: {
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+      },
+      diffEditorOptions: {
+        followsCaret: true, // resets the navigator state when the user selects something in the editor
+        ignoreCharChanges: true,
+        scrollBeyondLastLine: false,
         automaticLayout: true
       }
     }
@@ -78,6 +105,10 @@ export default {
         .then((r) => {
           console.log(r)
           if (r.data.openrpc) {
+            this.original = JSON.stringify(r.data, null, 2)
+            this.modified  = this.original
+
+            // TODO
             $RefParser.dereference(r.data, (err, schema) => {
               if (err) {
                 console.log(err)
