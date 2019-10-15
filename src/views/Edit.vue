@@ -16,22 +16,7 @@
               </v-tab>
             </v-tabs>
             <v-spacer />
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  small
-                  v-on="on"
-                  v-clipboard:copy="modified"
-                  v-clipboard:success="copySuccess"
-                  v-clipboard:error="copyError"
-                >
-                  <v-icon small>mdi-content-copy</v-icon>
-                </v-btn>
-              </template>
-              <span>Copy to clipboard.</span>
-            </v-tooltip>
-
+            <copy-to-clipboard :copy="modified"/>
           </v-toolbar>
           <v-tabs-items v-model="tab">
             <v-tab-item key="Editor">
@@ -57,30 +42,6 @@
         </v-flex>
       </v-sheet>
     </v-flex>
-    <v-snackbar
-      v-model="copy.success"
-      color="primary"
-    >
-      Copied to your clipboard.
-      <v-btn
-        text
-        @click="copy.success = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
-    <v-snackbar
-      v-model="copy.error"
-      color="error"
-    >
-      Unable to copy to clipboard. Copy manually or change browser.
-      <v-btn
-        text
-        @click="copy.error = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </v-layout>
 </template>
 
@@ -89,12 +50,14 @@ import axios from 'axios'
 import MonacoEditor from 'vue-monaco'
 import $RefParser from 'json-schema-ref-parser'
 import LeftDrawer from '@/components/LeftDrawer';
+import CopyToClipboard from '@/components/btns/CopyToClipboard';
 
 export default {
   props: ['apiId'],
   components: {
     MonacoEditor,
-    LeftDrawer
+    LeftDrawer,
+    CopyToClipboard
   },
   watch: {
     apiId: function () {
@@ -128,10 +91,6 @@ export default {
         ignoreCharChanges: true,
         scrollBeyondLastLine: false,
         automaticLayout: true
-      },
-      copy: {
-        success: false,
-        error: false
       }
     }
   },
@@ -181,12 +140,6 @@ export default {
         .catch((e) => {
           console.log(e)
         })
-    },
-    copySuccess () {
-      this.copy.success = true
-    },
-    copyError () {
-      this.copy.error = true
     }
   }
 }
