@@ -5,22 +5,36 @@
     left
     clipped
     :width="navigation.width"
-    v-model="show"
+    :value="show"
     >
-
+      <v-flex class="text-center">
+        <v-sheet style="width:100%; overflow: hidden;">
+          <openrpc-methods :data="methods" :api="apiId"/>
+        </v-sheet>
+      </v-flex>
   </v-navigation-drawer>
 </template>
 
 <script>
+import $RefParser from 'json-schema-ref-parser'
+import OpenrpcInfoBar from '@/components/bars/Info'
+import OpenrpcMethods from '@/components/tables/MethodsSlim'
+
+
 export default {
+  props: ['apiId', 'methods'],
+  components: {
+    OpenrpcInfoBar,
+    OpenrpcMethods
+  },
   data: () => {
     return {
       navigation: {
         shown: false,
-        width: 372,
+        width: 600,
         borderSize: 3
       }
-    };
+    }
   },
   computed: {
     direction() {
@@ -31,6 +45,9 @@ export default {
     }
   },
   methods: {
+    closeDrawer () {
+      this.$store.commit('showLeftDrawer', false)
+    },
     setBorderWidth() {
       let i = this.$refs.drawer.$el.querySelector(
         ".v-navigation-drawer__border"
