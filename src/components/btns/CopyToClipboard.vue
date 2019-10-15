@@ -1,16 +1,37 @@
 <template>
-  <v-flex>
-    <v-tooltip bottom>
+  <span>
+    <v-tooltip
+      :bottom="tooltip === 'bottom' || !tooltip"
+      :left="tooltip === 'left'"
+      :top="tooltip === 'top'"
+      :right="tooltip === 'right'"
+    >
       <template v-slot:activator="{ on }">
         <v-btn
-          icon
-          small
+          :color="color"
+          :icon="type === 'icon' || !type"
+          :text="type === 'text'"
+          :x-small="btnSize === 'x-small'"
+          :small="btnSize === 'small'"
+          :large="btnSize === 'large'"
+          :x-large="btnSize === 'x-large'"
           v-on="on"
           v-clipboard:copy="copy"
           v-clipboard:success="copySuccess"
           v-clipboard:error="copyError"
         >
-          <v-icon small>mdi-content-copy</v-icon>
+          <v-icon
+            v-if="type === 'icon' || !type"
+            :x-small="iconSize === 'x-small'"
+            :small="iconSize === 'small' || !iconSize"
+            :large="iconSize === 'large'"
+            :x-large="iconSize === 'x-large'"
+          >
+            {{ content || "mdi-content-copy" }}
+          </v-icon>
+          <span v-else>
+            {{ content }}
+          </span>
         </v-btn>
       </template>
       <span>Copy to clipboard.</span>
@@ -39,13 +60,13 @@
         Close
       </v-btn>
     </v-snackbar>
-  </v-flex>
+  </span>
 </template>
 
 <script>
 
 export default {
-  props: ['copy'],
+  props: ['copy', 'tooltip', 'btnSize', 'iconSize', 'color', 'type', 'content'],
   data () {
     return {
       success: false,
