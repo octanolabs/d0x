@@ -16,53 +16,19 @@
         </template>
         <span>Refresh</span>
       </v-tooltip>
-
-      <v-tooltip
-        left
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn icon color="primary" v-on="on" v-clipboard:copy="format(mode)" v-clipboard:success="copySuccess" v-clipboard:error="copyError">
-            <v-icon small>mdi-content-copy</v-icon>
-          </v-btn>
-        </template>
-        <span>Copy to clipboard</span>
-      </v-tooltip>
-
+      <copy-to-clipboard :copy="format(mode)" tooltip="left" color="primary"/>
     </v-card-actions>
     <v-divider />
     <v-card-text class="pa-0">
       <pre v-highlightjs="format(mode)"><code class="javascript w-100 elevation-0"></code></pre>
     </v-card-text>
-    <v-snackbar
-      v-model="snackCopySuccess"
-      color="primary"
-    >
-      Example code has been copied to your clipboard.
-      <v-btn
-        text
-        @click="snackCopySuccess = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
-    <v-snackbar
-      v-model="snackCopyError"
-      color="error"
-    >
-      Unable to copy to clipboard. Copy manually or change browser.
-      <v-btn
-        text
-        @click="snackCopyError = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </v-card>
 </template>
 
 <script>
 import stringifyObject from 'stringify-object'
 import jsf from 'json-schema-faker'
+import CopyToClipboard from '@/components/btns/CopyToClipboard'
 
 export default {
   props: {
@@ -84,6 +50,9 @@ export default {
         return []
       }
     }
+  },
+  components: {
+    CopyToClipboard
   },
   watch: {
     // watch for method prop change
@@ -113,9 +82,7 @@ export default {
   },
   data () {
     return {
-      randParams: [],
-      snackCopySuccess: false,
-      snackCopyError: false
+      randParams: []
     }
   },
   methods: {
@@ -144,12 +111,6 @@ export default {
     },
     refreshParams () {
       this.randParams = this.exampleParams()
-    },
-    copySuccess () {
-      this.snackCopySuccess = true
-    },
-    copyError () {
-      this.snackCopyError = true
     }
   }
 }
