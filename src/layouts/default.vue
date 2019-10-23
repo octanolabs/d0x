@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <left-drawer />
     <v-app-bar
       :clipped-left="true"
       :clipped-right="false"
@@ -10,13 +9,20 @@
       <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
-      >
-        <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
-        <v-icon v-else>mdi-weather-sunny</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
+          >
+            <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
+            <v-icon v-else>mdi-weather-sunny</v-icon>
+          </v-btn>
+        </template>
+        <span>Toggle light/dark mode.</span>
+      </v-tooltip>
+
       <v-menu
         left
         bottom
@@ -106,13 +112,11 @@
 
 <script>
 import RightDrawer from '../components/RightDrawer';
-import LeftDrawer from '../components/LeftDrawer';
 
 export default {
   name: 'App',
   components: {
-    RightDrawer,
-    LeftDrawer
+    RightDrawer
   },
   computed: {
     darkMode () {
