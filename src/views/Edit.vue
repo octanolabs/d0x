@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <left-drawer :methods="methods"/>
+    <left-drawer v-if="modified" :methods="injectedWithMethodId" :apiId="apiId" />
     <v-flex>
       <v-sheet style="width:100%; overflow: hidden;">
         <v-flex>
@@ -49,8 +49,8 @@
 import axios from 'axios'
 import MonacoEditor from 'vue-monaco'
 import $RefParser from 'json-schema-ref-parser'
-import LeftDrawer from '@/components/LeftDrawer';
-import CopyToClipboard from '@/components/btns/CopyToClipboard';
+import LeftDrawer from '@/components/LeftDrawer'
+import CopyToClipboard from '@/components/btns/CopyToClipboard'
 
 export default {
   props: ['apiId'],
@@ -69,10 +69,21 @@ export default {
   },
   computed: {
     theme () {
+      // return monaco editor theme based on vuetify
       return this.$vuetify.theme.dark ? 'vs-dark' : 'vs'
     },
-    methods () {
-      return this.$store.state.methods
+    injectedWithMethodId () {
+      const d = JSON.parse(this.modified)
+      let m = d.methods
+      let count = 0
+      // add a numeric ID to each method
+      for (let method of m) {
+        method.methodId = count
+        m[count] = method
+        count++
+      }
+
+      return m
     }
   },
   data () {
@@ -96,6 +107,8 @@ export default {
   },
   methods: {
     init () {
+      // set editMode true
+      this.$store.commit('setEditMode', true)
       // set jsonURL (fallback: ubiq)
       this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].json : this.$store.state.apis.ubiq.json
       this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].url : this.$store.state.apis.ubiq.url
@@ -140,7 +153,19 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+    },
+    deref (json) {
+      try {
+        let api = $RefParser.dereference(json)
+
+        return api
+      }
+      catch (err) {
+        console.log(err)
+        return json // return un-dereffed json
+      }
     }
   }
 }
+
 </script>

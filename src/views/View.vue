@@ -41,6 +41,8 @@ export default {
   },
   methods: {
     init () {
+      // set editMode false
+      this.$store.commit('setEditMode', false)
       // set jsonURL (fallback: ubiq)
       this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].json : this.$store.state.apis.ubiq.json
       this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].url : this.$store.state.apis.ubiq.url
