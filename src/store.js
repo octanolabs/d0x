@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    editMode: false,
     openrpc: {},
     methods: {},
     schemas: {},
@@ -30,7 +31,7 @@ export default new Vuex.Store({
       }
     },
     showRightDrawer: false,
-    showLeftDrawer: false
+    showLeftDrawer: true
   },
   mutations: {
     setOpenRpc (state, json) {
@@ -56,6 +57,9 @@ export default new Vuex.Store({
     },
     setClientVer (state, payload) {
       state.clientVer = payload
+    },
+    setEditMode (state, payload) {
+      state.editMode = payload
     },
   },
   actions: {

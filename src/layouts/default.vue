@@ -14,6 +14,20 @@
           <v-btn
             v-on="on"
             icon
+            :to="{ name: editModeToggleRoute, params: { apiId: $store.state.api}}"
+          >
+            <v-icon v-if="!editMode">mdi-file-code-outline</v-icon>
+            <v-icon v-else>mdi-file-document</v-icon>
+          </v-btn>
+        </template>
+        <span v-if="!editMode">Enter editor mode.</span>
+        <span v-else>Leave editor mode.</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
             @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark"
           >
             <v-icon v-if="$vuetify.theme.dark">mdi-weather-night</v-icon>
@@ -136,6 +150,12 @@ export default {
     },
     clientVer () {
       return this.$store.state.clientVer
+    },
+    editMode () {
+      return this.$store.state.editMode
+    },
+    editModeToggleRoute () {
+      return !this.$store.state.editMode ? 'Edit' : 'View'
     }
   },
   data: () => ({
