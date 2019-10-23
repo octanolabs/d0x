@@ -8,12 +8,36 @@
         v-for="(item,i) in data"
         :key="i"
       >
-        <v-expansion-panel-header>{{item.name }}</v-expansion-panel-header>
+        <v-expansion-panel-header>{{ item.name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-card flat>
-            <v-card-content>
-              {{ item.summary }}
+            <v-card-content class="text-left">
+              <v-flex class="pa-3">
+                {{ item.summary }}
+              </v-flex>
             </v-card-content>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-tooltip
+                left
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    icon
+                    color="primary"
+                    small
+                    @click.stop="rowSelected(item)"
+                  >
+                    <v-icon>
+                      mdi-unfold-more-vertical
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>See more..</span>
+              </v-tooltip>
+            </v-card-actions>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -35,15 +59,8 @@ export default {
   },
   data () {
     return {
-      search: '',
       expanded: [],
-      showInfoDrawer: false,
-      headers: [
-        { text: '#', value: 'methodId', align: 'left' },
-        { text: 'Method', value: 'name', align: 'left' },
-        { text: 'Summary', value: 'summary', align: 'left' },
-        { text: 'Params', value: 'params', align: 'center' }
-      ]
+      showInfoDrawer: false
     }
   },
   methods: {

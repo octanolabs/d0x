@@ -16,22 +16,18 @@
 </template>
 
 <script>
-import $RefParser from 'json-schema-ref-parser'
-import OpenrpcInfoBar from '@/components/bars/Info'
 import OpenrpcMethods from '@/components/tables/MethodsSlim'
-
 
 export default {
   props: ['apiId', 'methods'],
   components: {
-    OpenrpcInfoBar,
     OpenrpcMethods
   },
   data: () => {
     return {
       navigation: {
         shown: false,
-        width: 600,
+        width: 400,
         borderSize: 3
       }
     }
@@ -76,7 +72,6 @@ export default {
         "mousedown",
         function(e) {
           if (e.offsetX < minSize) {
-            // m_pos = e.x;
             el.style.transition ='initial'; document.addEventListener("mousemove", resize, false);
           }
         },
