@@ -5,7 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    drawers: {
+      left: true,
+      right: false
+    },
     editMode: false,
+
     openrpc: {},
     methods: {},
     schemas: {},
@@ -29,9 +34,7 @@ export default new Vuex.Store({
         desc: 'ETC mainnet',
         url: 'https://etc-geth.0xinfra.com'
       }
-    },
-    showRightDrawer: false,
-    showLeftDrawer: true
+    }
   },
   mutations: {
     setOpenRpc (state, json) {
@@ -46,11 +49,9 @@ export default new Vuex.Store({
     setMethod (state, payload) {
       state.method = payload
     },
-    showRightDrawer (state, show) {
-      state.showRightDrawer = show
-    },
-    showLeftDrawer (state, show) {
-      state.showLeftDrawer = show
+    toggleDrawer (state, side) {
+      // side: 'left' or 'right'
+      state.drawers[side] = !state.drawers[side]
     },
     setApi (state, payload) {
       state.api = state.apis[payload] ? payload : 'ubiq'

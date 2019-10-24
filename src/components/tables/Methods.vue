@@ -65,8 +65,8 @@ export default {
   methods: {
     rowSelected (item) {
       this.$store.commit('setMethod', item)
-      if (!this.$store.state.showRightDrawer) {
-        this.$store.commit('showRightDrawer', true)
+      if (!this.$store.state.drawers.right) {
+        this.$store.commit('toggleDrawer', 'right')
       }
     }
   }

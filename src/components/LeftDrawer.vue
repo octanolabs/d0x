@@ -34,16 +34,13 @@ export default {
   },
   computed: {
     direction() {
-      return this.$store.state.showLeftDrawer === false ? "Open" : "Closed";
+      return this.$store.state.drawers.left === false ? "Open" : "Closed";
     },
     show () {
-      return this.$store.state.showLeftDrawer
+      return this.$store.state.drawers.left
     }
   },
   methods: {
-    closeDrawer () {
-      this.$store.commit('showLeftDrawer', false)
-    },
     setBorderWidth() {
       let i = this.$refs.drawer.$el.querySelector(
         ".v-navigation-drawer__border"

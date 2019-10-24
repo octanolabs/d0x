@@ -58,13 +58,13 @@ export default {
       return this.$store.state.methods
     },
     direction() {
-      return this.$store.state.showRightDrawer === false ? "Open" : "Closed";
+      return this.$store.state.drawers.right === false ? "Open" : "Closed";
     },
     selected () {
       return this.$store.state.method
     },
     show () {
-      return this.$store.state.showRightDrawer
+      return this.$store.state.drawers.right
     },
     total () {
       return this.$store.state.methods.length
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     closeDrawer () {
-      this.$store.commit('showRightDrawer', false)
+      this.$store.commit('toggleDrawer', 'right')
     },
     canSkipPrev () {
       return !this.selected.methodId > 0

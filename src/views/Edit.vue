@@ -2,42 +2,8 @@
   <v-layout>
     <left-drawer v-if="modified" :methods="injectedWithMethodId" :apiId="apiId" />
     <v-flex>
-      <v-btn
-        color="secondary"
-        @click.stop="toggleLeftDrawer()"
-        class="drawer-handle left"
-      >
-        <v-icon
-          v-if="$store.state.showLeftDrawer"
-          class="pl-0 pr-2"
-        >
-          mdi-chevron-left
-        </v-icon>
-        <v-icon
-          v-else
-          class="pl-0 pr-2"
-        >
-          mdi-chevron-right
-        </v-icon>
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click.stop="toggleRightDrawer()"
-        class="drawer-handle right"
-      >
-        <v-icon
-          v-if="$store.state.showRightDrawer"
-          class="pl-2 pr-0"
-        >
-          mdi-chevron-right
-        </v-icon>
-        <v-icon
-          v-else
-          class="pl-2 pr-0"
-        >
-          mdi-chevron-left
-        </v-icon>
-      </v-btn>
+      <drawer-handle side="left" />
+      <drawer-handle side="right" />
       <v-sheet style="width:100%; overflow:hidden;">
         <v-flex>
           <v-toolbar dense color="#212121" class="elevation-0">
@@ -87,13 +53,15 @@ import MonacoEditor from 'vue-monaco'
 import $RefParser from 'json-schema-ref-parser'
 import LeftDrawer from '@/components/LeftDrawer'
 import CopyToClipboard from '@/components/btns/CopyToClipboard'
+import DrawerHandle from '@/components/btns/DrawerHandle'
 
 export default {
   props: ['apiId'],
   components: {
     MonacoEditor,
     LeftDrawer,
-    CopyToClipboard
+    CopyToClipboard,
+    DrawerHandle
   },
   watch: {
     apiId: function () {
@@ -189,12 +157,6 @@ export default {
         .catch((e) => {
           console.log(e)
         })
-    },
-    toggleLeftDrawer () {
-      this.$store.commit('showLeftDrawer', !this.$store.state.showLeftDrawer)
-    },
-    toggleRightDrawer () {
-      this.$store.commit('showRightDrawer', !this.$store.state.showRightDrawer)
     },
     deref (json) {
       try {
