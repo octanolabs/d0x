@@ -13,7 +13,7 @@
                 Editor
               </v-tab>
               <v-tab ripple>
-                <v-icon small class="mr-1">mdi-compare</v-icon>
+                <v-icon small class="mr-1">mdi-file-compare</v-icon>
                 Diff
               </v-tab>
             </v-tabs>
