@@ -6,12 +6,12 @@
     clipped
     :width="navigation.width"
     :value="show"
-    >
-      <v-flex class="text-center">
-        <v-sheet style="width:100%; overflow: hidden;">
-          <openrpc-methods :data="methods" :api="apiId"/>
-        </v-sheet>
-      </v-flex>
+  >
+    <v-flex class="text-center">
+      <v-sheet style="width:100%; overflow: hidden;">
+        <openrpc-methods :data="methods" :api="apiId"/>
+      </v-sheet>
+    </v-flex>
   </v-navigation-drawer>
 </template>
 
