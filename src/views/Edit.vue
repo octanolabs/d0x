@@ -26,6 +26,7 @@
           <v-tabs-items v-model="tab">
             <v-tab-item key="Editor">
               <MonacoEditor
+                ref="editor"
                 :options="editorOptions"
                 class="editor"
                 v-model="modified"
@@ -103,12 +104,16 @@ export default {
       editorOptions: {
         automaticLayout: true, // polls parent container size every 100ms and resizes if changed.
         scrollBeyondLastLine: false,
+        folding: true,
+        showFoldingControls: 'mouseover',
+        foldingStrategy: 'indentation'
       },
       diffEditorOptions: {
         followsCaret: true, // resets the navigator state when the user selects something in the editor
         ignoreCharChanges: true,
         scrollBeyondLastLine: false,
-        automaticLayout: true
+        automaticLayout: true,
+        
       }
     }
   },
@@ -160,6 +165,9 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+    },
+    goto (line) {
+      this.$refs.editor.revealLine(88)
     },
     deref (json) {
       try {
