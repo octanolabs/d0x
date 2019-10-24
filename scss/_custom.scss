@@ -101,5 +101,41 @@ p>code {
 }
 
 .editor {
-  height: calc(100vh - 158px);
+  height: calc(100vh - 143px);
+}
+
+.theme--dark.v-tabs > .v-tabs-bar {
+  background-color: $transparent !important;
+}
+
+.drawer-handle {
+  position: absolute;
+  top: calc(50vh - 60px);
+  z-index: 2;
+  height: 40px !important;
+  width: 20px !important;
+  min-width: 10px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0.5;
+  text-align: center !important;
+  overflow: hidden;
+}
+
+.drawer-handle:hover {
+  opacity: 1;
+}
+
+.drawer-handle .v-btn__content {
+  overflow: hidden;
+}
+
+.drawer-handle.left {
+  left: 0;
+  border-radius: 0 20px 20px 0;
+}
+
+.drawer-handle.right {
+  right: 0;
+  border-radius: 20px 0 0 20px;
 }
