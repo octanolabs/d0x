@@ -22,6 +22,24 @@
               v-if="tab === 0"
               :copy="modified"
             />
+            <span v-if="tab === 1 && diffNavi" style="height:48px;display:flex;">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon @click.stop="diffNavi.previous()" v-on="on" :disabled="!diffNavi.canNavigate()">
+                    <v-icon>mdi-skip-previous</v-icon>
+                  </v-btn>
+                </template>
+                <span>Previous.</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon @click.stop="diffNavi.next()" v-on="on" :disabled="!diffNavi.canNavigate()">
+                    <v-icon>mdi-skip-next</v-icon>
+                  </v-btn>
+                </template>
+                <span>Next.</span>
+              </v-tooltip>
+            </span>
           </v-toolbar>
           <v-tabs-items v-model="tab">
             <v-tab-item key="Editor">
@@ -36,13 +54,17 @@
             </v-tab-item>
             <v-tab-item key="Diff">
               <MonacoEditor
+                ref="diffEditor"
                 :options="diffEditorOptions"
                 :diffEditor="true"
                 class="editor"
                 v-model="modified"
                 :original="original"
                 :theme="theme"
-                language="json"/>
+                language="json"
+                @editorWillMount="diffEditorWillMount"
+                @editorDidMount="diffEditorDidMount"
+              />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -101,6 +123,8 @@ export default {
       original: '',
       modified: '',
       tab: 0,
+      monaco: null,
+      diffNavi: null,
       editorOptions: {
         automaticLayout: true, // polls parent container size every 100ms and resizes if changed.
         scrollBeyondLastLine: false,
@@ -113,7 +137,7 @@ export default {
         ignoreCharChanges: true,
         scrollBeyondLastLine: false,
         automaticLayout: true,
-        
+        readOnly: true
       }
     }
   },
@@ -166,8 +190,11 @@ export default {
           console.log(e)
         })
     },
-    goto (line) {
-      this.$refs.editor.revealLine(88)
+    diffEditorWillMount (monaco) {
+      this.monaco = monaco
+    },
+    diffEditorDidMount (editor) {
+      this.diffNavi = this.monaco.editor.createDiffNavigator(editor)
     },
     deref (json) {
       try {
