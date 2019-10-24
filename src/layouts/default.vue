@@ -14,7 +14,7 @@
           <v-btn
             v-on="on"
             icon
-            :to="{ name: editModeToggleRoute, params: { apiId: $store.state.api}}"
+            :to="{ name: editModeToggleRoute, params: { apiId: $store.state.apiId}}"
           >
             <v-icon v-if="!editMode">mdi-file-code-outline</v-icon>
             <v-icon v-else>mdi-file-document</v-icon>
@@ -51,9 +51,9 @@
             :color="$vuetify.theme.dark ? '#333' : '#d6d6d6'"
           >
             <v-avatar size="24px" left flat>
-              <img :src="require('../assets/apis/' + selectedApi.icon)" height="16px" style="height:16px;"/>
+              <img :src="require('../assets/apis/' + selectedApi.info.icon)" height="16px" style="height:16px;"/>
             </v-avatar>
-            {{ selectedApi.title }}
+            {{ selectedApi.info.title }}
             <v-spacer />
             <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
@@ -62,19 +62,19 @@
           <v-list-item
             v-for="(item, i) in apis"
             :key="i"
-            :to="editMode ? '/edit' + item.to : item.to"
+            :to="editMode ? '/edit' + item.info.to : item.info.to"
             nav
             router
           >
             <v-list-item-action>
               <v-avatar :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'" class="elevation-2">
-                <img :src="require('../assets/apis/' + item.icon)" height="24px" style="height:32px;"/>
+                <img :src="require('../assets/apis/' + item.info.icon)" height="24px" style="height:32px;"/>
               </v-avatar>
             </v-list-item-action>
             <v-list-item-content class="api-item-content-expanded">
-              <v-list-item-title v-text="item.title" />
-              <v-list-item-subtitle v-text="item.url" />
-              <v-list-item-subtitle v-text="item.desc" />
+              <v-list-item-title v-text="item.info.title" />
+              <v-list-item-subtitle v-text="item.info.url" />
+              <v-list-item-subtitle v-text="item.info.desc" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -140,13 +140,13 @@ export default {
       return this.$store.state.apis
     },
     jsonPath () {
-      return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].json : ''
+      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.json : ''
     },
     url () {
-      return this.$store.state.apis[this.$store.state.api] ? this.$store.state.apis[this.$store.state.api].url : false
+      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.url : false
     },
     selectedApi () {
-      return this.$store.state.api ? this.$store.state.apis[this.$store.state.api] : this.$store.state.apis['ubiq']
+      return this.$store.state.apiId ? this.$store.state.apis[this.$store.state.apiId] : this.$store.state.apis['ubiq']
     },
     clientVer () {
       return this.$store.state.clientVer

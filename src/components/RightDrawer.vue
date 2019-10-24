@@ -55,19 +55,19 @@ export default {
   },
   computed: {
     methods () {
-      return this.$store.state.methods
+      return this.$store.state.apis[this.$store.state.apiId].openrpc.original.deref.methods
     },
     direction() {
       return this.$store.state.drawers.right === false ? "Open" : "Closed";
     },
     selected () {
-      return this.$store.state.method
+      return this.$store.state.apis[this.$store.state.apiId].selected
     },
     show () {
       return this.$store.state.drawers.right
     },
     total () {
-      return this.$store.state.methods.length
+      return this.$store.state.apis[this.$store.state.apiId].openrpc.original.deref.methods.length
     }
   },
   methods: {
@@ -81,10 +81,10 @@ export default {
       return this.selected.methodId >= this.total - 1
     },
     prevOperation () {
-      this.$store.commit('setMethod', this.methods[ this.selected.methodId - 1 ])
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.methods[ this.selected.methodId - 1 ]})
     },
     nextOperation () {
-      this.$store.commit('setMethod', this.methods[ this.selected.methodId + 1 ])
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.methods[ this.selected.methodId + 1 ]})
     },
     setBorderWidth() {
       let i = this.$refs.drawer.$el.querySelector(

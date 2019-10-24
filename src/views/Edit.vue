@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <left-drawer v-if="modified" :methods="injectedWithMethodId" :apiId="apiId" />
+    <left-drawer v-if="dereffed" :methods="dereffed.methods" :apiId="apiId" />
     <v-flex>
       <drawer-handle side="left" />
       <drawer-handle side="right" />
@@ -76,7 +76,6 @@
 <script>
 import axios from 'axios'
 import MonacoEditor from 'vue-monaco'
-import $RefParser from 'json-schema-ref-parser'
 import LeftDrawer from '@/components/LeftDrawer'
 import CopyToClipboard from '@/components/btns/CopyToClipboard'
 import DrawerHandle from '@/components/btns/DrawerHandle'
@@ -102,27 +101,28 @@ export default {
       // return monaco editor theme based on vuetify
       return this.$vuetify.theme.dark ? 'vs-dark' : 'vs'
     },
-    injectedWithMethodId () {
-      const d = JSON.parse(this.modified)
-      let m = d.methods
-      let count = 0
-      // add a numeric ID to each method
-      for (let method of m) {
-        method.methodId = count
-        m[count] = method
-        count++
+    original () {
+      return JSON.stringify(this.$store.state.apis[this.$store.state.apiId].openrpc.original.schema, null, 2)
+    },
+    modified: {
+      get: function () {
+        this.dereffed = this.$store.state.apis[this.apiId].openrpc.modified.deref
+        return JSON.stringify(this.$store.state.apis[this.$store.state.apiId].openrpc.modified.schema, null, 2)
+      },
+      set: function (updated) {
+        this.$store.commit('setOpenRpcModified', {
+          apiId: this.apiId,
+          json: JSON.parse(updated)
+        })
       }
-
-      return m
-    }
+    },
   },
   data () {
     return {
       jsonUrl: '',
       endpoint: '',
-      original: '',
-      modified: '',
       tab: 0,
+      dereffed: {},
       monaco: null,
       diffNavi: null,
       editorOptions: {
@@ -145,67 +145,41 @@ export default {
     init () {
       // set editMode true
       this.$store.commit('setEditMode', true)
+      this.$store.commit('setApiId', this.apiId)
       // set jsonURL (fallback: ubiq)
-      this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].json : this.$store.state.apis.ubiq.json
-      this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].url : this.$store.state.apis.ubiq.url
+      this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.ubiq.info.json
+      this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.url : this.$store.state.apis.ubiq.info.url
       this.discover()
     },
     discover () {
-      axios.get(this.jsonUrl)
-        .then((r) => {
-          console.log(r)
-          if (r.data.openrpc) {
-            // orginal (unmodified) source openrpc.json
-            this.original = JSON.stringify(r.data, null, 2)
-            // v-model used by editor (separate so we can use diff editor)
-            this.modified  = this.original
-
-            // de-ref openrpc document
-            $RefParser.dereference(r.data, (err, schema) => {
-              if (err) {
-                console.log(err)
-              } else {
-                const schemas = schema.components.schemas
-                const methods = schema.methods
-                // add api endpoint to openrpc.info
-                schema.info.url = this.endpoint
-
-                let count = 0
-                // add a numeric ID to each method
-                for (const method of methods) {
-                  method.methodId = count
-                  methods[count] = method
-                  count++
-                }
-                // update state
-                this.$store.commit('setOpenRpc', schema)
-                this.$store.commit('setSchemas', schemas)
-                this.$store.commit('setApi', this.apiId)
-                this.$store.commit('setMethods', methods)
-              }
-            })
-          }
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      if (!this.$store.state.apis[this.apiId].openrpc.original.schema.info) {
+        axios.get(this.jsonUrl)
+          .then((r) => {
+            if (r.data.openrpc) {
+              // store original schema in state
+              this.$store.commit('setOpenRpcOriginal', {apiId: this.apiId, json: r.data, modified: true})
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } else {
+        // original already exists, check modified
+        if (!this.$store.state.apis[this.apiId].openrpc.modified.schema.info) {
+          // re init with modified: true
+          this.$store.commit('setOpenRpcOriginal', {
+            apiId: this.apiId,
+            json: this.$store.state.apis[this.apiId].openrpc.original.schema,
+            modified: true
+          })
+        }
+      }
     },
     diffEditorWillMount (monaco) {
       this.monaco = monaco
     },
     diffEditorDidMount (editor) {
       this.diffNavi = this.monaco.editor.createDiffNavigator(editor)
-    },
-    deref (json) {
-      try {
-        let api = $RefParser.dereference(json)
-
-        return api
-      }
-      catch (err) {
-        console.log(err)
-        return json // return un-dereffed json
-      }
     }
   }
 }

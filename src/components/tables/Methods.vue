@@ -44,16 +44,15 @@ export default {
   props: ['data', 'api'],
   computed: {
     selectedId () {
-      return this.$store.state.method.methodId
+      return this.$store.state.apis[this.$store.state.apiId].selected.methodId
     },
     selectedApi () {
-      return this.$store.state.api
+      return this.$store.state.apiId
     }
   },
   data () {
     return {
       search: '',
-      showInfoDrawer: false,
       headers: [
         { text: '#', value: 'methodId', align: 'left' },
         { text: 'Method', value: 'name', align: 'left' },
@@ -64,7 +63,7 @@ export default {
   },
   methods: {
     rowSelected (item) {
-      this.$store.commit('setMethod', item)
+      this.$store.commit('setSelected', { apiId: this.api, method: item })
       if (!this.$store.state.drawers.right) {
         this.$store.commit('toggleDrawer', 'right')
       }
