@@ -18,7 +18,10 @@
               </v-tab>
             </v-tabs>
             <v-spacer />
-            <copy-to-clipboard :copy="modified"/>
+            <copy-to-clipboard
+              v-if="tab === 0"
+              :copy="modified"
+            />
           </v-toolbar>
           <v-tabs-items v-model="tab">
             <v-tab-item key="Editor">
