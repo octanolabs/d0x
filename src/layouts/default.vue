@@ -62,7 +62,7 @@
           <v-list-item
             v-for="(item, i) in apis"
             :key="i"
-            :to="item.to"
+            :to="editMode ? '/edit' + item.to : item.to"
             nav
             router
           >
