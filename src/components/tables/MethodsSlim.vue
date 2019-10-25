@@ -48,7 +48,7 @@ export default {
   props: ['data', 'api'],
   computed: {
     selectedId () {
-      return this.$store.state.apis[this.$store.state.apiId].selected.methodId
+      return this.$store.state.apis[this.$store.state.apiId].selected
     },
     selectedApi () {
       return this.$store.state.apiId

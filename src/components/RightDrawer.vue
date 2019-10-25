@@ -12,6 +12,7 @@
         <v-btn
           icon
           @click.stop="closeDrawer"
+          v-if="!editMode"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -55,19 +56,25 @@ export default {
   },
   computed: {
     methods () {
-      return this.$store.state.apis[this.$store.state.apiId].openrpc.original.deref.methods
+      return this.$store.state.apis[this.$store.state.apiId].openrpc[this.openrpcType].deref.methods || []
     },
     direction() {
       return this.$store.state.drawers.right === false ? "Open" : "Closed";
     },
     selected () {
-      return this.$store.state.apis[this.$store.state.apiId].selected
+      return this.methods[this.$store.state.apis[this.$store.state.apiId].selected]
     },
     show () {
       return this.$store.state.drawers.right
     },
     total () {
-      return this.$store.state.apis[this.$store.state.apiId].openrpc.original.deref.methods.length
+      return this.methods.length
+    },
+    editMode () {
+      return this.$store.state.editMode
+    },
+    openrpcType () {
+      return this.$store.state.editMode ? 'modified' : 'original'
     }
   },
   methods: {
@@ -81,10 +88,10 @@ export default {
       return this.selected.methodId >= this.total - 1
     },
     prevOperation () {
-      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.methods[ this.selected.methodId - 1 ]})
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected.methodId - 1 })
     },
     nextOperation () {
-      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.methods[ this.selected.methodId + 1 ]})
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected.methodId + 1 })
     },
     setBorderWidth() {
       let i = this.$refs.drawer.$el.querySelector(
