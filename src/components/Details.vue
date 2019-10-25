@@ -72,9 +72,9 @@
 </template>
 
 <script>
-import OpenrpcParam from './cards/Param'
-import OpenrpcRequest from './cards/Request'
-import OpenrpcResponse from './cards/Response'
+import OpenrpcParam from '@/components/cards/Param'
+import OpenrpcRequest from '@/components/cards/Request'
+import OpenrpcResponse from '@/components/cards/Response'
 
 export default {
   props: ['selected'], // selected method
