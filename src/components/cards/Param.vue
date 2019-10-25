@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title>
-      <span class="title">{{ item.name }}</span>
+      <span class="title">{{ item.name || name }}</span>
       <v-spacer />
       <v-tooltip
         v-if="schema.oneOf"
@@ -29,7 +29,7 @@
         <span>Required</span>
       </v-tooltip>
     </v-card-title>
-    <v-card-text v-if="!schema.oneOf">
+    <v-card-text v-if="!schema.oneOf" class="text-left">
       <div v-if="desc" v-html="$md.render(desc)"></div>
     </v-card-text>
     <v-card-actions v-if="!schema.oneOf">
@@ -45,7 +45,7 @@
         class="ma-2"
         outlined
       >
-        <v-card-text>
+        <v-card-text class="text-left">
           <div v-if="item.description" v-html="$md.render(item.description)"></div>
         </v-card-text>
         <v-card-actions>
@@ -73,13 +73,22 @@
 <script>
 
 export default {
-  props: ['item'],
+  props: {
+    item: {  // Param or Schema object (dereffed)
+      required: true,
+      type: Object
+    },
+    name: { // pass name if item == openrpc.components.schemas[n]
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     desc () {
       return this.item.description || this.item.schema.description
     },
     schema () {
-      return this.item.schema
+      return this.item.schema || this.item
     }
   }
 }
