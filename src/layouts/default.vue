@@ -52,7 +52,7 @@
           >
             <span v-if="selectedApi.info">
               <v-avatar size="24px" left flat>
-                <img :src="require('../assets/apis/' + selectedApi.info.icon)" height="16px" style="height:16px;"/>
+                <img :src="require('../assets/' + selectedApi.info.icon)" height="16px" style="height:16px;width:16px;"/>
               </v-avatar>
               {{ selectedApi.info.title }}
             </span>
@@ -71,7 +71,7 @@
           >
             <v-list-item-action>
               <v-avatar :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'" class="elevation-2">
-                <img :src="require('../assets/apis/' + item.info.icon)" height="24px" style="height:32px;"/>
+                <img :src="require('../assets/' + item.info.icon)" height="40px" style="height:40px;width:40px;"/>
               </v-avatar>
             </v-list-item-action>
             <v-list-item-content class="api-item-content-expanded">
