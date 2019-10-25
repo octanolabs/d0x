@@ -4,7 +4,7 @@
     outlined
   >
     <v-card-title>
-      <span class="title">{{ item.name || name }}</span>
+      <span class="title">{{ name || item.name }}</span>
       <v-spacer />
       <v-tooltip
         v-if="schema.oneOf"
@@ -29,8 +29,9 @@
         <span>Required</span>
       </v-tooltip>
     </v-card-title>
-    <v-card-text v-if="!schema.oneOf" class="text-left">
-      <div v-if="desc" v-html="$md.render(desc)"></div>
+    <v-card-text class="text-left">
+      <div v-if="item.description" v-html="$md.render(item.description)"></div>
+      <div v-else-if="desc" v-html="$md.render(desc)"></div>
     </v-card-text>
     <v-card-actions v-if="!schema.oneOf">
       <v-btn color="primary">{{ schema.type }}</v-btn>
@@ -45,6 +46,9 @@
         class="ma-2"
         outlined
       >
+        <v-card-title>
+          <span class="title">{{ item.name }}</span>
+        </v-card-title>
         <v-card-text class="text-left">
           <div v-if="item.description" v-html="$md.render(item.description)"></div>
         </v-card-text>
