@@ -54,12 +54,6 @@ export default {
       return this.$store.state.apiId
     }
   },
-  data () {
-    return {
-      expanded: [],
-      showInfoDrawer: false
-    }
-  },
   methods: {
     rowSelected (item) {
       this.$store.commit('setSelected', { apiId: this.api, method: item })
