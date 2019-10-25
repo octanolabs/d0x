@@ -119,3 +119,7 @@ p>code {
 .v-app-bar.v-app-bar--fixed {
   z-index: 12 !important;
 }
+
+.v-navigation-drawer__border {
+  z-index: 2 !important;
+}
