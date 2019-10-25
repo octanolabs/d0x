@@ -107,3 +107,15 @@ p>code {
 .theme--dark.v-tabs > .v-tabs-bar {
   background-color: $transparent !important;
 }
+
+.v-navigation-drawer--fixed {
+    z-index: 13 !important;
+}
+
+.v-navigation-drawer--clipped {
+  z-index: 11 !important;
+}
+
+.v-app-bar.v-app-bar--fixed {
+  z-index: 12 !important;
+}
