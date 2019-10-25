@@ -16,7 +16,7 @@
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Method ( {{ selected.methodId + 1 }} / {{ total }} )</v-toolbar-title>
+        <v-toolbar-title>Method ( {{ selected + 1 }} / {{ total }} )</v-toolbar-title>
         <v-spacer />
         <v-btn
           icon
@@ -34,7 +34,7 @@
         </v-btn>
       </v-toolbar>
     </v-flex>
-    <method-details :selected="selected"/>
+    <method-details v-if="methods[selected]" :selected="methods[selected]"/>
   </v-navigation-drawer>
 </template>
 
@@ -59,10 +59,10 @@ export default {
       return this.$store.state.apis[this.$store.state.apiId].openrpc[this.openrpcType].deref.methods || []
     },
     direction() {
-      return this.$store.state.drawers.right === false ? "Open" : "Closed";
+      return this.$store.state.drawers.right === false ? "Open" : "Closed"
     },
     selected () {
-      return this.methods[this.$store.state.apis[this.$store.state.apiId].selected]
+      return this.$store.state.apis[this.$store.state.apiId].selected || 0
     },
     show () {
       return this.$store.state.drawers.right
@@ -82,16 +82,16 @@ export default {
       this.$store.commit('toggleDrawer', 'right')
     },
     canSkipPrev () {
-      return !this.selected.methodId > 0
+      return !this.selected > 0
     },
     canSkipNext () {
-      return this.selected.methodId >= this.total - 1
+      return this.selected >= this.total - 1
     },
     prevOperation () {
-      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected.methodId - 1 })
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected - 1 })
     },
     nextOperation () {
-      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected.methodId + 1 })
+      this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected + 1 })
     },
     setBorderWidth() {
       let i = this.$refs.drawer.$el.querySelector(
