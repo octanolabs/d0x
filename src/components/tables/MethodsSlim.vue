@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-expansion-panels>
+    <v-expansion-panels
+      accordion
+    >
       <v-expansion-panel
         v-for="(item,i) in data"
         :key="i"
