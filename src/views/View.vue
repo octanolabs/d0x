@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <v-sheet style="width:100%; overflow: hidden;">
+      <v-sheet style="width:100%; overflow: hidden;" v-if="deref.info">
         <openrpc-info-bar :info="deref.info" :endpoint="endpoint"/>
         <openrpc-methods :data="deref.methods" :api="apiId"/>
       </v-sheet>

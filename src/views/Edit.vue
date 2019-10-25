@@ -1,6 +1,11 @@
 <template>
   <v-layout>
-    <left-drawer v-if="dereffed" :methods="dereffed.methods" :apiId="apiId" />
+    <left-drawer
+      v-if="dereffed.components"
+      :methods="dereffed.methods"
+      :schemas="dereffed.components.schemas"
+      :descriptors="dereffed.components.contentDescriptors"
+      :apiId="apiId" />
     <v-flex>
       <drawer-handle side="left" />
       <drawer-handle side="right" />
