@@ -9,7 +9,7 @@
       <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="selectedApi">
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -50,10 +50,13 @@
             width="250px"
             :color="$vuetify.theme.dark ? '#333' : '#d6d6d6'"
           >
-            <v-avatar size="24px" left flat>
-              <img :src="require('../assets/apis/' + selectedApi.info.icon)" height="16px" style="height:16px;"/>
-            </v-avatar>
-            {{ selectedApi.info.title }}
+            <span v-if="selectedApi.info">
+              <v-avatar size="24px" left flat>
+                <img :src="require('../assets/apis/' + selectedApi.info.icon)" height="16px" style="height:16px;"/>
+              </v-avatar>
+              {{ selectedApi.info.title }}
+            </span>
+            <span v-else>Select an API...</span>
             <v-spacer />
             <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
@@ -146,7 +149,7 @@ export default {
       return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.url : false
     },
     selectedApi () {
-      return this.$store.state.apiId ? this.$store.state.apis[this.$store.state.apiId] : this.$store.state.apis['ubiq']
+      return this.$store.state.apiId ? this.$store.state.apis[this.$store.state.apiId] : false
     },
     clientVer () {
       return this.$store.state.clientVer

@@ -11,7 +11,7 @@ export default new Vuex.Store({
       right: false
     },
     editMode: false,
-    apiId: 'ubiq',
+    apiId: '',
     apis: {
       ubiq: {
         openrpc: {
