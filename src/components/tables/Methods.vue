@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     rowSelected (item) {
-      this.$store.commit('setSelected', { apiId: this.api, method: item })
+      this.$store.commit('setSelected', { apiId: this.api, method: item.methodId })
       if (!this.$store.state.drawers.right) {
         this.$store.commit('toggleDrawer', 'right')
       }

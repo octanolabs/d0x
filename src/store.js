@@ -45,7 +45,7 @@ export default new Vuex.Store({
             deref: {}
           }
         },
-        selected: {}, // selected method (dereffed)
+        selected: 0, // selected methodId
         info: {
           to: '/etc',
           icon: 'etc.svg',
