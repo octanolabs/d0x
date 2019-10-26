@@ -7,7 +7,7 @@
         v-for="(item,i) in data"
         :key="i"
       >
-        <v-expansion-panel-header>{{ item.name }}</v-expansion-panel-header>
+        <v-expansion-panel-header hide-actions>{{ item.name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-card class="text-left" flat>
             <v-flex class="pa-3">
