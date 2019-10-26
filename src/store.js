@@ -72,14 +72,12 @@ export default new Vuex.Store({
       if ( payload.modified ) {
         state.apis[payload.apiId].openrpc.document.modified.schema = payload.json
       }
-
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
       JSRP.dereference(JSON.parse(JSON.stringify(payload.json)), (err, deref) => {
         if (err) {
           console.log(err)
         } else {
           let methods = deref.methods
-
           // add a numeric ID to each method
           let count = 0
           for (let method of methods) {
@@ -87,7 +85,6 @@ export default new Vuex.Store({
             methods[count] = method
             count++
           }
-
           state.apis[payload.apiId].openrpc.document.original.deref = deref
           if ( payload.modified ) {
             state.apis[payload.apiId].openrpc.document.modified.deref = deref
@@ -97,13 +94,13 @@ export default new Vuex.Store({
     },
     setOpenRpcModified (state, payload) {
       state.apis[payload.apiId].openrpc.document.modified.schema = payload.json
+      state.apis[payload.apiId].openrpc.error = false // reset error
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
       JSRP.dereference(JSON.parse(JSON.stringify(payload.json)), (err, deref) => {
         if (err) {
           console.log(err)
         } else {
           let methods = deref.methods
-
           // add a numeric ID to each method
           let count = 0
           for (let method of methods) {
