@@ -218,10 +218,28 @@ export default {
     },
     // write to state using change event, it's much smoother than v-model set.
     editorContentDidChange (value) {
-      this.$store.commit('setOpenRpcModified', {
-        apiId: this.apiId,
-        json: JSON.parse(value)
-      })
+      // check json for errors
+      let test = this.parseJson(value)
+      if (!test.err) {
+        this.$store.commit('setOpenRpcModified', {
+          apiId: this.apiId,
+          json: test.json
+        })
+      } else {
+        this.$store.commit('setOpenRpcError', {
+          apiId: this.apiId,
+          err: test.err
+        })
+      }
+    },
+    parseJson (str) {
+      let json = {}
+      try {
+        json = JSON.parse(str);
+      } catch (e) {
+        return {err: e, json: null}
+      }
+      return {err: null, json: json}
     },
     toggleDiffEditorSplitView () {
       // update diff editor instance options

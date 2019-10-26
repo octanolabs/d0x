@@ -115,6 +115,9 @@ export default new Vuex.Store({
         }
       })
     },
+    setOpenRpcError (state, payload) {
+      state.apis[payload.apiId].openrpc.error = payload.err
+    },
     setSelected (state, payload) {
       state.apis[payload.apiId].selected = payload.method
     },
@@ -130,7 +133,7 @@ export default new Vuex.Store({
     },
     setEditMode (state, payload) {
       state.editMode = payload
-    },
+    }
   },
   actions: {
 

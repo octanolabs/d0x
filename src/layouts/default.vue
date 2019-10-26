@@ -90,7 +90,21 @@
     <v-footer
       app
     >
-      <v-tooltip top>
+      <v-tooltip top v-if="selectedApi.openrpc">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            small
+            v-on="on"
+          >
+            <v-icon x-small class="mr-2">mdi-alert-circle</v-icon>
+            {{ selectedApi.openrpc.error ? '1' : '0' }}
+          </v-btn>
+        </template>
+        <span>{{ selectedApi.openrpc.error || 'No errors' }}</span>
+      </v-tooltip>
+      <v-tooltip v-if="jsonPath" top>
         <template v-slot:activator="{ on }">
           <v-btn
             text
@@ -100,7 +114,6 @@
             target="_blank"
             v-on="on"
           >
-            <img :src="require('../assets/openrpc.png')" height="20px" class="mr-2"/>
             {{ jsonPath }}
           </v-btn>
         </template>
