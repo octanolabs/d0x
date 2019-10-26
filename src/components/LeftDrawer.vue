@@ -22,14 +22,14 @@
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item key="Methods">
-            <openrpc-methods :data="methods" :api="apiId"/>
+            <openrpc-methods :data="methods" :apiId="apiId"/>
           </v-tab-item>
           <v-tab-item key="Schemas">
             <v-flex
               v-for="(item, i) in schemas"
               :key="i"
             >
-              <openrpc-schema :item="item" :name="i"/>
+              <openrpc-param :item="item" :name="i"/>
             </v-flex>
           </v-tab-item>
           <v-tab-item key="Descriptors">
@@ -37,7 +37,7 @@
               v-for="(item, i) in descriptors"
               :key="i"
             >
-              <openrpc-schema :item="item" :name="i"/>
+              <openrpc-param :item="item" :name="i"/>
             </v-flex>
           </v-tab-item>
         </v-tabs-items>
@@ -47,21 +47,21 @@
 </template>
 
 <script>
-import OpenrpcMethods from '@/components/tables/MethodsSlim'
-import OpenrpcSchema from '@/components/cards/Param'
+import OpenrpcMethods from '@/components/accordion/Methods'
+import OpenrpcParam from '@/components/cards/Param'
 
 export default {
   props: ['apiId', 'methods', 'schemas', 'descriptors'],
   components: {
     OpenrpcMethods,
-    OpenrpcSchema
+    OpenrpcParam
   },
   data: () => {
     return {
       tab: 0,
       navigation: {
         shown: false,
-        width: 400,
+        width: 372,
         borderSize: 3
       }
     }
