@@ -27,10 +27,18 @@
               v-if="tab === 0"
               :copy="modified"
             />
-            <span v-if="tab === 1 && diffNavi" style="height:48px;display:flex;">
+            <span v-if="tab === 1 && editors.diff.nav.instance" style="height:48px;display:flex;">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon @click.stop="diffNavi.previous()" v-on="on" :disabled="!diffNavi.canNavigate()">
+                  <v-btn icon @click.stop="toggleDiffEditorSplitView()" v-on="on">
+                    <v-icon>mdi-file-compare</v-icon>
+                  </v-btn>
+                </template>
+                <span>Toggle split view.</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon @click.stop="editors.diff.nav.instance.previous()" v-on="on" :disabled="!editors.diff.nav.instance.canNavigate()">
                     <v-icon>mdi-skip-previous</v-icon>
                   </v-btn>
                 </template>
@@ -38,7 +46,7 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon @click.stop="diffNavi.next()" v-on="on" :disabled="!diffNavi.canNavigate()">
+                  <v-btn icon @click.stop="editors.diff.nav.instance.next()" v-on="on" :disabled="!editors.diff.nav.instance.canNavigate()">
                     <v-icon>mdi-skip-next</v-icon>
                   </v-btn>
                 </template>
@@ -50,7 +58,7 @@
             <v-tab-item key="Editor">
               <MonacoEditor
                 ref="editor"
-                :options="editorOptions"
+                :options="editors.default.options"
                 class="editor"
                 :value="modified"
                 :theme="theme"
@@ -61,7 +69,7 @@
             <v-tab-item key="Diff">
               <MonacoEditor
                 ref="diffEditor"
-                :options="diffEditorOptions"
+                :options="editors.diff.options"
                 :diffEditor="true"
                 class="editor"
                 :value="modified"
@@ -123,21 +131,46 @@ export default {
   data () {
     return {
       tab: 0,
+      // https://microsoft.github.io/monaco-editor/api/index.html
       monaco: null,
-      diffNavi: null,
-      editorOptions: {
-        automaticLayout: true, // polls parent container size every 100ms and resizes if changed.
-        scrollBeyondLastLine: false,
-        folding: true,
-        showFoldingControls: 'mouseover',
-        foldingStrategy: 'indentation'
-      },
-      diffEditorOptions: {
-        followsCaret: true, // resets the navigator state when the user selects something in the editor
-        ignoreCharChanges: true,
-        scrollBeyondLastLine: false,
-        automaticLayout: true,
-        readOnly: true
+      editors: {
+        default: {
+          // IStandaloneEditor
+          //
+          instance: null,
+          options: {
+            automaticLayout: true, // polls parent container size every 100ms and resizes if changed.
+            scrollBeyondLastLine: false,
+            folding: true,
+            showFoldingControls: 'mouseover',
+            foldingStrategy: 'indentation'
+          }
+        },
+        diff: {
+          // IStandaloneDiffEditor
+          // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandalonediffeditor.html
+          instance: null,
+          // IDiffEditorOptions
+          // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.idiffeditoroptions.html#rendersidebyside
+          options: {
+            scrollBeyondLastLine: false,
+            automaticLayout: true,
+            readOnly: true,
+            renderSideBySide: false
+          },
+          nav: {
+            // IDiffNavigator
+            // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.idiffnavigator.html
+            instance: null,
+            // IDiffNavigatorOptions
+            // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.idiffnavigatoroptions.html
+            options: {
+              followsCaret: true,
+              ignoreCharChanges: true,
+              alwaysRevealFirst: true
+            }
+          }
+        }
       }
     }
   },
@@ -171,13 +204,15 @@ export default {
       }
 
     },
-    // grab monaco on editorWillMount event (only chance), we need for create diffNavi later.
+    // grab monaco on editorWillMount event (only chance we have)
+    // we need for creating editors.diff.navi.instance once we have editors.diff.instance later.
     diffEditorWillMount (monaco) {
       this.monaco = monaco
     },
-    // create diffNavi
+    // create editors.diff.navi.instance
     diffEditorDidMount (editor) {
-      this.diffNavi = this.monaco.editor.createDiffNavigator(editor)
+      this.editors.diff.nav.instance = this.monaco.editor.createDiffNavigator(editor, this.editors.diff.nav.options)
+      this.editors.diff.instance = editor // we need this to change diffEditor options later
       this.monaco = null // we no longer need this
     },
     // write to state using change event, it's much smoother than v-model set.
@@ -186,6 +221,12 @@ export default {
         apiId: this.apiId,
         json: JSON.parse(value)
       })
+    },
+    toggleDiffEditorSplitView () {
+      this.editors.diff.instance.updateOptions({
+        renderSideBySide: !this.editors.diff.options.renderSideBySide
+      })
+      this.editors.diff.options.renderSideBySide = !this.editors.diff.options.renderSideBySide
     }
   }
 }
