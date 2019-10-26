@@ -18,7 +18,12 @@
       <v-divider />
       <v-tabs-items v-model="apiTab">
         <v-tab-item key="Request">
-          <v-expansion-panels multiple accordion class="elevation-0" style="padding: 0px;">
+          <v-expansion-panels
+            accordion
+            class="elevation-0 pa-0"
+            multiple
+            :value="panels.request"
+          >
             <v-expansion-panel>
               <v-expansion-panel-header ripple>
                 <div>
@@ -47,7 +52,12 @@
           </v-expansion-panels>
         </v-tab-item>
         <v-tab-item key="Response">
-          <v-expansion-panels multiple accordion class="elevation-0" style="padding: 0px;">
+          <v-expansion-panels
+            accordion
+            class="elevation-0 pa-0"
+            multiple
+            :value="panels.response"
+          >
             <v-expansion-panel>
               <v-expansion-panel-header ripple>
                 Returns
@@ -91,7 +101,11 @@ export default {
   data () {
     return {
       apiTab: null,
-      tabs: ['Request', 'Response']
+      tabs: ['Request', 'Response'],
+      panels: {
+        request: [0, 1],
+        response: [0, 1]
+      }
     }
   }
 }
