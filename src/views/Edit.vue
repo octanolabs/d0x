@@ -52,9 +52,10 @@
                 ref="editor"
                 :options="editorOptions"
                 class="editor"
-                v-model="modified"
+                :value="modified"
                 :theme="theme"
                 language="json"
+                @change="editorContentDidChange"
               />
             </v-tab-item>
             <v-tab-item key="Diff">
@@ -63,7 +64,7 @@
                 :options="diffEditorOptions"
                 :diffEditor="true"
                 class="editor"
-                v-model="modified"
+                :value="modified"
                 :original="original"
                 :theme="theme"
                 language="json"
@@ -106,28 +107,22 @@ export default {
       // return monaco editor theme based on vuetify
       return this.$vuetify.theme.dark ? 'vs-dark' : 'vs'
     },
-    original () {
-      return JSON.stringify(this.$store.state.apis[this.$store.state.apiId].openrpc.original.schema, null, 2)
+    openrpc () {
+      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].openrpc : false
     },
-    modified: {
-      get: function () {
-        this.dereffed = this.$store.state.apis[this.apiId].openrpc.modified.deref
-        return JSON.stringify(this.$store.state.apis[this.$store.state.apiId].openrpc.modified.schema, null, 2)
-      },
-      set: function (updated) {
-        this.$store.commit('setOpenRpcModified', {
-          apiId: this.apiId,
-          json: JSON.parse(updated)
-        })
-      }
+    original () {
+      return JSON.stringify(this.openrpc ? this.openrpc.original.schema : {}, null, 2)
+    },
+    modified () {
+      return JSON.stringify(this.openrpc ? this.openrpc.modified.schema : {}, null, 2)
+    },
+    dereffed () {
+      return this.openrpc ? this.openrpc.modified.deref : {}
     },
   },
   data () {
     return {
-      jsonUrl: '',
-      endpoint: '',
       tab: 0,
-      dereffed: {},
       monaco: null,
       diffNavi: null,
       editorOptions: {
@@ -148,17 +143,12 @@ export default {
   },
   methods: {
     init () {
-      // set editMode true
       this.$store.commit('setEditMode', true)
       this.$store.commit('setApiId', this.apiId)
-      // set jsonURL (fallback: ubiq)
-      this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.ubiq.info.json
-      this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.url : this.$store.state.apis.ubiq.info.url
-      this.discover()
-    },
-    discover () {
       if (!this.$store.state.apis[this.apiId].openrpc.original.schema.info) {
-        axios.get(this.jsonUrl)
+        // fallback to custom openrpc.json if unknown apiId
+        let jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.custom.info.json
+        axios.get(jsonUrl)
           .then((r) => {
             if (r.data.openrpc) {
               // store original schema in state
@@ -179,12 +169,23 @@ export default {
           })
         }
       }
+
     },
+    // grab monaco on editorWillMount event (only chance), we need for create diffNavi later.
     diffEditorWillMount (monaco) {
       this.monaco = monaco
     },
+    // create diffNavi
     diffEditorDidMount (editor) {
       this.diffNavi = this.monaco.editor.createDiffNavigator(editor)
+      this.monaco = null // we no longer need this
+    },
+    // write to state using change event, it's much smoother than v-model set.
+    editorContentDidChange (value) {
+      this.$store.commit('setOpenRpcModified', {
+        apiId: this.apiId,
+        json: JSON.parse(value)
+      })
     }
   }
 }
