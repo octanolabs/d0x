@@ -11,7 +11,7 @@
       <drawer-handle side="right" />
       <v-sheet style="width:100%; overflow:hidden;">
         <v-flex>
-          <v-toolbar dense color="#212121" class="elevation-0">
+          <v-toolbar dense class="elevation-0">
             <v-tabs v-model="tab">
               <v-tab ripple>
                 <v-icon small class="mr-1">mdi-json</v-icon>
@@ -138,8 +138,9 @@ export default {
           // IStandaloneEditor
           //
           instance: null,
+
           options: {
-            automaticLayout: true, // polls parent container size every 100ms and resizes if changed.
+            automaticLayout: true,
             scrollBeyondLastLine: false,
             folding: true,
             showFoldingControls: 'mouseover',
@@ -223,6 +224,7 @@ export default {
       })
     },
     toggleDiffEditorSplitView () {
+      // update diff editor instance options
       this.editors.diff.instance.updateOptions({
         renderSideBySide: !this.editors.diff.options.renderSideBySide
       })
