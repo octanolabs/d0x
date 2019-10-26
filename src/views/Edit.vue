@@ -119,13 +119,13 @@ export default {
       return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].openrpc : false
     },
     original () {
-      return JSON.stringify(this.openrpc ? this.openrpc.original.schema : {}, null, 2)
+      return JSON.stringify(this.openrpc ? this.openrpc.document.original.schema : {}, null, 2)
     },
     modified () {
-      return JSON.stringify(this.openrpc ? this.openrpc.modified.schema : {}, null, 2)
+      return JSON.stringify(this.openrpc ? this.openrpc.document.modified.schema : {}, null, 2)
     },
     dereffed () {
-      return this.openrpc ? this.openrpc.modified.deref : {}
+      return this.openrpc ? this.openrpc.document.modified.deref : {}
     },
   },
   data () {
@@ -179,7 +179,7 @@ export default {
     init () {
       this.$store.commit('setEditMode', true)
       this.$store.commit('setApiId', this.apiId)
-      if (!this.$store.state.apis[this.apiId].openrpc.original.schema.info) {
+      if (!this.$store.state.apis[this.apiId].openrpc.document.original.schema.info) {
         // fallback to custom openrpc.json if unknown apiId
         let jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.custom.info.json
         axios.get(jsonUrl)
@@ -194,11 +194,11 @@ export default {
           })
       } else {
         // original already exists, check modified
-        if (!this.$store.state.apis[this.apiId].openrpc.modified.schema.info) {
+        if (!this.$store.state.apis[this.apiId].openrpc.document.modified.schema.info) {
           // re init with modified: true
           this.$store.commit('setOpenRpcOriginal', {
             apiId: this.apiId,
-            json: this.$store.state.apis[this.apiId].openrpc.original.schema,
+            json: this.$store.state.apis[this.apiId].openrpc.document.original.schema,
             modified: true
           })
         }

@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     deref () {
-      return this.$store.state.apis[this.apiId].openrpc.original.deref
+      return this.$store.state.apis[this.apiId].openrpc.document.original.deref
     }
   },
   methods: {
@@ -51,7 +51,7 @@ export default {
       this.discover()
     },
     discover () {
-      if (!this.$store.state.apis[this.apiId].openrpc.original.schema.openrpc) {
+      if (!this.$store.state.apis[this.apiId].openrpc.document.original.schema.openrpc) {
         axios.get(this.jsonUrl)
           .then((r) => {
             if (r.data.openrpc) {

@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     methods () {
-      return this.$store.state.apis[this.$store.state.apiId].openrpc[this.openrpcType].deref.methods || []
+      return this.$store.state.apis[this.$store.state.apiId].openrpc.document[this.openrpcType].deref.methods || []
     },
     direction() {
       return this.$store.state.drawers.right === false ? "Open" : "Closed"

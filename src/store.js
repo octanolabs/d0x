@@ -4,27 +4,35 @@ import JSRP from 'json-schema-ref-parser'
 
 Vue.use(Vuex)
 
+function newEmptyApiSchema () {
+  return {
+    document: {
+      original: {
+        schema: {},
+        deref: {}
+      },
+      modified: {
+        schema: {},
+        deref: {}
+      }
+    },
+    selected: 0, // selected methodId,
+    error: false // json parse error
+  }
+}
+
 export default new Vuex.Store({
   state: {
+    apiId: '', // selected apiId (ubiq, etc, custom)
+    clientVer: false,
     drawers: {
       left: true,
       right: true
     },
     editMode: false,
-    apiId: '',
     apis: {
       ubiq: {
-        openrpc: {
-          original: {
-            schema: {},
-            deref: {}
-          },
-          modified: {
-            schema: {},
-            deref: {}
-          }
-        },
-        selected: 0, // selected methodId
+        openrpc: newEmptyApiSchema(),
         info: {
           to: '/ubiq',
           icon: 'apis/ubiq.svg',
@@ -35,17 +43,7 @@ export default new Vuex.Store({
         }
       },
       etc: {
-        openrpc: {
-          original: {
-            schema: {},
-            deref: {}
-          },
-          modified: {
-            schema: {},
-            deref: {}
-          }
-        },
-        selected: 0, // selected methodId
+        openrpc: newEmptyApiSchema(),
         info: {
           to: '/etc',
           icon: 'apis/etc.svg',
@@ -56,17 +54,7 @@ export default new Vuex.Store({
         }
       },
       custom: {
-        openrpc: {
-          original: {
-            schema: {},
-            deref: {}
-          },
-          modified: {
-            schema: {},
-            deref: {}
-          }
-        },
-        selected: 0, // selected methodId
+        openrpc: newEmptyApiSchema(),
         info: {
           to: '/custom',
           icon: 'openrpc.png',
@@ -76,14 +64,13 @@ export default new Vuex.Store({
           url: 'http://localhost:3301'
         }
       }
-    },
-    clientVer: false
+    }
   },
   mutations: {
     setOpenRpcOriginal (state, payload) {
-      state.apis[payload.apiId].openrpc.original.schema = payload.json
+      state.apis[payload.apiId].openrpc.document.original.schema = payload.json
       if ( payload.modified ) {
-        state.apis[payload.apiId].openrpc.modified.schema = payload.json
+        state.apis[payload.apiId].openrpc.document.modified.schema = payload.json
       }
 
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
@@ -101,15 +88,15 @@ export default new Vuex.Store({
             count++
           }
 
-          state.apis[payload.apiId].openrpc.original.deref = deref
+          state.apis[payload.apiId].openrpc.document.original.deref = deref
           if ( payload.modified ) {
-            state.apis[payload.apiId].openrpc.modified.deref = deref
+            state.apis[payload.apiId].openrpc.document.modified.deref = deref
           }
         }
       })
     },
     setOpenRpcModified (state, payload) {
-      state.apis[payload.apiId].openrpc.modified.schema = payload.json
+      state.apis[payload.apiId].openrpc.document.modified.schema = payload.json
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
       JSRP.dereference(JSON.parse(JSON.stringify(payload.json)), (err, deref) => {
         if (err) {
@@ -124,7 +111,7 @@ export default new Vuex.Store({
             methods[count] = method
             count++
           }
-          state.apis[payload.apiId].openrpc.modified.deref = deref
+          state.apis[payload.apiId].openrpc.document.modified.deref = deref
         }
       })
     },
