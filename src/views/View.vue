@@ -3,7 +3,7 @@
     <v-flex class="text-center">
       <v-sheet style="width:100%; overflow: hidden;" v-if="deref.info">
         <openrpc-info-bar :info="deref.info" :endpoint="endpoint"/>
-        <openrpc-methods :data="deref.methods" :api="apiId"/>
+        <openrpc-methods :data="deref.methods" :apiId="apiId"/>
       </v-sheet>
     </v-flex>
   </v-layout>

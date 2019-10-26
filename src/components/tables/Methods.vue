@@ -22,7 +22,7 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr
-            :class="item.methodId === selectedId && api === selectedApi? 'custom-highlight-row' : ''"
+            :class="item.methodId === selectedId && apiId === selectedApi? 'custom-highlight-row' : ''"
             @click.stop="rowSelected(item)"
             v-for="(item) in items"
             :key="item.methodId"
@@ -41,7 +41,7 @@
 <script>
 
 export default {
-  props: ['data', 'api'],
+  props: ['data', 'apiId'],
   computed: {
     selectedId () {
       return this.$store.state.apis[this.$store.state.apiId].selected
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     rowSelected (item) {
-      this.$store.commit('setSelected', { apiId: this.api, method: item.methodId })
+      this.$store.commit('setSelected', { apiId: this.apiId, method: item.methodId })
       if (!this.$store.state.drawers.right) {
         this.$store.commit('toggleDrawer', 'right')
       }
