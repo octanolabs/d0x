@@ -123,3 +123,7 @@ p>code {
 .v-navigation-drawer__border {
   z-index: 2 !important;
 }
+
+.v-tooltip__content {
+  z-index: 14 !important;
+}
