@@ -64,6 +64,7 @@
                 :theme="theme"
                 language="json"
                 @change="editorContentDidChange"
+                @editorDidMount="editorDidMount"
               />
             </v-tab-item>
             <v-tab-item key="Diff">
@@ -126,7 +127,7 @@ export default {
     },
     dereffed () {
       return this.openrpc ? this.openrpc.document.modified.deref : {}
-    },
+    }
   },
   data () {
     return {
@@ -215,6 +216,13 @@ export default {
       this.editors.diff.nav.instance = this.monaco.editor.createDiffNavigator(editor, this.editors.diff.nav.options)
       this.editors.diff.instance = editor // we need this to change diffEditor options later
       this.monaco = null // we no longer need this
+    },
+    editorDidMount (editor) {
+      this.editors.default.instance = editor
+      // listeners
+      editor.onDidChangeCursorPosition(e => {
+        this.$store.commit('setEditorPosition', e.position)
+      })
     },
     // write to state using change event, it's much smoother than v-model set.
     editorContentDidChange (value) {

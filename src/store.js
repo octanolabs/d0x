@@ -30,6 +30,10 @@ export default new Vuex.Store({
       right: true
     },
     editMode: false,
+    position: {
+      lineNumber: 1,
+      column: 1
+    },
     apis: {
       ubiq: {
         openrpc: newEmptyApiSchema(),
@@ -130,6 +134,9 @@ export default new Vuex.Store({
     },
     setEditMode (state, payload) {
       state.editMode = payload
+    },
+    setEditorPosition (state, payload) {
+      state.position = payload
     }
   },
   actions: {

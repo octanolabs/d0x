@@ -119,6 +119,18 @@
         </template>
         <span>Click to open raw openrpc.json in new tab.</span>
       </v-tooltip>
+      <v-tooltip top>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            tile
+            v-on="on"
+          >
+            {{ editorPosition.lineNumber }}:{{ editorPosition.column }}
+          </v-btn>
+        </template>
+        <span>Line {{ editorPosition.lineNumber }}, Column {{ editorPosition.column }}</span>
+      </v-tooltip>
       <v-spacer />
       <v-tooltip
         v-if="clientVer"
@@ -172,6 +184,9 @@ export default {
     },
     editModeToggleRoute () {
       return !this.$store.state.editMode ? 'Edit' : 'View'
+    },
+    editorPosition () {
+      return this.$store.state.position
     }
   },
   data: () => ({
