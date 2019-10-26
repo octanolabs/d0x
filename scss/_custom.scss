@@ -109,11 +109,13 @@ p>code {
 }
 
 .v-navigation-drawer--fixed {
-    z-index: 13 !important;
+  z-index: 13 !important;
+  min-width: 372px !important;
 }
 
 .v-navigation-drawer--clipped {
   z-index: 11 !important;
+  min-width: 372px !important;
 }
 
 .v-app-bar.v-app-bar--fixed {
