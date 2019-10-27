@@ -1,12 +1,5 @@
 <template>
-  <v-navigation-drawer
-    ref="drawer"
-    :value="show"
-    right
-    :clipped="false"
-    app
-    :width="navigation.width"
-  >
+  <resizable-drawer side="right">
     <v-flex>
       <v-toolbar class="elevation-0 drawer-toolbar">
         <v-btn
@@ -16,7 +9,7 @@
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Method ( {{ selected + 1 }} / {{ total }} )</v-toolbar-title>
+        <v-toolbar-title>Method ( {{ selected + 1 }} / {{ methods.length }} )</v-toolbar-title>
         <v-spacer />
         <v-btn
           icon
@@ -35,40 +28,24 @@
       </v-toolbar>
     </v-flex>
     <method-details v-if="methods[selected]" :selected="methods[selected]"/>
-  </v-navigation-drawer>
+  </resizable-drawer>
 </template>
 
 <script>
 import MethodDetails from './Details'
+import ResizableDrawer from '@/components/drawers/Resizable'
 
 export default {
   components: {
     MethodDetails,
-  },
-  data: () => {
-    return {
-      navigation: {
-        shown: false,
-        width: 372,
-        borderSize: 3
-      }
-    }
+    ResizableDrawer
   },
   computed: {
     methods () {
-      return this.$store.state.apis[this.$store.state.apiId].openrpc.document[this.openrpcType].deref.methods || []
-    },
-    direction() {
-      return this.$store.state.drawers.right === false ? "Open" : "Closed"
+      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].openrpc.document[this.openrpcType].deref.methods : []
     },
     selected () {
-      return this.$store.state.apis[this.$store.state.apiId].selected || 0
-    },
-    show () {
-      return this.$store.state.drawers.right
-    },
-    total () {
-      return this.methods.length
+      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].selected : 0
     },
     editMode () {
       return this.$store.state.editMode
@@ -85,64 +62,14 @@ export default {
       return !this.selected > 0
     },
     canSkipNext () {
-      return this.selected >= this.total - 1
+      return this.selected >= this.methods.length - 1
     },
     prevOperation () {
       this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected - 1 })
     },
     nextOperation () {
       this.$store.commit('setSelected', { apiId: this.$store.state.apiId, method: this.selected + 1 })
-    },
-    setBorderWidth() {
-      let i = this.$refs.drawer.$el.querySelector(
-        ".v-navigation-drawer__border"
-      );
-      i.style.width = this.navigation.borderSize + "px";
-      i.style.cursor = "ew-resize";
-    },
-    setEvents() {
-      const minSize = this.navigation.borderSize;
-      const el = this.$refs.drawer.$el;
-      const drawerBorder = el.querySelector(".v-navigation-drawer__border");
-      const vm = this;
-      const direction = el.classList.contains("v-navigation-drawer--right")
-        ? "right"
-        : "left";
-
-      function resize(e) {
-        document.body.style.cursor = "ew-resize";
-        let f = direction === "right"
-          ? document.body.scrollWidth - e.clientX
-          : e.clientX;
-        el.style.width = f + "px";
-      }
-
-      drawerBorder.addEventListener(
-        "mousedown",
-        function(e) {
-          if (e.offsetX < minSize) {
-            // m_pos = e.x;
-            el.style.transition ='initial'; document.addEventListener("mousemove", resize, false);
-          }
-        },
-        false
-      );
-
-      document.addEventListener(
-        "mouseup",
-        function() {
-          el.style.transition ='';
-          vm.navigation.width = el.style.width;
-          document.body.style.cursor = "";
-          document.removeEventListener("mousemove", resize, false);
-        },
-        false
-      );
     }
-  },
-  mounted() {
-    this.setBorderWidth();
-    this.setEvents();
   }
 }
 </script>
