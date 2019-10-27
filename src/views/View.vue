@@ -44,7 +44,10 @@ export default {
       // set editMode false
       this.$store.commit('setEditMode', false)
       this.$store.commit('setApiId', this.apiId)
-
+      // show drawer
+      if (!this.$store.state.drawers.right) {
+        this.$store.commit('toggleDrawer', 'right')
+      }
       // set jsonURL (fallback: ubiq)
       this.jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.ubiq.info.json
       this.endpoint = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.url : this.$store.state.apis.ubiq.info.url
