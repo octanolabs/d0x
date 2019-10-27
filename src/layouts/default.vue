@@ -15,7 +15,6 @@
             x-large
             :to="{name: 'Home', params: {}}"
             class="pl-1 pr-1"
-            :active="false"
             id="homeButton"
           >
           <v-toolbar-title v-on="on" v-text="title" />
@@ -80,7 +79,6 @@
             v-for="(item, i) in apis"
             :key="i"
             :to="editMode ? '/edit' + item.info.to : item.info.to"
-            v-if="i != 'custom' || editMode"
             nav
             router
           >
@@ -182,7 +180,13 @@ export default {
       return this.$vuetify.theme.dark
     },
     apis () {
-      return this.$store.state.apis
+      if (this.editMode) {
+        return this.$store.state.apis
+      } else {
+        // return apis without 'custom'
+        // TODO : do this better
+        return {ubiq: this.$store.state.apis.ubiq, etc: this.$store.state.apis.etc}
+      }
     },
     apiId () {
       return this.$store.state.apiId
