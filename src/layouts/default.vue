@@ -9,6 +9,18 @@
       <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            href="/"
+          >
+            <v-icon>mdi-home-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>Home.</span>
+      </v-tooltip>
       <v-tooltip bottom v-if="selectedApi">
         <template v-slot:activator="{ on }">
           <v-btn
@@ -124,6 +136,7 @@
           <v-btn
             text
             tile
+            small
             v-on="on"
           >
             {{ editorPosition.lineNumber }}:{{ editorPosition.column }}
