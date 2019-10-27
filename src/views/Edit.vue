@@ -57,7 +57,6 @@
           <v-tabs-items v-model="tab">
             <v-tab-item key="Editor">
               <MonacoEditor
-                ref="editor"
                 :options="editors.default.options"
                 class="editor"
                 :value="modified"
@@ -69,7 +68,6 @@
             </v-tab-item>
             <v-tab-item key="Diff">
               <MonacoEditor
-                ref="diffEditor"
                 :options="editors.diff.options"
                 :diffEditor="true"
                 class="editor"
@@ -136,10 +134,11 @@ export default {
       monaco: null,
       editors: {
         default: {
-          // IStandaloneEditor
-          //
+          // IStandaloneCodeEditor
+          // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandalonecodeeditor.html
           instance: null,
-
+          // IEditorOptions
+          // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html
           options: {
             automaticLayout: true,
             scrollBeyondLastLine: false,
