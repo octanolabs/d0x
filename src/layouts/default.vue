@@ -69,9 +69,8 @@
               <v-avatar size="24px" left flat>
                 <img :src="require('../assets/' + selectedApi.info.icon)" height="16px" style="height:16px;width:16px;"/>
               </v-avatar>
-              {{ selectedApi.info.title }}
+              {{ apiId === 'custom' && !editMode ? 'Select an API...' : selectedApi.info.title }}
             </span>
-            <span v-else>Select an API...</span>
             <v-spacer />
             <v-icon small>mdi-chevron-down</v-icon>
           </v-btn>
@@ -81,6 +80,7 @@
             v-for="(item, i) in apis"
             :key="i"
             :to="editMode ? '/edit' + item.info.to : item.info.to"
+            v-if="i != 'custom' || editMode"
             nav
             router
           >

@@ -48,6 +48,13 @@ export default {
     return {
       items: ['0.png', '1.png','2.png','3.png','4.png']
     }
+  },
+  created () {
+    this.$store.commit('setEditMode', false)
+    if (this.$store.state.drawers.right) {
+      this.$store.commit('toggleDrawer', 'right')
+    }
+    this.$store.commit('setApiId', 'custom')
   }
 }
 
