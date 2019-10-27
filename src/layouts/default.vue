@@ -7,20 +7,23 @@
       app
     >
       <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
-            v-on="on"
-            icon
-            href="/"
+            tile
+            text
+            x-large
+            :to="{name: 'Home', params: {}}"
+            class="pl-1 pr-1"
+            :active="false"
+            id="homeButton"
           >
-            <v-icon>mdi-home-outline</v-icon>
-          </v-btn>
+          <v-toolbar-title v-on="on" v-text="title" />
+        </v-btn>
         </template>
         <span>Home.</span>
       </v-tooltip>
+      <v-spacer />
       <v-tooltip bottom v-if="selectedApi">
         <template v-slot:activator="{ on }">
           <v-btn
@@ -101,6 +104,7 @@
     <right-drawer :apiId="apiId"/>
     <v-footer
       app
+      fixed
     >
       <v-tooltip top v-if="selectedApi.openrpc">
         <template v-slot:activator="{ on }">
@@ -116,7 +120,7 @@
         </template>
         <span>{{ selectedApi.openrpc.error || 'No errors' }}</span>
       </v-tooltip>
-      <v-tooltip v-if="jsonPath" top>
+      <v-tooltip top v-if="jsonPath">
         <template v-slot:activator="{ on }">
           <v-btn
             text
@@ -131,7 +135,7 @@
         </template>
         <span>Click to open raw openrpc.json in new tab.</span>
       </v-tooltip>
-      <v-tooltip top>
+      <v-tooltip top  v-if="editMode">
         <template v-slot:activator="{ on }">
           <v-btn
             text

@@ -129,3 +129,7 @@ p>code {
 .v-tooltip__content {
   z-index: 14 !important;
 }
+
+#homeButton::before {
+  opacity: 0
+}
