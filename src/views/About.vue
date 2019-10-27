@@ -5,32 +5,35 @@
       class="pa-6"
     >
       <h3>Welcome to Octano d0x</h3>
-      <p>d0x is an open-source <a href="https://open-rpc.org/beginners/" target="_blank">OpenRPC</a> document viewer and editor written in <a href="https://vuejs.org/" target="_blank">Vue.js</a>.</p>
-      <p>Select an API in the dropdown menu above or start on a <router-link :to="{name: 'Edit', params: {apiId: 'new'}}">new OpenRPC document</router-link>.</p>
-      <v-card
+      <p>Octano d0x is an <a href="https://open-rpc.org/beginners/" target="_blank">OpenRPC</a> interface built using <a href="https://vuejs.org/" target="_blank">Vue.js</a>.</p>
+      <p>Select an API in the dropdown menu above, get started on a <router-link :to="{name: 'Edit', params: {apiId: 'new'}}">new OpenRPC document</router-link>, or get involved on <a href="https://github.com/octanolabs/vue-openrpc-d0x" target="_blank">Github</a>.</p>
+
+      <v-carousel
+        :show-arrows="false"
+        :hide-delimiters="true"
+        cycle
         elevation="12"
-        class="ma-auto"
-        max-width="80%"
+        style="max-width:800px"
+        class="ml-auto mr-auto"
       >
-        <v-carousel>
-          <v-carousel-item
-            v-for="(item,i) in items"
-            :key="i"
-            :src="require('../assets/screenshots/' + item)"
-          ></v-carousel-item>
-        </v-carousel>
-      </v-card>
-      <v-flex class="mt-6">
-        <v-avatar tile>
-          <img :src="require('../assets/apis/ubiq.svg')" height="64px"/>
-        </v-avatar>
-        <v-avatar tile>
-          <img :src="require('../assets/octano.svg')" height="64px"/>
+        <v-carousel-item
+          class="ma-0 pa-0"
+          v-for="(item,i) in items"
+          :key="i"
+        >
+          <img :src="require('../assets/screenshots/' + item)"
+            width="100%"
+          />
+        </v-carousel-item>
+      </v-carousel>
+      <v-flex>
+        <v-avatar tile class="mr-3">
+          <img :src="require('../assets/apis/ubiq.svg')" height="32px"/>
         </v-avatar>
         <v-avatar tile>
           <img :src="require('../assets/openrpc.png')" width="64px"/>
         </v-avatar>
-        <v-avatar tile>
+        <v-avatar tile class="ml-3">
           <img :src="require('../assets/apis/etc.svg')" height="64px"/>
         </v-avatar>
       </v-flex>
