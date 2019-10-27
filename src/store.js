@@ -23,7 +23,7 @@ function newEmptyApiSchema () {
 
 export default new Vuex.Store({
   state: {
-    apiId: '', // selected apiId (ubiq, etc, custom)
+    apiId: 'custom', // selected apiId (ubiq, etc, custom)
     clientVer: false,
     drawers: {
       left: true,
@@ -120,7 +120,7 @@ export default new Vuex.Store({
       state.apis[payload.apiId].openrpc.error = payload.err
     },
     setSelected (state, payload) {
-      state.apis[payload.apiId].selected = payload.method
+      state.apis[payload.apiId].openrpc.selected = payload.method
     },
     toggleDrawer (state, side) {
       // side: 'left' or 'right'

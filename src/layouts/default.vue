@@ -86,7 +86,7 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-    <right-drawer :clipped="false"/>
+    <right-drawer :apiId="apiId"/>
     <v-footer
       app
     >
@@ -166,6 +166,9 @@ export default {
     },
     apis () {
       return this.$store.state.apis
+    },
+    apiId () {
+      return this.$store.state.apiId
     },
     jsonPath () {
       return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.json : ''

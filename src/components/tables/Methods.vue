@@ -22,7 +22,7 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr
-            :class="item.methodId === selectedId && apiId === selectedApi? 'custom-highlight-row' : ''"
+            :class="item.methodId === selectedId ? 'custom-highlight-row' : ''"
             @click.stop="rowSelected(item)"
             v-for="(item) in items"
             :key="item.methodId"
@@ -44,10 +44,7 @@ export default {
   props: ['data', 'apiId'],
   computed: {
     selectedId () {
-      return this.$store.state.apis[this.$store.state.apiId].selected
-    },
-    selectedApi () {
-      return this.$store.state.apiId
+      return this.$store.state.apis[this.apiId].openrpc.selected
     }
   },
   data () {

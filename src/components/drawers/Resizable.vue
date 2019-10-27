@@ -8,11 +8,7 @@
     :width="width"
     :value="show"
   >
-    <v-flex class="text-center">
-      <v-sheet style="width:100%; overflow: hidden;">
-        <slot></slot>
-      </v-sheet>
-    </v-flex>
+    <slot></slot>
   </v-navigation-drawer>
 </template>
 
