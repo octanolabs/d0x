@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/octanolabs/vue-openrpc-d0x.svg?style=svg)](https://circleci.com/gh/octanolabs/vue-openrpc-d0x)
+[![CircleCI](https://circleci.com/gh/octanolabs/vue-openrpc-d0x/tree/master.svg?style=svg&circle-token=332806982de8703e4fc0e737c8de13feed9f8d4e)](https://circleci.com/gh/octanolabs/vue-openrpc-d0x/tree/master)
 
 # vue-openrpc-d0x
 
