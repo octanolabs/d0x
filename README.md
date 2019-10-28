@@ -1,4 +1,8 @@
+[![CircleCI](https://circleci.com/gh/octanolabs/vue-openrpc-d0x.svg?style=svg)](https://circleci.com/gh/octanolabs/vue-openrpc-d0x)
+
 # vue-openrpc-d0x
+
+A vue.js based OpenRPC viewer an editor.
 
 ## Project setup
 ```
