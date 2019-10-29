@@ -1,8 +1,12 @@
-[![CircleCI](https://circleci.com/gh/octanolabs/vue-openrpc-d0x/tree/master.svg?style=svg&circle-token=332806982de8703e4fc0e737c8de13feed9f8d4e)](https://circleci.com/gh/octanolabs/vue-openrpc-d0x/tree/master)
+[![CircleCI](https://circleci.com/gh/octanolabs/d0x/tree/master.svg?style=svg)](https://circleci.com/gh/octanolabs/d0x/tree/master)
 
-# vue-openrpc-d0x
+# d0x
 
-A vue.js based OpenRPC viewer an editor.
+A vue.js based OpenRPC viewer and editor.
+
+![Viewer](/src/assets/screenshots/1.png)
+![Editor](/src/assets/screenshots/2.png)
+![Diffs](/src/assets/screenshots/3.png)
 
 ## Project setup
 ```
@@ -17,16 +21,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
 
 ### Customize configuration
