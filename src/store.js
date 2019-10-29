@@ -62,7 +62,7 @@ export default new Vuex.Store({
         info: {
           to: '/custom',
           icon: 'openrpc.png',
-          json: 'https://raw.githubusercontent.com/octanolabs/vue-openrpc-d0x/master/openrpc.json',
+          json: 'https://raw.githubusercontent.com/octanolabs/d0x/master/openrpc.json',
           title: 'Example Document',
           desc: 'New OpenRPC document',
           url: 'http://localhost:3301'
