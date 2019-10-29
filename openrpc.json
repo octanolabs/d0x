@@ -15,7 +15,7 @@
       "summary": "Returns a pong.",
       "params": [],
       "result": {
-        "name": "pong2",
+        "name": "pong",
         "description": "the string `pong`",
         "schema": {
           "title": "pong",
@@ -28,12 +28,12 @@
     },
     {
       "name": "sum",
-      "summary": "Returns the sum of two integers",
+      "summary": "Returns the sum of two numbers",
       "params": [
         {
           "name": "a",
           "required": true,
-          "description": "The first integer",
+          "description": "The first number",
           "schema": {
             "$ref": "#/components/schemas/Number"
           }
@@ -41,7 +41,7 @@
         {
           "name": "b",
           "required": true,
-          "description": "The second integer",
+          "description": "The second number",
           "schema": {
             "$ref": "#/components/schemas/Number"
           }
