@@ -18,7 +18,7 @@
     "@semantic-release/github",
     {
       "path": "@qiwi/semantic-release-gh-pages-plugin",
-      "msg": "github pages release",
+      "msg": "[ci skip] github pages release ",
       "src": "dist/",
       "branch": "gh-pages"
     }
