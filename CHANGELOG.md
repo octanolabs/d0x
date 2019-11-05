@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/octanolabs/d0x/compare/1.0.2...1.0.3) (2019-11-05)
+
+
+### Bug Fixes
+
+* add ROUTER_MODE env var for router.mode (fixes [#2](https://github.com/octanolabs/d0x/issues/2)) ([c89b38b](https://github.com/octanolabs/d0x/commit/c89b38b9889cd021f940aff51a375340bb37f334))
+
 ## [1.0.2](https://github.com/octanolabs/d0x/compare/1.0.1...1.0.2) (2019-10-29)
 
 
