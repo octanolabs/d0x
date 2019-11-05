@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/octanolabs/d0x/compare/1.0.3...1.0.4) (2019-11-05)
+
+
+### Bug Fixes
+
+* skip ci on github pages branch ([ee9078c](https://github.com/octanolabs/d0x/commit/ee9078cc1eb84c1aa013cb447bd32f650810946c))
+
 ## [1.0.3](https://github.com/octanolabs/d0x/compare/1.0.2...1.0.3) (2019-11-05)
 
 
