@@ -7,6 +7,7 @@
     :clipped="side === 'left'"
     :width="width"
     :value="show"
+    fixed
   >
     <slot></slot>
   </v-navigation-drawer>

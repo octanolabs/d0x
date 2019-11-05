@@ -127,9 +127,13 @@ p>code {
 }
 
 .v-tooltip__content {
-  z-index: 14 !important;
+  z-index: 15 !important;
 }
 
 #homeButton::before {
   opacity: 0
+}
+
+footer {
+  z-index: 14 !important;
 }
