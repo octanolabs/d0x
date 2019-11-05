@@ -10,8 +10,8 @@ import View from '@/views/View.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode: process.env.ROUTER_MODE || 'hash',
+  base: process.env.BASE_URL || '/',
   routes: [
     {
       path: '/',

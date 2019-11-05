@@ -13,6 +13,11 @@ A vue.js based OpenRPC viewer and editor.
 npm install
 ```
 
+### Environment Variables
+
+* ROUTER_MODE: [vue-router history mode](https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations) option ('history', 'hash'). default: hash.
+* BASE_URL: [base URL](https://router.vuejs.org/api/#base) of the app. For example, if the entire single page application is served under /d0x/, then base should use the value "/d0x/". default "/"
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
