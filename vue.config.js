@@ -6,8 +6,8 @@ module.exports = {
       // but when configuring the `data` option
       // `scss` syntax requires an semicolon at the end of a statement, while `sass` syntax requires none
       // in that case, we can target the `scss` syntax separately using the `scss` option
-      sass: {
-        data: `@import "@/scss/style.scss"`
+      scss: {
+        data: `@import "@/scss/style.scss";`
       }
     }
   },
