@@ -190,7 +190,7 @@ export default {
             }
           })
           .catch((e) => {
-            console.log(e)
+            this.$store.commit('addError', e)
           })
       } else {
         // original already exists, check modified

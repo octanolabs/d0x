@@ -65,7 +65,7 @@ export default {
       }).catch(e => {
         this.$store.commit('setClientVer', false)
         this.online = false
-        console.log(e)
+        this.$store.commit('addError', e)
       })
     }
   }

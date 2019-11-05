@@ -34,6 +34,7 @@ export default new Vuex.Store({
       lineNumber: 1,
       column: 1
     },
+    errors: [],
     apis: {
       ubiq: {
         openrpc: newEmptyApiSchema(),
@@ -79,7 +80,7 @@ export default new Vuex.Store({
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
       JSRP.dereference(JSON.parse(JSON.stringify(payload.json)), (err, deref) => {
         if (err) {
-          console.log(err)
+          state.errors.push(err)
         } else {
           let methods = deref.methods
           // add a numeric ID to each method
@@ -102,7 +103,7 @@ export default new Vuex.Store({
       // JSON deep copy fuckery to prevent deref referencing payload.json (we don't want the deref going back to schema)
       JSRP.dereference(JSON.parse(JSON.stringify(payload.json)), (err, deref) => {
         if (err) {
-          console.log(err)
+          state.errors.push(err)
         } else {
           let methods = deref.methods
           // add a numeric ID to each method
@@ -137,7 +138,11 @@ export default new Vuex.Store({
     },
     setEditorPosition (state, payload) {
       state.position = payload
+    },
+    addError (state, payload) {
+      state.errors.push(payload)
     }
+
   },
   actions: {
 
