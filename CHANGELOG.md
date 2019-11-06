@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/octanolabs/d0x/compare/1.0.4...1.0.5) (2019-11-06)
+
+
+### Bug Fixes
+
+* replace vue-monaco with vue-monaco-d0x (fixes: [#1](https://github.com/octanolabs/d0x/issues/1)) ([59280be](https://github.com/octanolabs/d0x/commit/59280be1b009bc7d653025c250b3608a4c95d64f))
+
 ## [1.0.4](https://github.com/octanolabs/d0x/compare/1.0.3...1.0.4) (2019-11-05)
 
 
