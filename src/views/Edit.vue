@@ -88,7 +88,7 @@
 
 <script>
 import axios from 'axios'
-import MonacoEditor from 'vue-monaco'
+import MonacoEditor from 'vue-monaco-d0x'
 import LeftDrawer from '@/components/LeftDrawer'
 import CopyToClipboard from '@/components/btns/CopyToClipboard'
 import DrawerHandle from '@/components/btns/DrawerHandle'
