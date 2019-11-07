@@ -1,15 +1,9 @@
 <template>
-  <v-card
-    class="ma-1"
-    outlined
-  >
+  <v-card class="ma-1" outlined>
     <v-card-title>
       <span class="title">{{ name || item.name }}</span>
       <v-spacer />
-      <v-tooltip
-        v-if="schema.oneOf"
-        left
-      >
+      <v-tooltip v-if="schema.oneOf" left>
         <template v-slot:activator="{ on }">
           <v-btn icon color="secondary" v-on="on">
             <v-icon small>mdi-radiobox-marked</v-icon>
@@ -17,10 +11,7 @@
         </template>
         <span>One Of</span>
       </v-tooltip>
-      <v-tooltip
-        v-if="item.required === true"
-        left
-      >
+      <v-tooltip v-if="item.required === true" left>
         <template v-slot:activator="{ on }">
           <v-btn icon color="secondary" v-on="on">
             <v-icon small>mdi-asterisk</v-icon>
@@ -36,26 +27,30 @@
     <v-card-actions v-if="!schema.oneOf">
       <v-btn color="primary">{{ schema.type }}</v-btn>
       <v-spacer />
-      <v-chip v-if="schema.pattern" pill small color="secondary">{{ schema.pattern }}</v-chip>
-      <v-chip v-if="schema.enum" pill small color="secondary">{{ schema.enum.toString() }}</v-chip>
+      <v-chip v-if="schema.pattern" pill small color="secondary">{{
+        schema.pattern
+      }}</v-chip>
+      <v-chip v-if="schema.enum" pill small color="secondary">{{
+        schema.enum.toString()
+      }}</v-chip>
     </v-card-actions>
     <v-flex v-if="schema.oneOf">
-      <v-card
-        v-for="(item, i) in schema.oneOf"
-        :key="i"
-        class="ma-2"
-        outlined
-      >
+      <v-card v-for="(item, i) in schema.oneOf" :key="i" class="ma-2" outlined>
         <v-card-title>
           <span class="title">{{ item.name }}</span>
         </v-card-title>
         <v-card-text class="text-left">
-          <div v-if="item.description" v-html="$md.render(item.description)"></div>
+          <div
+            v-if="item.description"
+            v-html="$md.render(item.description)"
+          ></div>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary">{{ item.type }}</v-btn>
           <v-spacer />
-          <v-chip v-if="item.pattern" pill small color="secondary">{{ item.pattern }}</v-chip>
+          <v-chip v-if="item.pattern" pill small color="secondary">{{
+            item.pattern
+          }}</v-chip>
           <v-flex v-if="item.enum" text-right>
             <v-chip
               v-for="(str, i) in item.enum"
@@ -75,26 +70,26 @@
 </template>
 
 <script>
-
 export default {
   props: {
-    item: {  // Param or Schema object (dereffed)
+    item: {
+      // Param or Schema object (dereffed)
       required: true,
       type: Object
     },
-    name: { // pass name if item == openrpc.components.schemas[n]
+    name: {
+      // pass name if item == openrpc.components.schemas[n]
       type: String,
-      default: ''
+      default: ""
     }
   },
   computed: {
-    desc () {
-      return this.item.description || this.item.schema.description
+    desc() {
+      return this.item.description || this.item.schema.description;
     },
-    schema () {
-      return this.item.schema || this.item
+    schema() {
+      return this.item.schema || this.item;
     }
   }
-}
-
+};
 </script>

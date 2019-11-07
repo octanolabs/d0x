@@ -24,7 +24,7 @@
           <tr
             :class="item.methodId === selectedId ? 'custom-highlight-row' : ''"
             @click.stop="rowSelected(item)"
-            v-for="(item) in items"
+            v-for="item in items"
             :key="item.methodId"
           >
             <td class="text-left">{{ item.methodId + 1 }}</td>
@@ -39,32 +39,34 @@
 </template>
 
 <script>
-
 export default {
-  props: ['data', 'apiId'],
+  props: ["data", "apiId"],
   computed: {
-    selectedId () {
-      return this.$store.state.apis[this.apiId].openrpc.selected
+    selectedId() {
+      return this.$store.state.apis[this.apiId].openrpc.selected;
     }
   },
-  data () {
+  data() {
     return {
-      search: '',
+      search: "",
       headers: [
-        { text: '#', value: 'methodId', align: 'left' },
-        { text: 'Method', value: 'name', align: 'left' },
-        { text: 'Summary', value: 'summary', align: 'left' },
-        { text: 'Params', value: 'params', align: 'center' }
+        { text: "#", value: "methodId", align: "left" },
+        { text: "Method", value: "name", align: "left" },
+        { text: "Summary", value: "summary", align: "left" },
+        { text: "Params", value: "params", align: "center" }
       ]
-    }
+    };
   },
   methods: {
-    rowSelected (item) {
-      this.$store.commit('setSelected', { apiId: this.apiId, method: item.methodId })
+    rowSelected(item) {
+      this.$store.commit("setSelected", {
+        apiId: this.apiId,
+        method: item.methodId
+      });
       if (!this.$store.state.drawers.right) {
-        this.$store.commit('toggleDrawer', 'right')
+        this.$store.commit("toggleDrawer", "right");
       }
     }
   }
-}
+};
 </script>

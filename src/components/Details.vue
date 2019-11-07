@@ -2,16 +2,15 @@
   <v-flex>
     <v-sheet style="width:100%; overflow: hidden; padding: 15px;">
       <v-chip class="mb-2" label color="secondary">{{ selected.name }}</v-chip>
-      <div v-if="selected.description" v-html="$md.render(selected.description)"></div>
+      <div
+        v-if="selected.description"
+        v-html="$md.render(selected.description)"
+      ></div>
       <div v-else v-html="selected.summary"></div>
     </v-sheet>
     <v-sheet style="width:100%; overflow: hidden;">
       <v-tabs v-model="apiTab" grow>
-        <v-tab
-          v-for="tab in tabs"
-          :key="tab"
-          ripple
-        >
+        <v-tab v-for="tab in tabs" :key="tab" ripple>
           {{ tab }}
         </v-tab>
       </v-tabs>
@@ -28,14 +27,15 @@
               <v-expansion-panel-header ripple>
                 <div>
                   Params
-                  <v-chip v-if="selected.params" x-small color="primary"><span class="white--text">{{ selected.params.length }}</span></v-chip>
+                  <v-chip v-if="selected.params" x-small color="primary"
+                    ><span class="white--text">{{
+                      selected.params.length
+                    }}</span></v-chip
+                  >
                 </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content style="overflow-x:auto;">
-                <v-flex
-                  v-for="(item, i) in selected.params"
-                  :key="i"
-                >
+                <v-flex v-for="(item, i) in selected.params" :key="i">
                   <openrpc-param :item="item" />
                 </v-flex>
               </v-expansion-panel-content>
@@ -45,8 +45,18 @@
                 Examples
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <openrpc-request mode='curl' :endpoint="url" :method="selected.name" :params="selected.params" />
-                <openrpc-request  mode='axios' :endpoint="url" :method="selected.name" :params="selected.params" />
+                <openrpc-request
+                  mode="curl"
+                  :endpoint="url"
+                  :method="selected.name"
+                  :params="selected.params"
+                />
+                <openrpc-request
+                  mode="axios"
+                  :endpoint="url"
+                  :method="selected.name"
+                  :params="selected.params"
+                />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -62,7 +72,10 @@
               <v-expansion-panel-header ripple>
                 Returns
               </v-expansion-panel-header>
-              <v-expansion-panel-content style="overflow-x:auto;" v-if="selected.result">
+              <v-expansion-panel-content
+                style="overflow-x:auto;"
+                v-if="selected.result"
+              >
                 <openrpc-param :item="selected.result" />
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -82,31 +95,31 @@
 </template>
 
 <script>
-import OpenrpcParam from '@/components/cards/Param'
-import OpenrpcRequest from '@/components/cards/Request'
-import OpenrpcResponse from '@/components/cards/Response'
+import OpenrpcParam from "@/components/cards/Param";
+import OpenrpcRequest from "@/components/cards/Request";
+import OpenrpcResponse from "@/components/cards/Response";
 
 export default {
-  props: ['selected'], // selected method
+  props: ["selected"], // selected method
   components: {
     OpenrpcParam,
     OpenrpcRequest,
     OpenrpcResponse
   },
   computed: {
-    url () {
-      return this.$store.state.apis[this.$store.state.apiId].info.url
+    url() {
+      return this.$store.state.apis[this.$store.state.apiId].info.url;
     }
   },
-  data () {
+  data() {
     return {
       apiTab: null,
-      tabs: ['Request', 'Response'],
+      tabs: ["Request", "Response"],
       panels: {
         request: [0, 1],
         response: [0, 1]
       }
-    }
+    };
   }
-}
+};
 </script>

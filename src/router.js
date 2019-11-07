@@ -1,34 +1,33 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
 // views
-import About from '@/views/About.vue'
-import Edit from '@/views/Edit.vue'
-import View from '@/views/View.vue'
+import About from "@/views/About.vue";
+import Edit from "@/views/Edit.vue";
+import View from "@/views/View.vue";
 
-
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: process.env.ROUTER_MODE || 'hash',
-  base: process.env.BASE_URL || '/',
+  mode: process.env.ROUTER_MODE || "hash",
+  base: process.env.BASE_URL || "/",
   routes: [
     {
-      path: '/',
+      path: "/",
       component: About,
-      name: 'Home'
+      name: "Home"
     },
     {
-      path: '/:apiId',
+      path: "/:apiId",
       component: View,
-      name: 'View',
+      name: "View",
       props: true
     },
     {
-      path: '/edit/:apiId',
+      path: "/edit/:apiId",
       component: Edit,
-      name: 'Edit',
+      name: "Edit",
       props: true
     }
   ]
-})
+});

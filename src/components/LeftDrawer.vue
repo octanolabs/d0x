@@ -15,22 +15,16 @@
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item key="Methods">
-            <openrpc-methods :data="methods" :apiId="apiId"/>
+            <openrpc-methods :data="methods" :apiId="apiId" />
           </v-tab-item>
           <v-tab-item key="Schemas">
-            <v-flex
-              v-for="(item, i) in schemas"
-              :key="i"
-            >
-              <openrpc-param :item="item" :name="i"/>
+            <v-flex v-for="(item, i) in schemas" :key="i">
+              <openrpc-param :item="item" :name="i" />
             </v-flex>
           </v-tab-item>
           <v-tab-item key="Descriptors">
-            <v-flex
-              v-for="(item, i) in descriptors"
-              :key="i"
-            >
-              <openrpc-param :item="item" :name="i"/>
+            <v-flex v-for="(item, i) in descriptors" :key="i">
+              <openrpc-param :item="item" :name="i" />
             </v-flex>
           </v-tab-item>
         </v-tabs-items>
@@ -40,12 +34,12 @@
 </template>
 
 <script>
-import OpenrpcMethods from '@/components/accordion/Methods'
-import OpenrpcParam from '@/components/cards/Param'
-import ResizableDrawer from '@/components/drawers/Resizable'
+import OpenrpcMethods from "@/components/accordion/Methods";
+import OpenrpcParam from "@/components/cards/Param";
+import ResizableDrawer from "@/components/drawers/Resizable";
 
 export default {
-  props: ['apiId', 'methods', 'schemas', 'descriptors'],
+  props: ["apiId", "methods", "schemas", "descriptors"],
   components: {
     OpenrpcMethods,
     OpenrpcParam,
@@ -54,7 +48,7 @@ export default {
   data: () => {
     return {
       tab: 0
-    }
+    };
   }
-}
+};
 </script>

@@ -1,26 +1,23 @@
 <template>
-  <v-tooltip
-    :left="side === 'right'"
-    :right="side === 'left'"
-  >
+  <v-tooltip :left="side === 'right'" :right="side === 'left'">
     <template v-slot:activator="{ on }">
       <v-btn
         color="secondary"
         @click.stop="toggleDrawer()"
-        :class="{'drawer-handle': true, 'left': left, 'right': right}"
+        :class="{ 'drawer-handle': true, left: left, right: right }"
         v-on="on"
       >
         <v-icon
           v-if="expanded"
-          :class="{'pl-0': left, 'pr-2': left, 'pl-2': right, 'pr-0': right}"
+          :class="{ 'pl-0': left, 'pr-2': left, 'pl-2': right, 'pr-0': right }"
         >
-          {{ left ? 'mdi-chevron-left' : 'mdi-chevron-right' }}
+          {{ left ? "mdi-chevron-left" : "mdi-chevron-right" }}
         </v-icon>
         <v-icon
           v-else
-          :class="{'pl-0': left, 'pr-2': left, 'pl-2': right, 'pr-0': right}"
+          :class="{ 'pl-0': left, 'pr-2': left, 'pl-2': right, 'pr-0': right }"
         >
-          {{ left ? 'mdi-chevron-right' : 'mdi-chevron-left' }}
+          {{ left ? "mdi-chevron-right" : "mdi-chevron-left" }}
         </v-icon>
       </v-btn>
     </template>
@@ -30,24 +27,23 @@
 </template>
 
 <script>
-
 export default {
-  props: ['side'],
+  props: ["side"],
   computed: {
-    left () {
-      return this.side === 'left'
+    left() {
+      return this.side === "left";
     },
-    right () {
-      return this.side === 'right'
+    right() {
+      return this.side === "right";
     },
-    expanded () {
-      return this.$store.state.drawers[this.side]
+    expanded() {
+      return this.$store.state.drawers[this.side];
     }
   },
   methods: {
-    toggleDrawer () {
-      this.$store.commit('toggleDrawer', this.side)
-    },
+    toggleDrawer() {
+      this.$store.commit("toggleDrawer", this.side);
+    }
   }
-}
+};
 </script>

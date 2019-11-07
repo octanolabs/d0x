@@ -5,7 +5,8 @@
       :methods="dereffed.methods"
       :schemas="dereffed.components.schemas"
       :descriptors="dereffed.components.contentDescriptors"
-      :apiId="apiId" />
+      :apiId="apiId"
+    />
     <v-flex>
       <drawer-handle side="left" />
       <drawer-handle side="right" />
@@ -23,14 +24,18 @@
               </v-tab>
             </v-tabs>
             <v-spacer />
-            <copy-to-clipboard
-              v-if="tab === 0"
-              :copy="modified"
-            />
-            <span v-if="tab === 1 && editors.diff.nav.instance" style="height:48px;display:flex;">
+            <copy-to-clipboard v-if="tab === 0" :copy="modified" />
+            <span
+              v-if="tab === 1 && editors.diff.nav.instance"
+              style="height:48px;display:flex;"
+            >
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon @click.stop="toggleDiffEditorSplitView()" v-on="on">
+                  <v-btn
+                    icon
+                    @click.stop="toggleDiffEditorSplitView()"
+                    v-on="on"
+                  >
                     <v-icon>mdi-file-compare</v-icon>
                   </v-btn>
                 </template>
@@ -38,7 +43,12 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon @click.stop="editors.diff.nav.instance.previous()" v-on="on" :disabled="!editors.diff.nav.instance.canNavigate()">
+                  <v-btn
+                    icon
+                    @click.stop="editors.diff.nav.instance.previous()"
+                    v-on="on"
+                    :disabled="!editors.diff.nav.instance.canNavigate()"
+                  >
                     <v-icon>mdi-skip-previous</v-icon>
                   </v-btn>
                 </template>
@@ -46,7 +56,12 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon @click.stop="editors.diff.nav.instance.next()" v-on="on" :disabled="!editors.diff.nav.instance.canNavigate()">
+                  <v-btn
+                    icon
+                    @click.stop="editors.diff.nav.instance.next()"
+                    v-on="on"
+                    :disabled="!editors.diff.nav.instance.canNavigate()"
+                  >
                     <v-icon>mdi-skip-next</v-icon>
                   </v-btn>
                 </template>
@@ -87,14 +102,14 @@
 </template>
 
 <script>
-import axios from 'axios'
-import MonacoEditor from 'vue-monaco-d0x'
-import LeftDrawer from '@/components/LeftDrawer'
-import CopyToClipboard from '@/components/btns/CopyToClipboard'
-import DrawerHandle from '@/components/btns/DrawerHandle'
+import axios from "axios";
+import MonacoEditor from "vue-monaco-d0x";
+import LeftDrawer from "@/components/LeftDrawer";
+import CopyToClipboard from "@/components/btns/CopyToClipboard";
+import DrawerHandle from "@/components/btns/DrawerHandle";
 
 export default {
-  props: ['apiId'],
+  props: ["apiId"],
   components: {
     MonacoEditor,
     LeftDrawer,
@@ -102,32 +117,42 @@ export default {
     DrawerHandle
   },
   watch: {
-    apiId: function () {
-      this.init()
+    apiId: function() {
+      this.init();
     }
   },
-  created () {
-    this.init()
+  created() {
+    this.init();
   },
   computed: {
-    theme () {
+    theme() {
       // return monaco editor theme based on vuetify
-      return this.$vuetify.theme.dark ? 'vs-dark' : 'vs'
+      return this.$vuetify.theme.dark ? "vs-dark" : "vs";
     },
-    openrpc () {
-      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].openrpc : false
+    openrpc() {
+      return this.$store.state.apis[this.$store.state.apiId]
+        ? this.$store.state.apis[this.$store.state.apiId].openrpc
+        : false;
     },
-    original () {
-      return JSON.stringify(this.openrpc ? this.openrpc.document.original.schema : {}, null, 2)
+    original() {
+      return JSON.stringify(
+        this.openrpc ? this.openrpc.document.original.schema : {},
+        null,
+        2
+      );
     },
-    modified () {
-      return JSON.stringify(this.openrpc ? this.openrpc.document.modified.schema : {}, null, 2)
+    modified() {
+      return JSON.stringify(
+        this.openrpc ? this.openrpc.document.modified.schema : {},
+        null,
+        2
+      );
     },
-    dereffed () {
-      return this.openrpc ? this.openrpc.document.modified.deref : {}
+    dereffed() {
+      return this.openrpc ? this.openrpc.document.modified.deref : {};
     }
   },
-  data () {
+  data() {
     return {
       tab: 0,
       // https://microsoft.github.io/monaco-editor/api/index.html
@@ -143,8 +168,8 @@ export default {
             automaticLayout: true,
             scrollBeyondLastLine: false,
             folding: true,
-            showFoldingControls: 'mouseover',
-            foldingStrategy: 'indentation'
+            showFoldingControls: "mouseover",
+            foldingStrategy: "indentation"
           }
         },
         diff: {
@@ -173,89 +198,105 @@ export default {
           }
         }
       }
-    }
+    };
   },
   methods: {
-    init () {
-      this.$store.commit('setEditMode', true)
-      this.$store.commit('setApiId', this.apiId)
-      if (!this.$store.state.apis[this.apiId].openrpc.document.original.schema.info) {
+    init() {
+      this.$store.commit("setEditMode", true);
+      this.$store.commit("setApiId", this.apiId);
+      if (
+        !this.$store.state.apis[this.apiId].openrpc.document.original.schema
+          .info
+      ) {
         // fallback to custom openrpc.json if unknown apiId
-        let jsonUrl = this.$store.state.apis[this.apiId] ? this.$store.state.apis[this.apiId].info.json : this.$store.state.apis.custom.info.json
-        axios.get(jsonUrl)
-          .then((r) => {
+        let jsonUrl = this.$store.state.apis[this.apiId]
+          ? this.$store.state.apis[this.apiId].info.json
+          : this.$store.state.apis.custom.info.json;
+        axios
+          .get(jsonUrl)
+          .then(r => {
             if (r.data.openrpc) {
               // store original schema in state
-              this.$store.commit('setOpenRpcOriginal', {apiId: this.apiId, json: r.data, modified: true})
+              this.$store.commit("setOpenRpcOriginal", {
+                apiId: this.apiId,
+                json: r.data,
+                modified: true
+              });
             }
           })
-          .catch((e) => {
-            this.$store.commit('addError', e)
-          })
+          .catch(e => {
+            this.$store.commit("addError", e);
+          });
       } else {
         // original already exists, check modified
-        if (!this.$store.state.apis[this.apiId].openrpc.document.modified.schema.info) {
+        if (
+          !this.$store.state.apis[this.apiId].openrpc.document.modified.schema
+            .info
+        ) {
           // re init with modified: true
-          this.$store.commit('setOpenRpcOriginal', {
+          this.$store.commit("setOpenRpcOriginal", {
             apiId: this.apiId,
-            json: this.$store.state.apis[this.apiId].openrpc.document.original.schema,
+            json: this.$store.state.apis[this.apiId].openrpc.document.original
+              .schema,
             modified: true
-          })
+          });
         }
       }
-
     },
     // grab monaco on editorWillMount event (only chance we have)
     // we need for creating editors.diff.navi.instance once we have editors.diff.instance later.
-    diffEditorWillMount (monaco) {
-      this.monaco = monaco
+    diffEditorWillMount(monaco) {
+      this.monaco = monaco;
     },
     // create editors.diff.navi.instance
-    diffEditorDidMount (editor) {
-      this.editors.diff.nav.instance = this.monaco.editor.createDiffNavigator(editor, this.editors.diff.nav.options)
-      this.editors.diff.instance = editor // we need this to change diffEditor options later
-      this.monaco = null // we no longer need this
+    diffEditorDidMount(editor) {
+      this.editors.diff.nav.instance = this.monaco.editor.createDiffNavigator(
+        editor,
+        this.editors.diff.nav.options
+      );
+      this.editors.diff.instance = editor; // we need this to change diffEditor options later
+      this.monaco = null; // we no longer need this
     },
-    editorDidMount (editor) {
-      this.editors.default.instance = editor
+    editorDidMount(editor) {
+      this.editors.default.instance = editor;
       // listeners
       editor.onDidChangeCursorPosition(e => {
-        this.$store.commit('setEditorPosition', e.position)
-      })
+        this.$store.commit("setEditorPosition", e.position);
+      });
     },
     // write to state using change event, it's much smoother than v-model set.
-    editorContentDidChange (value) {
+    editorContentDidChange(value) {
       // check json for errors
-      let test = this.parseJson(value)
+      let test = this.parseJson(value);
       if (!test.err) {
-        this.$store.commit('setOpenRpcModified', {
+        this.$store.commit("setOpenRpcModified", {
           apiId: this.apiId,
           json: test.json
-        })
+        });
       } else {
-        this.$store.commit('setOpenRpcError', {
+        this.$store.commit("setOpenRpcError", {
           apiId: this.apiId,
           err: test.err
-        })
+        });
       }
     },
-    parseJson (str) {
-      let json = {}
+    parseJson(str) {
+      let json = {};
       try {
         json = JSON.parse(str);
       } catch (e) {
-        return {err: e, json: null}
+        return { err: e, json: null };
       }
-      return {err: null, json: json}
+      return { err: null, json: json };
     },
-    toggleDiffEditorSplitView () {
+    toggleDiffEditorSplitView() {
       // update diff editor instance options
       this.editors.diff.instance.updateOptions({
         renderSideBySide: !this.editors.diff.options.renderSideBySide
-      })
-      this.editors.diff.options.renderSideBySide = !this.editors.diff.options.renderSideBySide
+      });
+      this.editors.diff.options.renderSideBySide = !this.editors.diff.options
+        .renderSideBySide;
     }
   }
-}
-
+};
 </script>

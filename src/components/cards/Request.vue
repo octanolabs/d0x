@@ -1,53 +1,62 @@
 <template>
-  <v-card
-    class="ma-1 code-card"
-    outlined
-  >
+  <v-card class="ma-1 code-card" outlined>
     <v-card-actions>
-      <v-subheader>{{ mode.charAt(0).toUpperCase() + mode.slice(1) }}</v-subheader>
+      <v-subheader>{{
+        mode.charAt(0).toUpperCase() + mode.slice(1)
+      }}</v-subheader>
       <v-spacer />
-      <v-tooltip
-        left
-      >
+      <v-tooltip left>
         <template v-slot:activator="{ on }">
-          <v-btn :disabled="disableRefresh" icon color="primary" v-on="on" @click="refreshParams()">
+          <v-btn
+            :disabled="disableRefresh"
+            icon
+            color="primary"
+            v-on="on"
+            @click="refreshParams()"
+          >
             <v-icon small>mdi-refresh</v-icon>
           </v-btn>
         </template>
         <span>Refresh</span>
       </v-tooltip>
-      <copy-to-clipboard :copy="format(mode)" tooltip="left" color="primary"/>
+      <copy-to-clipboard :copy="format(mode)" tooltip="left" color="primary" />
     </v-card-actions>
     <v-divider />
     <v-card-text class="pa-0">
-      <pre v-highlightjs="format(mode)"><code class="javascript w-100 elevation-0"></code></pre>
+      <pre
+        v-highlightjs="format(mode)"
+      ><code class="javascript w-100 elevation-0"></code></pre>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import stringifyObject from 'stringify-object'
-import jsf from 'json-schema-faker'
-import CopyToClipboard from '@/components/btns/CopyToClipboard'
+import stringifyObject from "stringify-object";
+import jsf from "json-schema-faker";
+import CopyToClipboard from "@/components/btns/CopyToClipboard";
 
 export default {
   props: {
-    mode: {  // axios, curl
+    mode: {
+      // axios, curl
       type: String,
-      default: 'curl'
+      default: "curl"
     },
-    endpoint: { // api url endpoint e.g 'https://rpc.octano.dev'
+    endpoint: {
+      // api url endpoint e.g 'https://rpc.octano.dev'
       type: String,
-      default: ''
+      default: ""
     },
-    method: { // rpc method e.g 'eth_blockNumber'
+    method: {
+      // rpc method e.g 'eth_blockNumber'
       type: String,
-      default: ''
+      default: ""
     },
-    params: { // request params
+    params: {
+      // request params
       type: Array,
-      default () {
-        return []
+      default() {
+        return [];
       }
     }
   },
@@ -56,63 +65,73 @@ export default {
   },
   watch: {
     // watch for method prop change
-    method: function () {
-      this.refreshParams() // refresh example params with new schemas
-    },
+    method: function() {
+      this.refreshParams(); // refresh example params with new schemas
+    }
   },
   computed: {
-    json () {
+    json() {
       return {
-        method: 'post',
+        method: "post",
         url: this.endpoint,
         data: {
           id: 1,
-          jsonrpc: '2.0',
+          jsonrpc: "2.0",
           method: this.method,
           params: this.randParams
         }
-      }
+      };
     },
-    disableRefresh () {
-      return !this.params.length > 0
+    disableRefresh() {
+      return !this.params.length > 0;
     }
   },
-  created () {
-    this.randParams = this.exampleParams()
+  created() {
+    this.randParams = this.exampleParams();
   },
-  data () {
+  data() {
     return {
       randParams: []
-    }
+    };
   },
   methods: {
     // format the code nicely
-    format (m) {
-      if (m === 'axios') {
-        return 'axios.request(' + stringifyObject(this.json, {
-          indent: '  ',
-          singleQuotes: false,
-          inlineCharacterLimit: 12
-        }) + ')'
-      } else { // curl
-        return 'curl -H "Content-Type: application/json" -X POST --data \'' + JSON.stringify(this.json.data) + '\' "' + this.endpoint + '"'
+    format(m) {
+      if (m === "axios") {
+        return (
+          "axios.request(" +
+          stringifyObject(this.json, {
+            indent: "  ",
+            singleQuotes: false,
+            inlineCharacterLimit: 12
+          }) +
+          ")"
+        );
+      } else {
+        // curl
+        return (
+          'curl -H "Content-Type: application/json" -X POST --data \'' +
+          JSON.stringify(this.json.data) +
+          "' \"" +
+          this.endpoint +
+          '"'
+        );
       }
     },
-    exampleParams () {
+    exampleParams() {
       jsf.option({
         requiredOnly: false,
         alwaysFakeOptionals: true
-      })
-      let eParams = []
+      });
+      let eParams = [];
       for (let i in this.params) {
-        eParams.push(jsf.generate(this.params[i].schema))
+        eParams.push(jsf.generate(this.params[i].schema));
       }
-      return eParams
+      return eParams;
     },
-    refreshParams () {
-      this.randParams = this.exampleParams()
+    refreshParams() {
+      this.randParams = this.exampleParams();
     }
   }
-}
-
+};
 </script>

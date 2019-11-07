@@ -14,22 +14,21 @@
 </template>
 
 <script>
-
 export default {
-  props: ['side'],
+  props: ["side"],
   data: () => {
     return {
       shown: false,
       width: 372,
       borderSize: 3
-    }
+    };
   },
   computed: {
     direction() {
       return this.$store.state.drawers[this.side] === false ? "Open" : "Closed";
     },
-    show () {
-      return this.$store.state.drawers[this.side]
+    show() {
+      return this.$store.state.drawers[this.side];
     }
   },
   methods: {
@@ -51,9 +50,10 @@ export default {
 
       function resize(e) {
         document.body.style.cursor = "ew-resize";
-        let f = direction === "right"
-          ? document.body.scrollWidth - e.clientX
-          : e.clientX;
+        let f =
+          direction === "right"
+            ? document.body.scrollWidth - e.clientX
+            : e.clientX;
         el.style.width = f + "px";
       }
 
@@ -61,7 +61,8 @@ export default {
         "mousedown",
         function(e) {
           if (e.offsetX < minSize) {
-            el.style.transition ='initial'; document.addEventListener("mousemove", resize, false);
+            el.style.transition = "initial";
+            document.addEventListener("mousemove", resize, false);
           }
         },
         false
@@ -70,7 +71,7 @@ export default {
       document.addEventListener(
         "mouseup",
         function() {
-          el.style.transition ='';
+          el.style.transition = "";
           vm.width = el.style.width;
           document.body.style.cursor = "";
           document.removeEventListener("mousemove", resize, false);
@@ -83,5 +84,5 @@ export default {
     this.setBorderWidth();
     this.setEvents();
   }
-}
+};
 </script>

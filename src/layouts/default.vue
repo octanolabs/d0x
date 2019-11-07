@@ -1,24 +1,24 @@
 <template>
   <v-app>
-    <v-app-bar
-      :clipped-left="true"
-      :clipped-right="false"
-      fixed
-      app
-    >
-      <img :src="require('../assets/octano.svg')" height="48px" style="height:48px;" class="mr-2"/>
+    <v-app-bar :clipped-left="true" :clipped-right="false" fixed app>
+      <img
+        :src="require('../assets/octano.svg')"
+        height="48px"
+        style="height:48px;"
+        class="mr-2"
+      />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             tile
             text
             x-large
-            :to="{name: 'Home', params: {}}"
+            :to="{ name: 'Home', params: {} }"
             class="pl-1 pr-1"
             id="homeButton"
           >
-          <v-toolbar-title v-on="on" v-text="title" />
-        </v-btn>
+            <v-toolbar-title v-on="on" v-text="title" />
+          </v-btn>
         </template>
         <span>Home.</span>
       </v-tooltip>
@@ -28,7 +28,10 @@
           <v-btn
             v-on="on"
             icon
-            :to="{ name: editModeToggleRoute, params: { apiId: $store.state.apiId}}"
+            :to="{
+              name: editModeToggleRoute,
+              params: { apiId: $store.state.apiId }
+            }"
           >
             <v-icon v-if="!editMode">mdi-file-code-outline</v-icon>
             <v-icon v-else>mdi-file-document</v-icon>
@@ -51,11 +54,7 @@
         <span>Toggle light/dark mode.</span>
       </v-tooltip>
 
-      <v-menu
-        left
-        bottom
-        offset-y
-      >
+      <v-menu left bottom offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -66,9 +65,17 @@
           >
             <span v-if="selectedApi.info">
               <v-avatar size="24px" left flat>
-                <img :src="require('../assets/' + selectedApi.info.icon)" height="16px" style="height:16px;width:16px;"/>
+                <img
+                  :src="require('../assets/' + selectedApi.info.icon)"
+                  height="16px"
+                  style="height:16px;width:16px;"
+                />
               </v-avatar>
-              {{ apiId === 'custom' && !editMode ? 'Select an API...' : selectedApi.info.title }}
+              {{
+                apiId === "custom" && !editMode
+                  ? "Select an API..."
+                  : selectedApi.info.title
+              }}
             </span>
             <v-spacer />
             <v-icon small>mdi-chevron-down</v-icon>
@@ -83,8 +90,15 @@
             router
           >
             <v-list-item-action>
-              <v-avatar :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'" class="elevation-2">
-                <img :src="require('../assets/' + item.info.icon)" height="40px" style="height:40px;width:40px;"/>
+              <v-avatar
+                :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'"
+                class="elevation-2"
+              >
+                <img
+                  :src="require('../assets/' + item.info.icon)"
+                  height="40px"
+                  style="height:40px;width:40px;"
+                />
               </v-avatar>
             </v-list-item-action>
             <v-list-item-content class="api-item-content-expanded">
@@ -99,65 +113,40 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-    <right-drawer :apiId="apiId"/>
-    <v-footer
-      app
-      fixed
-    >
+    <right-drawer :apiId="apiId" />
+    <v-footer app fixed>
       <v-tooltip top v-if="selectedApi.openrpc">
         <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            tile
-            small
-            v-on="on"
-          >
+          <v-btn text tile small v-on="on">
             <v-icon x-small class="mr-2">mdi-alert-circle</v-icon>
-            {{ selectedApi.openrpc.error ? '1' : '0' }}
+            {{ selectedApi.openrpc.error ? "1" : "0" }}
           </v-btn>
         </template>
-        <span>{{ selectedApi.openrpc.error || 'No errors' }}</span>
+        <span>{{ selectedApi.openrpc.error || "No errors" }}</span>
       </v-tooltip>
       <v-tooltip top v-if="jsonPath">
         <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            tile
-            small
-            :href="jsonPath"
-            target="_blank"
-            v-on="on"
-          >
+          <v-btn text tile small :href="jsonPath" target="_blank" v-on="on">
             {{ jsonPath }}
           </v-btn>
         </template>
         <span>Click to open raw openrpc.json in new tab.</span>
       </v-tooltip>
-      <v-tooltip top  v-if="editMode">
+      <v-tooltip top v-if="editMode">
         <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            tile
-            small
-            v-on="on"
-          >
+          <v-btn text tile small v-on="on">
             {{ editorPosition.lineNumber }}:{{ editorPosition.column }}
           </v-btn>
         </template>
-        <span>Line {{ editorPosition.lineNumber }}, Column {{ editorPosition.column }}</span>
+        <span
+          >Line {{ editorPosition.lineNumber }}, Column
+          {{ editorPosition.column }}</span
+        >
       </v-tooltip>
       <v-spacer />
-      <v-tooltip
-        v-if="clientVer"
-        top
-      >
+      <v-tooltip v-if="clientVer" top>
         <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            tile
-            small
-            v-on="on"
-          >
+          <v-btn text tile small v-on="on">
             {{ clientVer }}
           </v-btn>
         </template>
@@ -168,53 +157,62 @@
 </template>
 
 <script>
-import RightDrawer from '../components/RightDrawer';
+import RightDrawer from "../components/RightDrawer";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     RightDrawer
   },
   computed: {
-    darkMode () {
-      return this.$vuetify.theme.dark
+    darkMode() {
+      return this.$vuetify.theme.dark;
     },
-    apis () {
+    apis() {
       if (this.editMode) {
-        return this.$store.state.apis
+        return this.$store.state.apis;
       } else {
         // return apis without 'custom'
         // TODO : do this better
-        return {ubiq: this.$store.state.apis.ubiq, etc: this.$store.state.apis.etc}
+        return {
+          ubiq: this.$store.state.apis.ubiq,
+          etc: this.$store.state.apis.etc
+        };
       }
     },
-    apiId () {
+    apiId() {
+      return this.$store.state.apiId;
+    },
+    jsonPath() {
+      return this.$store.state.apis[this.$store.state.apiId]
+        ? this.$store.state.apis[this.$store.state.apiId].info.json
+        : "";
+    },
+    url() {
+      return this.$store.state.apis[this.$store.state.apiId]
+        ? this.$store.state.apis[this.$store.state.apiId].info.url
+        : false;
+    },
+    selectedApi() {
       return this.$store.state.apiId
+        ? this.$store.state.apis[this.$store.state.apiId]
+        : false;
     },
-    jsonPath () {
-      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.json : ''
+    clientVer() {
+      return this.$store.state.clientVer;
     },
-    url () {
-      return this.$store.state.apis[this.$store.state.apiId] ? this.$store.state.apis[this.$store.state.apiId].info.url : false
+    editMode() {
+      return this.$store.state.editMode;
     },
-    selectedApi () {
-      return this.$store.state.apiId ? this.$store.state.apis[this.$store.state.apiId] : false
+    editModeToggleRoute() {
+      return !this.$store.state.editMode ? "Edit" : "View";
     },
-    clientVer () {
-      return this.$store.state.clientVer
-    },
-    editMode () {
-      return this.$store.state.editMode
-    },
-    editModeToggleRoute () {
-      return !this.$store.state.editMode ? 'Edit' : 'View'
-    },
-    editorPosition () {
-      return this.$store.state.position
+    editorPosition() {
+      return this.$store.state.position;
     }
   },
   data: () => ({
-    title: 'octano-d0x'
+    title: "octano-d0x"
   })
-}
+};
 </script>
