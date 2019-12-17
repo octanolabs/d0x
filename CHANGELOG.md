@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/octanolabs/d0x/compare/1.0.5...1.0.6) (2019-12-17)
+
+
+### Bug Fixes
+
+* serialize-javascript < 2.1.1 (regular expressions Cross-Site Scripting (XSS) vulnerability) ([3569de6](https://github.com/octanolabs/d0x/commit/3569de641376176d35414ca09498d085fdcbf2d1))
+
 ## [1.0.5](https://github.com/octanolabs/d0x/compare/1.0.4...1.0.5) (2019-11-06)
 
 
