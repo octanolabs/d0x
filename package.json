@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "json-schema-faker": "^0.5.0-rcv.24",
-    "json-schema-ref-parser": "^8.0.0",
+    "json-schema-ref-parser": "^9.0.1",
     "markdown-it": "^10.0.0",
     "stringify-object": "^3.3.0",
     "vue": "^2.6.11",
