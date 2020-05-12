@@ -20,7 +20,7 @@
     "vue-highlightjs": "^1.3.3",
     "vue-monaco-d0x": "^1.1.2",
     "vue-router": "^3.1.6",
-    "vuetify": "^2.2.23",
+    "vuetify": "^2.2.27",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
