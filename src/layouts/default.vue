@@ -107,6 +107,30 @@
               <v-list-item-subtitle v-text="item.info.desc" />
             </v-list-item-content>
           </v-list-item>
+          <v-list-item>
+<!--                  :to="editMode ? '/edit' + item.info.to : item.info.to"-->
+<!--                  nav-->
+<!--                  router-->
+<!--          >-->
+            <v-list-item-action>
+              <v-avatar
+                      :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'"
+                      class="elevation-2"
+              >
+                <img
+                        :src="require('../assets/octano.svg')"
+                        height="40px"
+                        style="height:40px;width:40px;"
+                />
+              </v-avatar>
+            </v-list-item-action>
+            <v-list-item-content class="api-item-content-expanded">
+              custom
+<!--              <v-list-item-title v-text="item.info.title" />-->
+<!--              <v-list-item-subtitle v-text="item.info.url" />-->
+<!--              <v-list-item-subtitle v-text="item.info.desc" />-->
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>

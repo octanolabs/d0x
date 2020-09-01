@@ -23,7 +23,7 @@ function newEmptyApiSchema() {
 
 export default new Vuex.Store({
   state: {
-    apiId: "custom", // selected apiId (ubiq, etc, custom)
+    apiId: "defaultId", // selected apiId (ubiq, etc, custom)
     clientVer: false,
     drawers: {
       left: true,
@@ -60,16 +60,27 @@ export default new Vuex.Store({
           url: "https://etc-geth.0xinfra.com"
         }
       },
-      custom: {
+      defaultId: {
         openrpc: newEmptyApiSchema(),
         info: {
-          to: "/custom",
+          to: "/default",
           icon: "openrpc.png",
           json:
             "https://raw.githubusercontent.com/octanolabs/d0x/master/openrpc.json",
           title: "Example Document",
           desc: "New OpenRPC document",
           url: "http://localhost:3301"
+        }
+      },
+      custom: {
+        openrpc: newEmptyApiSchema(),
+        info: {
+          to: "/custom",
+          icon: "octano.svg",
+          // json: "https://raw.githubusercontent.com/octanolabs/d0x/master/openrpc.json",
+          title: "Custom Document",
+          desc: "Custom OpenRPC document",
+          url: "http://localhost:8588"
         }
       }
     }
