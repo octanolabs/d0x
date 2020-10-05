@@ -58,7 +58,7 @@
               pill
               small
               color="secondary"
-              style="margin-left:2px;"
+              style="margin-left: 2px;"
             >
               {{ str }}
             </v-chip>
@@ -75,21 +75,22 @@ export default {
     item: {
       // Param or Schema object (dereffed)
       required: true,
-      type: Object
+      type: Object,
     },
     name: {
       // pass name if item == openrpc.components.schemas[n]
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
     desc() {
-      return this.item.description || this.item.schema.description;
+      return this.item?.description || this.item?.schema?.description || "Default description.";
     },
     schema() {
-      return this.item.schema || this.item;
-    }
-  }
+      console.log(this.item)
+      return this.item?.schema || this.item;
+    },
+  },
 };
 </script>

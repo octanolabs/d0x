@@ -29,29 +29,29 @@ import CopyToClipboard from "@/components/btns/CopyToClipboard";
 export default {
   props: ["result"],
   components: {
-    CopyToClipboard
+    CopyToClipboard,
   },
   watch: {
     // watch for result prop change
-    result: function() {
+    result: function () {
       this.refreshResponse();
-    }
+    },
   },
   computed: {
     json() {
       return {
         id: 1,
         jsonrpc: "2.0",
-        result: this.res
+        result: this.res,
       };
-    }
+    },
   },
   created() {
     this.res = jsf.generate(this.result.schema);
   },
   data() {
     return {
-      res: null
+      res: null,
     };
   },
   methods: {
@@ -60,12 +60,12 @@ export default {
       return stringifyObject(this.json, {
         indent: "  ",
         singleQuotes: false,
-        inlineCharacterLimit: 12
+        inlineCharacterLimit: 12,
       });
     },
     refreshResponse() {
       this.res = jsf.generate(this.result.schema);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <v-sheet style="width:100%; overflow: hidden; padding: 15px;">
+    <v-sheet style="width: 100%; overflow: hidden; padding: 15px;">
       <v-chip class="mb-2" label color="secondary">{{ selected.name }}</v-chip>
       <div
         v-if="selected.description"
@@ -8,7 +8,7 @@
       ></div>
       <div v-else v-html="selected.summary"></div>
     </v-sheet>
-    <v-sheet style="width:100%; overflow: hidden;">
+    <v-sheet style="width: 100%; overflow: hidden;">
       <v-tabs v-model="apiTab" grow>
         <v-tab v-for="tab in tabs" :key="tab" ripple>
           {{ tab }}
@@ -34,7 +34,7 @@
                   >
                 </div>
               </v-expansion-panel-header>
-              <v-expansion-panel-content style="overflow-x:auto;">
+              <v-expansion-panel-content style="overflow-x: auto;">
                 <v-flex v-for="(item, i) in selected.params" :key="i">
                   <openrpc-param :item="item" />
                 </v-flex>
@@ -73,7 +73,7 @@
                 Returns
               </v-expansion-panel-header>
               <v-expansion-panel-content
-                style="overflow-x:auto;"
+                style="overflow-x: auto;"
                 v-if="selected.result"
               >
                 <openrpc-param :item="selected.result" />
@@ -104,12 +104,12 @@ export default {
   components: {
     OpenrpcParam,
     OpenrpcRequest,
-    OpenrpcResponse
+    OpenrpcResponse,
   },
   computed: {
     url() {
       return this.$store.state.apis[this.$store.state.apiId].info.url;
-    }
+    },
   },
   data() {
     return {
@@ -117,9 +117,9 @@ export default {
       tabs: ["Request", "Response"],
       panels: {
         request: [0, 1],
-        response: [0, 1]
-      }
+        response: [0, 1],
+      },
     };
-  }
+  },
 };
 </script>

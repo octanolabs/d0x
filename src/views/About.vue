@@ -21,7 +21,7 @@
         :hide-delimiters="true"
         cycle
         elevation="12"
-        style="max-width:800px"
+        style="max-width: 800px;"
         class="ml-auto mr-auto"
       >
         <v-carousel-item class="ma-0 pa-0" v-for="(item, i) in items" :key="i">
@@ -47,7 +47,7 @@
 export default {
   data() {
     return {
-      items: ["0.png", "1.png", "2.png", "3.png", "4.png"]
+      items: ["0.png", "1.png", "2.png", "3.png", "4.png"],
     };
   },
   created() {
@@ -56,6 +56,6 @@ export default {
       this.$store.commit("toggleDrawer", "right");
     }
     this.$store.commit("setApiId", "custom");
-  }
+  },
 };
 </script>

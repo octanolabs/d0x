@@ -9,30 +9,30 @@ function newEmptyApiSchema() {
     document: {
       original: {
         schema: {},
-        deref: {}
+        deref: {},
       },
       modified: {
         schema: {},
-        deref: {}
-      }
+        deref: {},
+      },
     },
     selected: 0, // selected methodId,
-    error: false // json parse error
+    error: false, // json parse error
   };
 }
 
 export default new Vuex.Store({
   state: {
-    apiId: "defaultId", // selected apiId (ubiq, etc, custom)
+    apiId: "ubiq", // selected apiId (ubiq, etc, custom)
     clientVer: false,
     drawers: {
       left: true,
-      right: true
+      right: true,
     },
     editMode: false,
     position: {
       lineNumber: 1,
-      column: 1
+      column: 1,
     },
     errors: [],
     apis: {
@@ -45,8 +45,8 @@ export default new Vuex.Store({
             "https://raw.githubusercontent.com/ubiq/ubiq-json-rpc-specification/master/openrpc.json",
           title: "Ubiq",
           desc: "Ubiq mainnet",
-          url: "https://rpc.octano.dev"
-        }
+          url: "https://rpc.octano.dev",
+        },
       },
       etc: {
         openrpc: newEmptyApiSchema(),
@@ -57,33 +57,33 @@ export default new Vuex.Store({
             "https://raw.githubusercontent.com/etclabscore/ethereum-json-rpc-specification/master/openrpc.json",
           title: "Ethereum Classic",
           desc: "ETC mainnet",
-          url: "https://etc-geth.0xinfra.com"
-        }
+          url: "https://etc-geth.0xinfra.com",
+        },
       },
-      defaultId: {
+      example: {
         openrpc: newEmptyApiSchema(),
         info: {
-          to: "/default",
+          to: "/example",
           icon: "openrpc.png",
           json:
             "https://raw.githubusercontent.com/octanolabs/d0x/master/openrpc.json",
           title: "Example Document",
           desc: "New OpenRPC document",
-          url: "http://localhost:3301"
-        }
+          url: "http://localhost:3301",
+        },
       },
       custom: {
         openrpc: newEmptyApiSchema(),
         info: {
           to: "/custom",
           icon: "octano.svg",
-          // json: "https://raw.githubusercontent.com/octanolabs/d0x/master/openrpc.json",
           title: "Custom Document",
           desc: "Custom OpenRPC document",
-          url: "http://localhost:8588"
-        }
-      }
-    }
+          url: "http://127.0.0.1:8588",
+          requestType: "POST",
+        },
+      },
+    },
   },
   mutations: {
     setOpenRpcOriginal(state, payload) {
@@ -162,7 +162,11 @@ export default new Vuex.Store({
     },
     addError(state, payload) {
       state.errors.push(payload);
-    }
+    },
+    setCustom(state, { address, requestType }) {
+      state.apis.custom.info.url = address;
+      state.apis.custom.info.requestType = requestType;
+    },
   },
-  actions: {}
+  actions: {},
 });

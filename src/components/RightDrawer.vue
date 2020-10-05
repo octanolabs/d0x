@@ -29,7 +29,7 @@ export default {
   props: ["apiId"],
   components: {
     MethodDetails,
-    ResizableDrawer
+    ResizableDrawer,
   },
   computed: {
     methods() {
@@ -46,7 +46,7 @@ export default {
     },
     openrpcType() {
       return this.$store.state.editMode ? "modified" : "original";
-    }
+    },
   },
   methods: {
     closeDrawer() {
@@ -61,15 +61,15 @@ export default {
     prevOperation() {
       this.$store.commit("setSelected", {
         apiId: this.apiId,
-        method: this.selected - 1
+        method: this.selected - 1,
       });
     },
     nextOperation() {
       this.$store.commit("setSelected", {
         apiId: this.apiId,
-        method: this.selected + 1
+        method: this.selected + 1,
       });
-    }
-  }
+    },
+  },
 };
 </script>

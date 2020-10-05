@@ -15,19 +15,19 @@ export default new Router({
     {
       path: "/",
       component: About,
-      name: "Home"
+      name: "Home",
     },
     {
       path: "/:apiId",
       component: View,
       name: "View",
-      props: true
+      props: true,
     },
     {
       path: "/edit/:apiId",
       component: Edit,
       name: "Edit",
-      props: true
-    }
-  ]
+      props: true,
+    },
+  ],
 });

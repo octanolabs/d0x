@@ -22,13 +22,13 @@ export default {
   props: ["data", "apiId"],
   computed: {
     selected: {
-      get: function() {
+      get: function () {
         return this.$store.state.apis[this.apiId].selected;
       },
-      set: function(value) {
+      set: function (value) {
         this.$store.commit("setSelected", { apiId: this.apiId, method: value });
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>

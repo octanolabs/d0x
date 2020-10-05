@@ -38,12 +38,12 @@ export default {
     },
     expanded() {
       return this.$store.state.drawers[this.side];
-    }
+    },
   },
   methods: {
     toggleDrawer() {
       this.$store.commit("toggleDrawer", this.side);
-    }
-  }
+    },
+  },
 };
 </script>

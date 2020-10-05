@@ -44,7 +44,7 @@ export default {
   computed: {
     selectedId() {
       return this.$store.state.apis[this.apiId].openrpc.selected;
-    }
+    },
   },
   data() {
     return {
@@ -53,20 +53,20 @@ export default {
         { text: "#", value: "methodId", align: "left" },
         { text: "Method", value: "name", align: "left" },
         { text: "Summary", value: "summary", align: "left" },
-        { text: "Params", value: "params", align: "center" }
-      ]
+        { text: "Params", value: "params", align: "center" },
+      ],
     };
   },
   methods: {
     rowSelected(item) {
       this.$store.commit("setSelected", {
         apiId: this.apiId,
-        method: item.methodId
+        method: item.methodId,
       });
       if (!this.$store.state.drawers.right) {
         this.$store.commit("toggleDrawer", "right");
       }
-    }
-  }
+    },
+  },
 };
 </script>

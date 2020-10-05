@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       success: false,
-      error: false
+      error: false,
     };
   },
   methods: {
@@ -66,7 +66,7 @@ export default {
     },
     copyError() {
       this.error = true;
-    }
-  }
+    },
+  },
 };
 </script>

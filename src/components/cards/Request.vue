@@ -40,34 +40,34 @@ export default {
     mode: {
       // axios, curl
       type: String,
-      default: "curl"
+      default: "curl",
     },
     endpoint: {
       // api url endpoint e.g 'https://rpc.octano.dev'
       type: String,
-      default: ""
+      default: "",
     },
     method: {
       // rpc method e.g 'eth_blockNumber'
       type: String,
-      default: ""
+      default: "",
     },
     params: {
       // request params
       type: Array,
       default() {
         return [];
-      }
-    }
+      },
+    },
   },
   components: {
-    CopyToClipboard
+    CopyToClipboard,
   },
   watch: {
     // watch for method prop change
-    method: function() {
+    method: function () {
       this.refreshParams(); // refresh example params with new schemas
-    }
+    },
   },
   computed: {
     json() {
@@ -78,20 +78,20 @@ export default {
           id: 1,
           jsonrpc: "2.0",
           method: this.method,
-          params: this.randParams
-        }
+          params: this.randParams,
+        },
       };
     },
     disableRefresh() {
       return !this.params.length > 0;
-    }
+    },
   },
   created() {
     this.randParams = this.exampleParams();
   },
   data() {
     return {
-      randParams: []
+      randParams: [],
     };
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
           stringifyObject(this.json, {
             indent: "  ",
             singleQuotes: false,
-            inlineCharacterLimit: 12
+            inlineCharacterLimit: 12,
           }) +
           ")"
         );
@@ -121,7 +121,7 @@ export default {
     exampleParams() {
       jsf.option({
         requiredOnly: false,
-        alwaysFakeOptionals: true
+        alwaysFakeOptionals: true,
       });
       let eParams = [];
       for (let i in this.params) {
@@ -131,7 +131,7 @@ export default {
     },
     refreshParams() {
       this.randParams = this.exampleParams();
-    }
-  }
+    },
+  },
 };
 </script>

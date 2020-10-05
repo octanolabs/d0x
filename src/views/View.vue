@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex class="text-center">
-      <v-sheet style="width:100%; overflow: hidden;" v-if="deref.info">
+      <v-sheet style="width: 100%; overflow: hidden;" v-if="deref.info">
         <openrpc-info-bar :info="deref.info" :endpoint="endpoint" />
         <openrpc-methods :data="deref.methods" :apiId="apiId" />
       </v-sheet>
@@ -18,12 +18,12 @@ export default {
   props: ["apiId"],
   components: {
     OpenrpcInfoBar,
-    OpenrpcMethods
+    OpenrpcMethods,
   },
   watch: {
-    apiId: function() {
+    apiId: function () {
       this.init();
-    }
+    },
   },
   created() {
     this.init();
@@ -31,13 +31,14 @@ export default {
   data() {
     return {
       jsonUrl: "",
-      endpoint: ""
+      endpoint: "",
+      requestType: "",
     };
   },
   computed: {
     deref() {
       return this.$store.state.apis[this.apiId].openrpc.document.original.deref;
-    }
+    },
   },
   methods: {
     init() {
@@ -48,14 +49,67 @@ export default {
       if (!this.$store.state.drawers.right) {
         this.$store.commit("toggleDrawer", "right");
       }
-      // set jsonURL (fallback: ubiq)
-      this.jsonUrl = this.$store.state.apis[this.apiId]
-        ? this.$store.state.apis[this.apiId].info.json
-        : this.$store.state.apis.ubiq.info.json;
-      this.endpoint = this.$store.state.apis[this.apiId]
-        ? this.$store.state.apis[this.apiId].info.url
-        : this.$store.state.apis.ubiq.info.url;
-      this.discover();
+
+      if (this.apiId === "custom") {
+        this.jsonUrl = this.$store.state.apis["custom"].info.url;
+        this.endpoint = this.$store.state.apis["custom"].info.url;
+        this.requestType = this.$store.state.apis["custom"].info.requestType;
+        this.discoverCustom();
+      } else {
+        // set jsonURL (fallback: ubiq)
+        this.jsonUrl = this.$store.state.apis[this.apiId]
+          ? this.$store.state.apis[this.apiId].info.json
+          : this.$store.state.apis.ubiq.info.json;
+        this.endpoint = this.$store.state.apis[this.apiId]
+          ? this.$store.state.apis[this.apiId].info.url
+          : this.$store.state.apis.ubiq.info.url;
+        this.discover();
+      }
+    },
+    discoverCustom() {
+      if (
+        !this.$store.state.apis[this.apiId].openrpc.document.original.schema
+          .openrpc
+      ) {
+        console.log("DISCOVERING CUSTOM DOC");
+        if (this.requestType === "POST") {
+          axios
+            .post(this.jsonUrl, {
+              jsonrpc: "2.0",
+              method: "rpc_discover",
+              params: [],
+              id: 88,
+            })
+            .then(({ data: { result } }) => {
+              console.log(result);
+              if (result.openrpc) {
+                // store original schema in state
+                this.$store.commit("setOpenRpcOriginal", {
+                  apiId: this.apiId,
+                  json: result,
+                });
+              }
+            })
+            .catch((e) => {
+              this.$store.commit("addError", e);
+            });
+        }
+      } else {
+        axios
+          .get(this.jsonUrl)
+          .then((r) => {
+            if (r.data.openrpc) {
+              // store original schema in state
+              this.$store.commit("setOpenRpcOriginal", {
+                apiId: this.apiId,
+                json: r.data,
+              });
+            }
+          })
+          .catch((e) => {
+            this.$store.commit("addError", e);
+          });
+      }
     },
     discover() {
       if (
@@ -64,20 +118,20 @@ export default {
       ) {
         axios
           .get(this.jsonUrl)
-          .then(r => {
+          .then((r) => {
             if (r.data.openrpc) {
               // store original schema in state
               this.$store.commit("setOpenRpcOriginal", {
                 apiId: this.apiId,
-                json: r.data
+                json: r.data,
               });
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$store.commit("addError", e);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>

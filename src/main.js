@@ -22,7 +22,7 @@ Vue.mixin({
     } else if (options.parent && options.parent.$md) {
       this.$md = options.parent.$md;
     }
-  }
+  },
 });
 
 new Vue({
@@ -30,5 +30,5 @@ new Vue({
   vuetify,
   md,
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

@@ -28,19 +28,19 @@ import CopyToClipboard from "@/components/btns/CopyToClipboard";
 export default {
   props: ["info", "endpoint"],
   components: {
-    CopyToClipboard
+    CopyToClipboard,
   },
   watch: {
-    endpoint: function() {
+    endpoint: function () {
       this.checkApi();
-    }
+    },
   },
   created() {
     this.checkApi();
   },
   data() {
     return {
-      online: false
+      online: false,
     };
   },
   methods: {
@@ -55,10 +55,10 @@ export default {
             id: 1,
             jsonrpc: "2.0",
             method: "web3_clientVersion",
-            params: []
-          }
+            params: [],
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             if (!response.data.error) {
               this.$store.commit("setClientVer", response.data.result);
@@ -72,12 +72,12 @@ export default {
             this.online = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.$store.commit("setClientVer", false);
           this.online = false;
           this.$store.commit("addError", e);
         });
-    }
-  }
+    },
+  },
 };
 </script>

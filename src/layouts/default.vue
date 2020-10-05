@@ -4,7 +4,7 @@
       <img
         :src="require('../assets/octano.svg')"
         height="48px"
-        style="height:48px;"
+        style="height: 48px;"
         class="mr-2"
       />
       <v-tooltip bottom>
@@ -30,7 +30,7 @@
             icon
             :to="{
               name: editModeToggleRoute,
-              params: { apiId: $store.state.apiId }
+              params: { apiId: $store.state.apiId },
             }"
           >
             <v-icon v-if="!editMode">mdi-file-code-outline</v-icon>
@@ -68,11 +68,11 @@
                 <img
                   :src="require('../assets/' + selectedApi.info.icon)"
                   height="16px"
-                  style="height:16px;width:16px;"
+                  style="height: 16px; width: 16px;"
                 />
               </v-avatar>
               {{
-                apiId === "custom" && !editMode
+                apiId === "example" && !editMode
                   ? "Select an API..."
                   : selectedApi.info.title
               }}
@@ -97,7 +97,7 @@
                 <img
                   :src="require('../assets/' + item.info.icon)"
                   height="40px"
-                  style="height:40px;width:40px;"
+                  style="height: 40px; width: 40px;"
                 />
               </v-avatar>
             </v-list-item-action>
@@ -107,28 +107,65 @@
               <v-list-item-subtitle v-text="item.info.desc" />
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
-<!--                  :to="editMode ? '/edit' + item.info.to : item.info.to"-->
-<!--                  nav-->
-<!--                  router-->
-<!--          >-->
-            <v-list-item-action>
-              <v-avatar
-                      :color="$vuetify.theme.dark ? '#222' : '#d6d6d6'"
-                      class="elevation-2"
-              >
-                <img
-                        :src="require('../assets/octano.svg')"
-                        height="40px"
-                        style="height:40px;width:40px;"
-                />
-              </v-avatar>
-            </v-list-item-action>
+          <v-list-item dense>
             <v-list-item-content class="api-item-content-expanded">
-              custom
-<!--              <v-list-item-title v-text="item.info.title" />-->
-<!--              <v-list-item-subtitle v-text="item.info.url" />-->
-<!--              <v-list-item-subtitle v-text="item.info.desc" />-->
+              <v-dialog v-model="toggleDialog" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    block
+                    text
+                    color="#00ea90"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    Custom endpoint
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-card-title>
+                    Add custom endoint
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-text-field
+                      v-model="address"
+                      label="Address"
+                    ></v-text-field>
+
+                    <v-radio-group v-model="requestType" row>
+                      <template v-slot:label>
+                        Request Type:
+                      </template>
+                      <v-radio
+                        color="#00ea90"
+                        label="GET"
+                        value="GET"
+                      ></v-radio>
+                      <v-radio
+                        color="#00ea90"
+                        label="POST"
+                        value="POST"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions class="d-flex justify-center">
+                    <v-btn
+                      right
+                      color="#00ea90"
+                      outlined
+                      elevation="0"
+                      @click="setCustom"
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -186,7 +223,7 @@ import RightDrawer from "../components/RightDrawer";
 export default {
   name: "App",
   components: {
-    RightDrawer
+    RightDrawer,
   },
   computed: {
     darkMode() {
@@ -198,10 +235,10 @@ export default {
       } else {
         // return apis without 'custom'
         // TODO : do this better
-        return {
-          ubiq: this.$store.state.apis.ubiq,
-          etc: this.$store.state.apis.etc
-        };
+
+        const { example, ...apis } = this.$store.state.apis;
+
+        return apis;
       }
     },
     apiId() {
@@ -218,7 +255,7 @@ export default {
         : false;
     },
     selectedApi() {
-      return this.$store.state.apiId
+      return this.$store.state?.apiId
         ? this.$store.state.apis[this.$store.state.apiId]
         : false;
     },
@@ -233,10 +270,23 @@ export default {
     },
     editorPosition() {
       return this.$store.state.position;
-    }
+    },
   },
   data: () => ({
-    title: "octano-d0x"
-  })
+    title: "octano-d0x",
+
+    requestType: "POST",
+    address: "http://127.0.0.1:8588",
+    toggleDialog: false,
+  }),
+  methods: {
+    setCustom() {
+      this.$store.commit("setCustom", {
+        address: this.address,
+        requestType: this.requestType,
+      });
+      this.toggleDialog = !this.toggleDialog;
+    },
+  },
 };
 </script>

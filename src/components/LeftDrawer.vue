@@ -1,7 +1,7 @@
 <template>
   <resizable-drawer side="left">
     <v-flex class="text-center">
-      <v-sheet style="width:100%; overflow: hidden;">
+      <v-sheet style="width: 100%; overflow: hidden;">
         <v-tabs v-model="tab" grow>
           <v-tab ripple>
             Methods
@@ -43,12 +43,12 @@ export default {
   components: {
     OpenrpcMethods,
     OpenrpcParam,
-    ResizableDrawer
+    ResizableDrawer,
   },
   data: () => {
     return {
-      tab: 0
+      tab: 0,
     };
-  }
+  },
 };
 </script>

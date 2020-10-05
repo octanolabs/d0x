@@ -10,7 +10,7 @@
     <v-flex>
       <drawer-handle side="left" />
       <drawer-handle side="right" />
-      <v-sheet style="width:100%; overflow:hidden;">
+      <v-sheet style="width: 100%; overflow: hidden;">
         <v-flex>
           <v-toolbar dense class="elevation-0">
             <v-tabs v-model="tab">
@@ -27,7 +27,7 @@
             <copy-to-clipboard v-if="tab === 0" :copy="modified" />
             <span
               v-if="tab === 1 && editors.diff.nav.instance"
-              style="height:48px;display:flex;"
+              style="height: 48px; display: flex;"
             >
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
@@ -114,12 +114,12 @@ export default {
     MonacoEditor,
     LeftDrawer,
     CopyToClipboard,
-    DrawerHandle
+    DrawerHandle,
   },
   watch: {
-    apiId: function() {
+    apiId: function () {
       this.init();
-    }
+    },
   },
   created() {
     this.init();
@@ -150,7 +150,7 @@ export default {
     },
     dereffed() {
       return this.openrpc ? this.openrpc.document.modified.deref : {};
-    }
+    },
   },
   data() {
     return {
@@ -169,8 +169,8 @@ export default {
             scrollBeyondLastLine: false,
             folding: true,
             showFoldingControls: "mouseover",
-            foldingStrategy: "indentation"
-          }
+            foldingStrategy: "indentation",
+          },
         },
         diff: {
           // IStandaloneDiffEditor
@@ -182,7 +182,7 @@ export default {
             scrollBeyondLastLine: false,
             automaticLayout: true,
             readOnly: true,
-            renderSideBySide: false
+            renderSideBySide: false,
           },
           nav: {
             // IDiffNavigator
@@ -193,11 +193,11 @@ export default {
             options: {
               followsCaret: true,
               ignoreCharChanges: true,
-              alwaysRevealFirst: true
-            }
-          }
-        }
-      }
+              alwaysRevealFirst: true,
+            },
+          },
+        },
+      },
     };
   },
   methods: {
@@ -214,17 +214,17 @@ export default {
           : this.$store.state.apis.custom.info.json;
         axios
           .get(jsonUrl)
-          .then(r => {
+          .then((r) => {
             if (r.data.openrpc) {
               // store original schema in state
               this.$store.commit("setOpenRpcOriginal", {
                 apiId: this.apiId,
                 json: r.data,
-                modified: true
+                modified: true,
               });
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$store.commit("addError", e);
           });
       } else {
@@ -238,7 +238,7 @@ export default {
             apiId: this.apiId,
             json: this.$store.state.apis[this.apiId].openrpc.document.original
               .schema,
-            modified: true
+            modified: true,
           });
         }
       }
@@ -260,7 +260,7 @@ export default {
     editorDidMount(editor) {
       this.editors.default.instance = editor;
       // listeners
-      editor.onDidChangeCursorPosition(e => {
+      editor.onDidChangeCursorPosition((e) => {
         this.$store.commit("setEditorPosition", e.position);
       });
     },
@@ -271,12 +271,12 @@ export default {
       if (!test.err) {
         this.$store.commit("setOpenRpcModified", {
           apiId: this.apiId,
-          json: test.json
+          json: test.json,
         });
       } else {
         this.$store.commit("setOpenRpcError", {
           apiId: this.apiId,
-          err: test.err
+          err: test.err,
         });
       }
     },
@@ -292,11 +292,11 @@ export default {
     toggleDiffEditorSplitView() {
       // update diff editor instance options
       this.editors.diff.instance.updateOptions({
-        renderSideBySide: !this.editors.diff.options.renderSideBySide
+        renderSideBySide: !this.editors.diff.options.renderSideBySide,
       });
       this.editors.diff.options.renderSideBySide = !this.editors.diff.options
         .renderSideBySide;
-    }
-  }
+    },
+  },
 };
 </script>

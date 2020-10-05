@@ -20,7 +20,7 @@ export default {
     return {
       shown: false,
       width: 372,
-      borderSize: 3
+      borderSize: 3,
     };
   },
   computed: {
@@ -29,7 +29,7 @@ export default {
     },
     show() {
       return this.$store.state.drawers[this.side];
-    }
+    },
   },
   methods: {
     setBorderWidth() {
@@ -59,7 +59,7 @@ export default {
 
       drawerBorder.addEventListener(
         "mousedown",
-        function(e) {
+        function (e) {
           if (e.offsetX < minSize) {
             el.style.transition = "initial";
             document.addEventListener("mousemove", resize, false);
@@ -70,7 +70,7 @@ export default {
 
       document.addEventListener(
         "mouseup",
-        function() {
+        function () {
           el.style.transition = "";
           vm.width = el.style.width;
           document.body.style.cursor = "";
@@ -78,11 +78,11 @@ export default {
         },
         false
       );
-    }
+    },
   },
   mounted() {
     this.setBorderWidth();
     this.setEvents();
-  }
+  },
 };
 </script>
