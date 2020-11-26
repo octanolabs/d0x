@@ -21,7 +21,7 @@
     "vue-monaco-d0x": "^1.1.2",
     "vue-router": "^3.3.2",
     "vuetify": "^2.2.34",
-    "vuex": "^3.4.0"
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.1",
